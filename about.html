@@ -1,0 +1,875 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://jqkwimylldvsfenxwaad.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impxa3dpbXlsbGR2c2Zlbnh3YWFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ5ODI1NDUsImV4cCI6MjEwMDU1ODU0NX0.N4SuUc8u6-IbCpLLyMtKC8cJpM4Q5rQsjyDPHrVo0w4';
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Reis Building Materials</title>
+<meta name="description" content="Locally owned building materials supplier in Avenel, NJ. Flooring, doors, windows, vanities, shingles, and toilets, stocked and ready to quote the same day.">
+<meta property="og:title" content="About — Reis Building Materials">
+<meta property="og:description" content="Locally owned building materials supplier in Avenel, NJ. Flooring, doors, windows, vanities, shingles, and toilets, stocked and ready to quote the same day.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="og-image.jpg">
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAIoUlEQVR42sWXe3BU5RnGf993zl6yF5KQCxHkEi5Di0CoAoKGq9UiUZCbgmMFFCo4ClRnqqKCYwftZagyOhW1HW4VCtVCETVA5a4EgxdIQhgSAkFICCQhyW42u3vO+b7+sSFIJ3asOOPO7B87s+d7n+95n/d5nyOUUpof8SOv9QCtNVrrHweA4yiklEgpUUp9LyDy+97acRSmaRCPx7lYW49hGEgpcRz1f50lvo8GhBAAbM3fz1vv/Iu+2V2ovXCJN199Fq/Xg2XZmKbxwzOQ6DfU1l3i0d/8gYlTFlBSVonLZfJh/j5uuuMh9hz4HJfL/OEZ0FojhEA5ilsnzufQx4cQKQH639CLMcNySEnpwJdFJ9h/8AhzZuTx4jOP4PG4r2Ls2hhQCoHGsS0u1jVgpqeglW4TYm1tA5N+kcvjc6axafNOtu851CbOa2uBUqAcpGmCkEivl3DUxg6HMYwrfTYMSW19A906ZzL9vvGEm1uuUQOthYVhIAyTWGkB4Z3rsHavY8mcO8ns3RenvuEKvVpjGAaW7dAcjmAYRtu0JI5rf0y/VS2i9XbW6WIaN/yW0OZNdJg+C6uikFm2w93PLuTpD3pSWFqGFOCIBAhEoueWZSGEwONxo5RqY8txHKSU/4OBVpTx00XULruXcw8OIFa6j+Ck6Ri+ADLQkXOlx0lePZ8nc9NwB1NRjgNCJL6tz3fKTKP+UgMLnv4TazdsZnv+h7S0tLQx0z4A5SCkIH68gPO/Gki87DAZz/6FzBe2IzwBVDQCWuHySaJC0Fh7ASEN0BqBQEpJKNzC5DtHkL/zIL2G3c9rK9cTaYmyc+dOli59gcLCwqsYaKcFArvmFP4Rkwjeu5hw/mqa925CuAO4MrLQSqO1QgKGYV52JrTWKKXw+bxs23WIFa+vYeyoAdh9MolGo+Tm5pKalsHqVav46quvmD1rNoZptC9C6etAtPQwoY3LcGX3J/n+JQhfEGXFQMgE262FEW0YEAJsR5HqNxl5y08prwpx4IuTJCV5OVZSgss0WbJ0KXW1tYTCIYQQ7YtQR5vx9L0Rf96jRD5eT/Tw+whvMtLvBxQgQAq0bSETv9AatNK4XILaphgHC08yeHBvumX2IBqNkd2zJxUVFRQUFOByu9ump10GhNdP7Hghzf9ejefGnxOc+hRaKZQdQxgudFyjIwp3ehYRS2PHY0gpEEJgO5q0gJubB2dT2xTj0yNncLvdnK+uZsiQIeTl5RGLRtsAtM9ArBlPv5tJGjGNyI530CqKDKZjuLzEG2vwZHTBO3EefYXDWwvz2FZSR+TCObRy8Hgl9c0WBz+rYOCgbIYP7IptWXRITmbHjh0kJSURCAbbHNJsbwSFx0+8pAAjmIb/9l9iZHahccPLONIheNciVKieyN6NxI8d4ebuGfS+7dccG3YHR0orUM0ROgbc3DqsD/Vhi4ITXzNtosSKx5k6dSqVlWfYvj2/zRfkf+3ZVg2EcQ/IJWnEVJq2raBqzmCc6lN4Bt1B7Mg+Gt9YDKlZZLxdSPPQ6bjXLWbou3OZObAD1/+kH3WhGHt3HwEhGHrD9UghiMXjrF2zlurqKjLS07Ft+9tbIP0ptBx4j9AH/8DsnELHecvAitL4ylyM1Ew6Lf8I103jAPD2GQwTHuHC8jk4i8cxYfpjdLxlIlUz7+H4kSKOfh1mmuOQkZ7OnePv4pNPPuF8TQ0ulysB4HKmU1ojlINpmOhYBG1pkmc8irt7PyIfvIlTWUzwgRcIzlhMgyV48flXGDV8EAc+K2LalPEMffUgofy/cumNRQwLbKT/5OdZmpJJ0ZotCK04VlLKyYpK8vLy6Nz5HLFYjEAggJRSYhgGLtPEdHtQgNl9AKlzfwfhehpefQwjsysZq8oJPLAEDJPQxRrWb9nFF8XlbNi6m5MnygCNb9zDXLfuNNZNExF/XsDKpPfZtXwWvXN+RswRNNZf5O8b1nLxwnlSU5ITPnCpoYnKs+cpLCyiJhxnQm5/epduoWn9S5gp6aQv24p3+N1oQFlxpOkiyedjzPAc+mRfz6hhOWRlpid8IB5Ddkgj7Ym3iY2bTc2K+eQcmonnngUYw0ex4r39NJ47TfeuUY4eK6dXdjcYMOZBndrzNj160uN67+qVuv7JEbpqgl83rn5eO/GY1lprx7a0Y9vasm2tlNaVZ8/r9H55+rmXV+qsnIn6b+9+pJXSOh63tHIcrWxLa6210lo3bH5Nn53cUYefGK7LNq/S989/UQe6j9WdBk7QObfN1KK2rkG7TUmwQxCw0XUX0P4UpNd3eTZp89vvGN2uDFTrc45FvLYGt1tCamfQ0NgUItISQ4yeskArpUAphg3J4ZlFM0n2exDKYebClyguLsNM8qABKa4Yv/gGNGlI4k1hRo8ewh+XLsC2bO6bt4TTZ6rRzWFmzp7Gwrn3AnDqTBWvv7WJwyXlROMW5p5tu8HtBq+bfVt3cex4GVvX/B6kwZfHKig6dBSCfohEwbISJS/f7vJeNw1obsCfmpzY6lrz+dETVJZVQjjCiLHnQGuqzl9kzOTHqSwpB7cLIi2YI8ePpLyyipqaOmS3zuzY/zlnqy/StUsnfF4XMuDDcLvo1Tebbp0zcGwLIeQ3tzeGlMRDzeQOHZDwEQF+XxIy4AchEu8IQrBx624qSyvwZKWTmZbC7SMHY+795+sUl55k6Li5RG0bKaEpFAY64SiFEqCaQix4aBLzZ035bkFTSpRWiaT0jSx46kw1wuMmVneJRU/N4Yl5MxJO2KPrdbi8blpCkUR/r8rxiUUftzUq3kJzUQGmy6Ati17+j+1gXtcDV1aPRMGrAqhoS87acRAeD58eLmZs8QnMHXsOsSV/P02XmhBuFz6fl5TkYKvWWql2bKQ/GfnpBuqeexhPSqKyEAkAGiAKHV/6CFdWD9Cq3Ve5QTf0TgDx+3jv/T1s3n6A/wCNgwQqVEQHVQAAAABJRU5ErkJggg==">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal:#1F1D1B; --concrete:#8B8680; --offwhite:#EDEAE3;
+    --rust:#B5502A; --steel:#3D4A52;
+    --line: rgba(31,29,27,0.15); --line-dark: rgba(237,234,227,0.18);
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--offwhite);color:var(--charcoal);font-family:'Inter',sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:0.01em;line-height:0.98;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;text-decoration:none;}
+  img,svg{display:block;max-width:100%;}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--rust);outline-offset:3px;}
+  @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;}}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity 0.7s var(--ease), transform 0.7s var(--ease);}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+
+  header{
+    position:sticky;top:0;z-index:50;background:rgba(237,234,227,0.85);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;max-width:1180px;margin:0 auto;gap:20px;}
+  .logo{font-family:'Archivo Black',sans-serif;font-size:19px;letter-spacing:-0.01em;display:flex;align-items:center;gap:10px;flex:none;}
+  .logo .dot{width:9px;height:9px;background:var(--rust);flex:none;}
+  .site-search{position:relative;flex:1;max-width:280px;}
+  .site-search input{
+    width:100%;padding:9px 14px;border:1px solid var(--line);border-radius:3px;
+    font-size:13px;background:#fff;color:var(--charcoal);
+    transition:border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  }
+  .site-search input:focus{border-color:var(--rust);box-shadow:0 0 0 3px rgba(181,80,42,0.12);outline:none;}
+  .site-search-results{
+    position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--offwhite);
+    border:1px solid var(--charcoal);box-shadow:0 20px 40px rgba(0,0,0,0.18);
+    max-height:420px;overflow-y:auto;display:none;z-index:60;border-radius:3px;
+  }
+  .site-search-results.open{display:block;}
+  .ssr-item{display:flex;gap:12px;padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer;align-items:center;}
+  .ssr-item:last-child{border-bottom:none;}
+  .ssr-item:hover{background:#E3DFD4;}
+  .ssr-thumb{width:44px;height:36px;object-fit:cover;flex:none;background:var(--concrete);}
+  .ssr-thumb-placeholder{width:44px;height:36px;flex:none;background:var(--line);}
+  .ssr-info{flex:1;min-width:0;}
+  .ssr-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--charcoal);}
+  .ssr-meta{font-size:10.5px;color:var(--concrete);font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.03em;}
+  .ssr-price{font-size:12px;color:var(--rust);font-family:'IBM Plex Mono',monospace;white-space:nowrap;flex:none;}
+  .ssr-empty{padding:18px;font-size:13px;color:var(--concrete);text-align:center;}
+  .navlinks{display:flex;gap:36px;align-items:center;}
+  .navlinks a{font-size:13px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600;color:var(--steel);transition:color 0.2s var(--ease);}
+  .navlinks a:hover{color:var(--rust);}
+  .navcta{
+    background:var(--charcoal);color:var(--offwhite);padding:10px 18px;font-size:13px;font-weight:600;
+    text-transform:uppercase;letter-spacing:0.06em;border-radius:3px;
+    transition:background 0.25s var(--ease), transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  }
+  .navcta:hover{background:var(--rust);transform:translateY(-1px);box-shadow:0 6px 16px rgba(181,80,42,0.28);}
+  .burger{display:none;background:none;border:0;cursor:pointer;padding:4px;}
+  .burger span{display:block;width:24px;height:2px;background:var(--charcoal);margin:5px 0;}
+
+  .breadcrumb{
+    background:var(--offwhite);border-bottom:1px solid var(--line);padding:16px 0;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--steel);letter-spacing:0.03em;
+  }
+  .breadcrumb a{color:var(--steel);transition:color 0.2s var(--ease);}
+  .breadcrumb a:hover{color:var(--rust);}
+  .breadcrumb span.sep{margin:0 8px;color:var(--concrete);}
+  .breadcrumb span.current{color:var(--rust);}
+
+  .cat-hero{color:var(--offwhite);border-bottom:4px solid var(--rust);background-size:cover;background-position:center;}
+  .cat-hero-grid{max-width:1180px;margin:0 auto;padding:88px 32px 64px;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:0.12em;color:var(--rust);text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--rust);}
+  .cat-hero h1{font-size:clamp(38px,5.5vw,64px);color:var(--offwhite);max-width:14ch;}
+  .cat-hero p.sub{margin-top:20px;font-size:16.5px;color:var(--concrete);max-width:50ch;}
+  .hero-actions{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;}
+  .btn-primary{background:var(--rust);color:var(--offwhite);padding:15px 26px;font-size:13.5px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;border:1px solid var(--rust);border-radius:3px;transition:background 0.25s var(--ease), color 0.25s var(--ease), transform 0.25s var(--ease), box-shadow 0.25s var(--ease);}
+  .btn-primary:hover{background:transparent;color:var(--rust);transform:translateY(-2px);box-shadow:0 10px 24px rgba(31,29,27,0.18);}
+  .btn-ghost{padding:15px 26px;font-size:13.5px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;border:1px solid var(--line-dark);color:var(--offwhite);border-radius:3px;transition:border-color 0.25s var(--ease), transform 0.25s var(--ease);}
+  .btn-ghost:hover{border-color:var(--offwhite);transform:translateY(-2px);}
+
+  .section{padding:76px 0;}
+  .section-tag{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--rust);margin-bottom:14px;}
+  .section h2{font-size:clamp(30px,3.6vw,42px);max-width:18ch;margin-bottom:18px;}
+  .section-intro{color:var(--steel);max-width:56ch;font-size:16px;}
+
+  .prod-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:48px;}
+  .prod-card{background:var(--offwhite);padding:30px 28px;cursor:pointer;transition:background 0.3s var(--ease), transform 0.35s var(--ease), box-shadow 0.35s var(--ease);position:relative;}
+  .prod-card:hover{background:#E3DFD4;transform:translateY(-4px);box-shadow:0 20px 40px rgba(31,29,27,0.18);z-index:2;}
+  .prod-photo{width:100%;height:160px;object-fit:cover;border:1px solid var(--line);margin-bottom:18px;}
+  .prod-photo-placeholder{
+    width:100%;height:160px;border:1px dashed var(--line);margin-bottom:18px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--concrete);text-transform:uppercase;letter-spacing:0.05em;
+  }
+  .prod-thumbs{display:flex;gap:6px;margin:-10px 0 16px;flex-wrap:wrap;}
+  .prod-thumb{width:40px;height:32px;object-fit:cover;border:1px solid var(--line);cursor:pointer;opacity:0.75;}
+  .prod-thumb:hover{opacity:1;border-color:var(--rust);}
+  .prod-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:14px;}
+  .prod-card h3{font-size:23px;}
+  .prod-price{font-family:'IBM Plex Mono',monospace;font-size:15px;color:var(--rust);white-space:nowrap;}
+  .prod-box-price{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--concrete);margin-top:-8px;margin-bottom:14px;}
+  .prod-card p{font-size:14px;color:var(--steel);margin-bottom:14px;}
+  .prod-spec{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--concrete);letter-spacing:0.03em;text-transform:uppercase;}
+  .prod-sku{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--concrete);margin-bottom:10px;}
+  .prod-brand{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--rust);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;}
+
+  /* ---------- PRODUCT DETAIL MODAL ---------- */
+  .pd-overlay{
+    display:none;position:fixed;inset:0;background:rgba(31,29,27,0.6);z-index:200;
+    align-items:center;justify-content:center;padding:24px;
+    backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+  }
+  .pd-overlay.open{display:flex;animation:overlayFadeIn 0.25s var(--ease);}
+  .pd-box{
+    background:var(--offwhite);border:1px solid var(--charcoal);max-width:480px;width:100%;
+    max-height:88vh;overflow-y:auto;padding:36px;position:relative;border-radius:4px;
+    box-shadow:0 30px 70px rgba(0,0,0,0.35);
+    animation:modalIn 0.3s var(--ease);
+  }
+  @keyframes overlayFadeIn{from{opacity:0;}to{opacity:1;}}
+  @keyframes modalIn{from{opacity:0;transform:translateY(16px) scale(0.98);}to{opacity:1;transform:translateY(0) scale(1);}}
+  .pd-close{
+    position:absolute;top:20px;right:20px;background:none;border:none;
+    font-size:26px;line-height:1;color:var(--concrete);cursor:pointer;
+  }
+  .pd-close:hover{color:var(--rust);}
+  .pd-photo{width:100%;height:220px;object-fit:cover;border:1px solid var(--line);margin-bottom:20px;}
+  .pd-photo-placeholder{
+    width:100%;height:220px;border:1px dashed var(--line);margin-bottom:20px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--concrete);text-transform:uppercase;letter-spacing:0.05em;
+  }
+  .pd-sku{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--concrete);margin-bottom:6px;}
+  .pd-brand{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--rust);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:8px;}
+  .pd-title{font-size:28px;margin-bottom:14px;}
+  .pd-desc{font-size:14.5px;color:var(--steel);margin-bottom:18px;line-height:1.6;}
+  .pd-price{font-family:'IBM Plex Mono',monospace;font-size:24px;color:var(--rust);margin-bottom:16px;}
+  .pd-box-price{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--steel);margin-top:-10px;margin-bottom:16px;}
+  .pd-unit{font-size:14px;color:var(--concrete);}
+  .pd-stock-row{display:flex;align-items:center;gap:14px;margin-bottom:26px;flex-wrap:wrap;}
+  .pd-qty{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--steel);}
+  .pd-quote-btn{display:inline-block;text-align:center;width:100%;}
+
+  /* ---------- FLOORING CALCULATOR ---------- */
+  .pd-calc{border:1px solid var(--line);padding:18px;margin-bottom:22px;background:#fff;}
+  .pd-calc-title{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;
+    color:var(--steel);margin-bottom:14px;
+  }
+  .pd-calc-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:4px;}
+  .pd-calc-field label{
+    display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-transform:uppercase;
+    letter-spacing:0.05em;color:var(--concrete);margin-bottom:6px;
+  }
+  .pd-calc-field input{width:100%;padding:9px 10px;border:1px solid var(--line);font-size:14px;background:var(--offwhite);}
+  .pd-calc-area{font-size:15px;color:var(--charcoal);margin-top:14px;}
+  .pd-calc-boxes{font-family:'IBM Plex Mono',monospace;font-size:16px;color:var(--rust);margin-top:8px;}
+  .pd-calc-total{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--charcoal);margin-top:6px;font-weight:600;}
+  .pd-calc-note{font-size:11.5px;color:var(--concrete);font-weight:400;}
+  .stock-badge{display:inline-flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;}
+  .stock-dot{width:7px;height:7px;border-radius:50%;flex:none;}
+  .stock-in .stock-dot{background:#5C7A56;}
+  .stock-low .stock-dot{background:#C08A2E;}
+  .stock-out .stock-dot{background:#B5502A;}
+  .stock-in{color:#5C7A56;}
+  .stock-low{color:#C08A2E;}
+  .stock-out{color:#B5502A;}
+  .prod-empty{grid-column:1/-1;background:var(--offwhite);padding:52px 28px;text-align:center;color:var(--concrete);font-size:14px;}
+  .live-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--concrete);letter-spacing:0.05em;text-transform:uppercase;margin-top:48px;margin-bottom:-32px;}
+
+  .specstrip{background:var(--steel);color:var(--offwhite);}
+  .specstrip .wrap{display:grid;grid-template-columns:repeat(4,1fr);padding:48px 32px;gap:24px;}
+  .spec-item{border-left:1px solid var(--line-dark);padding-left:22px;}
+  .spec-item .label{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--offwhite);letter-spacing:0.02em;line-height:1.4;}
+  .spec-item .sub-label{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--concrete);margin-top:6px;}
+
+  .cta{background:var(--rust);color:var(--offwhite);}
+  .cta .wrap{padding:70px 32px;text-align:center;}
+  .cta h2{color:var(--offwhite);margin:0 auto 16px;}
+  .cta p{color:rgba(237,234,227,0.85);max-width:44ch;margin:0 auto 30px;font-size:16px;}
+  .cta .btn-primary{background:var(--charcoal);border-color:var(--charcoal);}
+  .cta .btn-primary:hover{background:transparent;color:var(--charcoal);border-color:var(--charcoal);box-shadow:0 10px 24px rgba(0,0,0,0.2);}
+
+  .other-cats{padding:64px 0 88px;}
+  .other-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px;}
+  .other-card{border:1px solid var(--line);padding:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--steel);border-radius:3px;transition:border-color 0.25s var(--ease), color 0.25s var(--ease), transform 0.25s var(--ease), box-shadow 0.25s var(--ease);}
+  .other-card:hover{border-color:var(--rust);color:var(--rust);transform:translateY(-2px);box-shadow:0 10px 20px rgba(31,29,27,0.1);}
+
+  footer{background:var(--charcoal);color:var(--concrete);padding:56px 0 28px;}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px;padding-bottom:44px;border-bottom:1px solid var(--line-dark);}
+  .foot-grid h4{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--offwhite);margin-bottom:16px;}
+  .foot-grid a, .foot-grid p{font-size:14px;color:var(--concrete);display:block;margin-bottom:10px;}
+  .foot-grid a:hover{color:var(--rust);}
+  .foot-logo{font-family:'Archivo Black',sans-serif;font-size:19px;color:var(--offwhite);margin-bottom:14px;}
+  .foot-bottom{display:flex;justify-content:space-between;padding-top:24px;font-size:12.5px;font-family:'IBM Plex Mono',monospace;color:var(--steel);flex-wrap:wrap;gap:8px;}
+
+  @media (max-width: 900px){
+    .prod-grid{grid-template-columns:1fr;}
+    .specstrip .wrap{grid-template-columns:repeat(2,1fr);}
+    .other-grid{grid-template-columns:repeat(2,1fr);}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width: 640px){
+    .navlinks{display:none;}
+    .burger{display:block;}
+    .site-search{max-width:none;}
+    .other-grid{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- QUOTE REQUEST MODAL ---------- */
+  .qr-overlay{
+    display:none;position:fixed;inset:0;background:rgba(31,29,27,0.6);z-index:200;
+    align-items:center;justify-content:center;padding:24px;
+    backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+  }
+  .qr-overlay.open{display:flex;animation:overlayFadeIn 0.25s var(--ease);}
+  .qr-box{
+    background:var(--offwhite);border:1px solid var(--charcoal);max-width:600px;width:100%;
+    max-height:88vh;overflow-y:auto;padding:36px;border-radius:4px;
+    box-shadow:0 30px 70px rgba(0,0,0,0.35);
+    animation:modalIn 0.3s var(--ease);
+  }
+  .qr-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+  .qr-head h3{font-size:28px;}
+  .qr-close{background:none;border:none;font-size:26px;line-height:1;color:var(--concrete);cursor:pointer;}
+  .qr-close:hover{color:var(--rust);}
+  .qr-sub{color:var(--steel);font-size:14px;margin-bottom:26px;}
+  .qr-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .qr-field{margin-bottom:16px;}
+  .qr-field label{
+    display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;
+    text-transform:uppercase;color:var(--steel);margin-bottom:7px;
+  }
+  .qr-field input, .qr-field select{
+    width:100%;padding:11px 12px;border:1px solid var(--line);background:#fff;font-size:14px;color:var(--charcoal);
+    border-radius:3px;transition:border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  }
+  .qr-field input:focus, .qr-field select:focus{border-color:var(--rust);box-shadow:0 0 0 3px rgba(181,80,42,0.12);outline:none;}
+  .qr-divider{border-top:1px solid var(--line);margin:22px 0 18px;padding-top:18px;}
+  .qr-line-head{
+    display:grid;grid-template-columns:2fr 0.8fr auto;gap:10px;
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:0.05em;
+    color:var(--concrete);padding-bottom:8px;border-bottom:1px solid var(--charcoal);
+  }
+  .qr-line-row{
+    display:grid;grid-template-columns:2fr 0.8fr auto;gap:10px;align-items:center;
+    padding:11px 0;border-bottom:1px solid var(--line);
+  }
+  .qr-line-row select, .qr-line-row input{padding:9px 10px;border:1px solid var(--line);font-size:13px;background:#fff;min-width:0;width:100%;}
+  .qr-line-row select{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .qr-remove-line{background:none;border:none;color:var(--concrete);font-size:18px;line-height:1;cursor:pointer;}
+  .qr-remove-line:hover{color:var(--rust);}
+  .qr-add-line{
+    margin-top:14px;background:none;border:1px dashed var(--line);width:100%;padding:11px;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--steel);text-transform:uppercase;letter-spacing:0.05em;cursor:pointer;
+  }
+  .qr-add-line:hover{border-color:var(--rust);color:var(--rust);}
+  .qr-submit-row{display:flex;gap:12px;margin-top:26px;}
+  .qr-error{color:var(--rust);font-family:'IBM Plex Mono',monospace;font-size:12px;margin-top:4px;min-height:16px;}
+  .qr-success{text-align:center;padding:30px 10px;}
+  .qr-success h3{font-size:26px;margin-bottom:12px;}
+  .qr-success p{color:var(--steel);font-size:14.5px;}
+  @media (max-width:640px){
+    .qr-grid-2{grid-template-columns:1fr;}
+    .qr-line-head, .qr-line-row{grid-template-columns:1fr 0.7fr auto;}
+  }
+
+  .about-hero{
+    color:var(--offwhite);border-bottom:4px solid var(--rust);background-size:cover;background-position:center;
+    background-image: linear-gradient(rgba(31,29,27,0.82), rgba(31,29,27,0.82)),
+      url('https://images.unsplash.com/photo-1761805618757-9d2b9552ee32?auto=format&fit=crop&w=1800&h=560&q=70');
+  }
+  .about-hero-inner{max-width:1180px;margin:0 auto;padding:88px 32px 64px;}
+  .about-hero h1{font-size:clamp(38px,5.5vw,64px);color:var(--offwhite);max-width:16ch;}
+  .about-hero p.sub{margin-top:20px;font-size:16.5px;color:var(--concrete);max-width:56ch;}
+
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:48px;align-items:start;}
+  .hours-table{width:100%;border-collapse:collapse;font-size:14.5px;}
+  .hours-table td{padding:12px 4px;border-bottom:1px solid var(--line);}
+  .hours-table td:last-child{text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--rust);}
+  .hours-table tr:last-child td{border-bottom:none;}
+  .location-block{font-size:14.5px;color:var(--steel);line-height:1.8;}
+  .location-block .addr{font-size:17px;color:var(--charcoal);font-weight:600;margin-bottom:6px;}
+  .directions-btn{
+    display:inline-block;margin-top:18px;padding:12px 22px;font-size:12.5px;font-weight:600;
+    letter-spacing:0.05em;text-transform:uppercase;border:1px solid var(--charcoal);color:var(--charcoal);
+    border-radius:3px;transition:background 0.25s var(--ease), color 0.25s var(--ease), transform 0.2s var(--ease);
+  }
+  .directions-btn:hover{background:var(--charcoal);color:var(--offwhite);transform:translateY(-1px);}
+
+  .trade-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px;}
+  .trade-card{background:var(--offwhite);padding:26px 24px;}
+  .trade-card h3{font-size:20px;margin-bottom:10px;}
+  .trade-card p{font-size:13.5px;color:var(--steel);}
+
+  @media (max-width:900px){
+    .about-grid{grid-template-columns:1fr;gap:36px;}
+    .trade-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="index.html" class="logo"><span class="dot"></span>REIS BUILDING MATERIALS</a>
+    <div class="site-search">
+      <input type="text" id="site-search-input" placeholder="Search products…" autocomplete="off" oninput="performSiteSearch(this.value)" onfocus="performSiteSearch(this.value)">
+      <div class="site-search-results" id="site-search-results"></div>
+    </div>
+    <div class="navlinks">
+      <a href="index.html#materials">Materials</a>
+      <a href="index.html#process">How it works</a>
+      <a href="about.html">About</a>
+      <a href="index.html#quote" class="navcta" onclick="openQuoteRequest();return false;">Request a quote</a>
+    </div>
+    <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+<div class="breadcrumb">
+  <div class="wrap"><a href="index.html">Catalog</a><span class="sep">/</span><span class="current">About</span></div>
+</div>
+
+<section class="about-hero">
+  <div class="about-hero-inner">
+    <div class="eyebrow">About us</div>
+    <h1>Local materials, straight answers.</h1>
+    <p class="sub">Reis Building Materials is a locally owned supplier of flooring, doors, windows, vanities, shingles, and toilets — stocked in our own warehouse and priced straight, for contractors, developers, and homeowners alike.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-tag">Our story</div>
+    <h2>Built to make sourcing simple.</h2>
+    <p class="section-intro">We started Reis Building Materials to fix a simple problem: builders spending more time chasing down materials than actually building. Everything we carry is stocked on our own shelves, priced clearly, and ready to quote the same day you ask — no back-and-forth, no guessing on lead times.</p>
+  </div>
+</section>
+
+<section class="specstrip">
+  <div class="wrap">
+    <div class="spec-item reveal" style="transition-delay:0ms;"><div class="label">Locally owned<br>&amp; operated</div></div>
+    <div class="spec-item reveal" style="transition-delay:70ms;"><div class="label">Serving builders<br>since 2023</div></div>
+    <div class="spec-item reveal" style="transition-delay:140ms;"><div class="label">Six material<br>categories carried</div></div>
+    <div class="spec-item reveal" style="transition-delay:210ms;"><div class="label">Same-day<br>quote turnaround</div></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-tag">Visit us</div>
+    <h2>Hours &amp; location.</h2>
+    <div class="about-grid">
+      <div>
+        <table class="hours-table">
+          <tr><td>Monday – Sunday</td><td>By appointment</td></tr>
+        </table>
+        <p style="margin-top:16px;font-size:14px;color:var(--steel);">Open daily, by appointment only — <a href="#" onclick="openQuoteRequest();return false;" style="color:var(--rust);">request a quote</a> and we'll set up a time that works.</p>
+      </div>
+      <div class="location-block">
+        <div class="addr">Reis Building Materials</div>
+        1420 Rahway Ave<br>
+        Avenel, NJ 07001<br><br>
+        <a href="tel:+17322211925" style="color:var(--rust);font-weight:600;">732-221-1925</a><br><br>
+        <a href="https://www.google.com/maps/search/?api=1&query=1420+Rahway+Ave%2C+Avenel%2C+NJ+07001" class="directions-btn" target="_blank" rel="noopener">Get directions</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="trade-accounts" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-tag">For contractors &amp; builders</div>
+    <h2>Trade accounts.</h2>
+    <p class="section-intro">Running jobs regularly? A trade account gets you set up for ongoing work — no need to re-enter your info on every quote.</p>
+    <div class="trade-grid">
+      <div class="trade-card">
+        <h3>Volume pricing</h3>
+        <p>Standing pricing on materials you order often, instead of re-negotiating every job.</p>
+      </div>
+      <div class="trade-card">
+        <h3>Net terms</h3>
+        <p>Qualifying accounts can be billed on terms instead of paying at pickup for every order.</p>
+      </div>
+      <div class="trade-card">
+        <h3>Priority will-call</h3>
+        <p>Your orders staged and ready when you arrive, ahead of walk-in pickups.</p>
+      </div>
+    </div>
+    <div class="hero-actions" style="margin-top:32px;">
+      <a href="#" class="btn-primary" style="background:var(--charcoal);border-color:var(--charcoal);color:var(--offwhite);" onclick="openTradeApplication();return false;">Apply for a trade account</a>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="quote">
+  <div class="wrap">
+    <h2>Ready to set up an account, or just need a quote?</h2>
+    <p>Tell us what you're working on — we'll get pricing back to you the same day.</p>
+    <a href="#" class="btn-primary" onclick="openQuoteRequest();return false;">Request a quote</a>
+  </div>
+</section>
+
+<div class="qr-overlay" id="qr-overlay">
+  <div class="qr-box">
+    <div id="qr-form-state">
+      <div class="qr-head">
+        <h3>Request a quote</h3>
+        <button class="qr-close" onclick="closeQuoteRequest()" aria-label="Close">&times;</button>
+      </div>
+      <p class="qr-sub">Tell us what you need and how to reach you — we'll get pricing back to you the same day.</p>
+
+      <div class="qr-grid-2">
+        <div class="qr-field">
+          <label for="qr-name">Full name *</label>
+          <input type="text" id="qr-name" placeholder="Jane Alvarez">
+        </div>
+        <div class="qr-field">
+          <label for="qr-phone">Phone number *</label>
+          <input type="tel" id="qr-phone" placeholder="(555) 123-4567">
+        </div>
+      </div>
+      <div class="qr-grid-2">
+        <div class="qr-field">
+          <label for="qr-email">Email *</label>
+          <input type="email" id="qr-email" placeholder="jane@email.com">
+        </div>
+        <div class="qr-field">
+          <label for="qr-pref">Send my quote by</label>
+          <select id="qr-pref">
+            <option>Email</option>
+            <option>Phone call</option>
+            <option>Text message</option>
+            <option>Mail</option>
+          </select>
+        </div>
+      </div>
+      <div class="qr-field">
+        <label for="qr-address">Address *</label>
+        <input type="text" id="qr-address" placeholder="Street, city, state, ZIP">
+      </div>
+
+      <div class="qr-divider">
+        <div class="qr-line-head"><span>Item</span><span>Qty</span><span></span></div>
+        <div id="qr-line-items"></div>
+        <button type="button" class="qr-add-line" onclick="qrAddLine()">+ Add another item</button>
+      </div>
+
+      <div class="qr-error" id="qr-error"></div>
+      <div class="qr-submit-row">
+        <button class="btn-primary" style="border:1px solid var(--rust);" onclick="submitQuoteRequest()">Submit request</button>
+        <button class="btn-ghost" style="color:var(--charcoal);border-color:var(--line);" onclick="closeQuoteRequest()">Cancel</button>
+      </div>
+    </div>
+
+    <div id="qr-success-state" class="qr-success" style="display:none;">
+      <h3>Request received</h3>
+      <p>Thanks — we'll follow up with pricing at the contact info you gave us, usually the same business day.</p>
+      <div class="qr-submit-row" style="justify-content:center;">
+        <button class="btn-primary" style="border:1px solid var(--rust);" onclick="closeQuoteRequest()">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="qr-overlay" id="ta-overlay">
+  <div class="qr-box">
+    <div id="ta-form-state">
+      <div class="qr-head">
+        <h3>Apply for a trade account</h3>
+        <button class="qr-close" onclick="closeTradeApplication()" aria-label="Close">&times;</button>
+      </div>
+      <p class="qr-sub">Tell us a bit about your business and how you order — we'll follow up to get your account set up.</p>
+
+      <div class="qr-grid-2">
+        <div class="qr-field">
+          <label for="ta-business">Business name *</label>
+          <input type="text" id="ta-business" placeholder="Alvarez Contracting LLC">
+        </div>
+        <div class="qr-field">
+          <label for="ta-contact">Your name *</label>
+          <input type="text" id="ta-contact" placeholder="Jane Alvarez">
+        </div>
+      </div>
+      <div class="qr-grid-2">
+        <div class="qr-field">
+          <label for="ta-email">Email *</label>
+          <input type="email" id="ta-email" placeholder="jane@email.com">
+        </div>
+        <div class="qr-field">
+          <label for="ta-phone">Phone number *</label>
+          <input type="tel" id="ta-phone" placeholder="(555) 123-4567">
+        </div>
+      </div>
+      <div class="qr-grid-2">
+        <div class="qr-field">
+          <label for="ta-type">Type of work</label>
+          <select id="ta-type">
+            <option>General contractor</option>
+            <option>Remodeler</option>
+            <option>Developer / builder</option>
+            <option>Property manager</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="qr-field">
+          <label for="ta-volume">Estimated monthly volume</label>
+          <select id="ta-volume">
+            <option>Under $1,000</option>
+            <option>$1,000 – $5,000</option>
+            <option>$5,000 – $15,000</option>
+            <option>$15,000+</option>
+          </select>
+        </div>
+      </div>
+      <div class="qr-field">
+        <label for="ta-notes">Anything else we should know? (optional)</label>
+        <input type="text" id="ta-notes" placeholder="e.g. materials you order most, current jobs">
+      </div>
+
+      <div class="qr-error" id="ta-error"></div>
+      <div class="qr-submit-row">
+        <button class="btn-primary" style="border:1px solid var(--rust);" onclick="submitTradeApplication()">Submit application</button>
+        <button class="btn-ghost" style="color:var(--charcoal);border-color:var(--line);" onclick="closeTradeApplication()">Cancel</button>
+      </div>
+    </div>
+
+    <div id="ta-success-state" class="qr-success" style="display:none;">
+      <h3>Application received</h3>
+      <p>Thanks — we'll follow up to get your trade account set up, usually within one business day.</p>
+      <div class="qr-submit-row" style="justify-content:center;">
+        <button class="btn-primary" style="border:1px solid var(--rust);" onclick="closeTradeApplication()">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo">REIS BUILDING MATERIALS</div>
+        <p>Wholesale building materials for contractors, developers, and trade accounts.</p>
+      </div>
+      <div>
+        <h4>Materials</h4>
+        <a href="flooring.html">Flooring</a>
+        <a href="doors.html">Doors</a>
+        <a href="windows.html">Windows</a>
+        <a href="vanities.html">Vanities</a>
+        <a href="shingles.html">Shingles</a>
+        <a href="toilets.html">Toilets</a>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="about.html">About</a>
+        <a href="index.html#process">How it works</a>
+        <a href="#" onclick="openQuoteRequest();return false;">Request a quote</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a href="tel:+17322211925" style="display:block;margin-bottom:10px;font-weight:600;color:var(--offwhite);">732-221-1925</a>
+        <p>Daily, by appointment</p>
+        <a href="#" onclick="openQuoteRequest();return false;">Request a quote</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; 2026 Reis Building Materials</span>
+      <span>Open daily, by appointment only</span>
+      <a href="legal.html" style="color:var(--steel);">Privacy Policy &amp; Terms</a>
+      <a href="admin.html" style="color:var(--steel);">Staff login</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const burger = document.querySelector('.burger');
+  const navlinks = document.querySelector('.navlinks');
+  burger.addEventListener('click', () => {
+    const isOpen = navlinks.style.display === 'flex';
+    navlinks.style.display = isOpen ? 'none' : 'flex';
+    if(!isOpen){
+      navlinks.style.cssText = 'display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#EDEAE3;padding:24px 32px;gap:20px;border-bottom:1px solid rgba(31,29,27,0.15);';
+    }
+  });
+</script>
+
+<script>
+  let __revealObserver2 = null;
+  window.observeReveals = window.observeReveals || function(){
+    if(!('IntersectionObserver' in window)){
+      document.querySelectorAll('.reveal:not(.visible)').forEach(el => el.classList.add('visible'));
+      return;
+    }
+    if(!__revealObserver2){
+      __revealObserver2 = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting){
+            entry.target.classList.add('visible');
+            __revealObserver2.unobserve(entry.target);
+          }
+        });
+      }, {threshold: 0.15, rootMargin: '0px 0px -40px 0px'});
+    }
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => __revealObserver2.observe(el));
+  };
+  window.observeReveals();
+</script>
+
+<script>
+(function(){
+  let qrLines = [];
+
+  async function loadInventory(){
+    const { data, error } = await sb.from('inventory').select('*').order('created_at', { ascending: true });
+    if(error){ console.error('loadInventory failed', error); return []; }
+    return data.map(item => ({ ...item, images: item.images || [] }));
+  }
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+  }
+
+  const CATEGORY_ORDER = ['Flooring','Doors','Windows','Vanities','Shingles','Toilets'];
+  function groupByCategory(inventory){
+    const groups = {};
+    inventory.forEach(item => {
+      const cat = item.category || 'Other';
+      if(!groups[cat]) groups[cat] = [];
+      groups[cat].push(item);
+    });
+    const ordered = [
+      ...CATEGORY_ORDER.filter(c => groups[c]),
+      ...Object.keys(groups).filter(c => !CATEGORY_ORDER.includes(c))
+    ];
+    return ordered.map(cat => ({category: cat, items: groups[cat]}));
+  }
+
+  const CATEGORY_SLUGS = {
+    'Flooring':'flooring', 'Doors':'doors', 'Windows':'windows',
+    'Vanities':'vanities', 'Shingles':'shingles', 'Toilets':'toilets'
+  };
+
+  window.performSiteSearch = async function(query){
+    const resultsEl = document.getElementById('site-search-results');
+    if(!resultsEl) return;
+    const q = query.trim().toLowerCase();
+    if(q.length < 2){
+      resultsEl.classList.remove('open');
+      resultsEl.innerHTML = '';
+      return;
+    }
+    const inventory = await loadInventory();
+    const matches = inventory.filter(item =>
+      (item.name && item.name.toLowerCase().includes(q)) ||
+      (item.sku && item.sku.toLowerCase().includes(q)) ||
+      (item.brand && item.brand.toLowerCase().includes(q)) ||
+      (item.category && item.category.toLowerCase().includes(q))
+    ).slice(0, 8);
+
+    if(matches.length === 0){
+      resultsEl.innerHTML = '<div class="ssr-empty">No products match "'+escapeHtml(query)+'".</div>';
+      resultsEl.classList.add('open');
+      return;
+    }
+
+    resultsEl.innerHTML = matches.map(item => {
+      const slug = CATEGORY_SLUGS[item.category] || 'catalog';
+      const img = (item.images && item.images.length)
+        ? `<img src="${item.images[0]}" class="ssr-thumb">`
+        : `<div class="ssr-thumb-placeholder"></div>`;
+      return `<div class="ssr-item" data-href="${slug}.html?item=${item.id}">
+        ${img}
+        <div class="ssr-info"><div class="ssr-name">${escapeHtml(item.name)}</div><div class="ssr-meta">${escapeHtml(item.category)} &middot; ${escapeHtml(item.sku)}</div></div>
+        <div class="ssr-price">$${item.price.toFixed(2)}</div>
+      </div>`;
+    }).join('');
+    resultsEl.classList.add('open');
+
+    resultsEl.querySelectorAll('.ssr-item').forEach(el => {
+      el.addEventListener('click', () => { window.location.href = el.dataset.href; });
+    });
+  };
+
+  document.addEventListener('click', function(e){
+    const wrap = document.querySelector('.site-search');
+    const resultsEl = document.getElementById('site-search-results');
+    if(wrap && resultsEl && !wrap.contains(e.target)){
+      resultsEl.classList.remove('open');
+    }
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      const resultsEl = document.getElementById('site-search-results');
+      if(resultsEl) resultsEl.classList.remove('open');
+    }
+  });
+
+  window.openQuoteRequest = function(){
+    document.getElementById('qr-form-state').style.display = 'block';
+    document.getElementById('qr-success-state').style.display = 'none';
+    document.getElementById('qr-overlay').classList.add('open');
+    if(qrLines.length === 0) qrAddLine();
+  };
+
+  window.closeQuoteRequest = function(){
+    document.getElementById('qr-overlay').classList.remove('open');
+  };
+
+  window.qrAddLine = function(){
+    qrLines.push({key:'qr-'+Date.now()+Math.random(), invId:'', qty:1});
+    renderQrLines();
+  };
+
+  window.qrRemoveLine = function(key){
+    qrLines = qrLines.filter(l=>l.key!==key);
+    renderQrLines();
+  };
+
+  window.qrSetLineInv = function(key, invId){
+    const l = qrLines.find(l=>l.key===key);
+    if(l) l.invId = invId;
+  };
+
+  window.qrSetLineQty = function(key, val){
+    const l = qrLines.find(l=>l.key===key);
+    if(l) l.qty = Math.max(1, parseInt(val)||1);
+  };
+
+  async function renderQrLines(){
+    const wrap = document.getElementById('qr-line-items');
+    const inventory = await loadInventory();
+    if(inventory.length === 0){
+      wrap.innerHTML = '<p style="color:var(--concrete);font-size:13px;padding:10px 0;">No items available to select yet — describe what you need in the address field below and we\'ll follow up.</p>';
+      return;
+    }
+    const grouped = groupByCategory(inventory);
+    wrap.innerHTML = qrLines.map(l => `
+      <div class="qr-line-row">
+        <select onchange="qrSetLineInv('${l.key}', this.value)">
+          <option value="">Select an item…</option>
+          ${grouped.map(g => `<optgroup label="${escapeHtml(g.category)}">${g.items.map(i=>`<option value="${i.id}" ${i.id===l.invId?'selected':''}>${escapeHtml(i.name)} (${escapeHtml(i.sku)})</option>`).join('')}</optgroup>`).join('')}
+        </select>
+        <input type="number" min="1" step="1" value="${l.qty}" onchange="qrSetLineQty('${l.key}', this.value)">
+        <button type="button" class="qr-remove-line" onclick="qrRemoveLine('${l.key}')" aria-label="Remove item">&times;</button>
+      </div>
+    `).join('');
+  }
+
+  window.submitQuoteRequest = async function(){
+    const name = document.getElementById('qr-name').value.trim();
+    const phone = document.getElementById('qr-phone').value.trim();
+    const email = document.getElementById('qr-email').value.trim();
+    const pref = document.getElementById('qr-pref').value;
+    const address = document.getElementById('qr-address').value.trim();
+    const errorEl = document.getElementById('qr-error');
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if(!name){ errorEl.textContent = 'Enter your name.'; return; }
+    if(!address){ errorEl.textContent = 'Enter your address.'; return; }
+    if(!email){ errorEl.textContent = 'Enter your email.'; return; }
+    if(!emailPattern.test(email)){ errorEl.textContent = 'Enter a valid email address.'; return; }
+    if(!phone){ errorEl.textContent = 'Enter your phone number.'; return; }
+
+    const inventory = await loadInventory();
+    const items = qrLines
+      .filter(l => l.invId)
+      .map(l => {
+        const item = inventory.find(i=>i.id===l.invId);
+        return item ? {sku:item.sku, name:item.name, qty:l.qty} : null;
+      })
+      .filter(Boolean);
+
+    if(inventory.length > 0 && items.length === 0){
+      errorEl.textContent = 'Select at least one item and quantity.';
+      return;
+    }
+
+    errorEl.textContent = '';
+
+    const { error } = await sb.from('quote_requests').insert({ name, phone, email, pref, address, items });
+    if(error){
+      console.error('submitQuoteRequest failed', error);
+      errorEl.textContent = 'Could not submit — please try again or call us directly.';
+      return;
+    }
+
+    document.getElementById('qr-form-state').style.display = 'none';
+    document.getElementById('qr-success-state').style.display = 'block';
+
+    ['qr-name','qr-phone','qr-email','qr-address'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('qr-pref').selectedIndex = 0;
+    qrLines = [];
+  };
+})();
+</script>
+
+
+<script>
+(function(){
+  window.openTradeApplication = function(){
+    document.getElementById('ta-form-state').style.display = 'block';
+    document.getElementById('ta-success-state').style.display = 'none';
+    document.getElementById('ta-overlay').classList.add('open');
+  };
+
+  window.closeTradeApplication = function(){
+    document.getElementById('ta-overlay').classList.remove('open');
+  };
+
+  window.submitTradeApplication = async function(){
+    const business = document.getElementById('ta-business').value.trim();
+    const contact = document.getElementById('ta-contact').value.trim();
+    const email = document.getElementById('ta-email').value.trim();
+    const phone = document.getElementById('ta-phone').value.trim();
+    const type = document.getElementById('ta-type').value;
+    const volume = document.getElementById('ta-volume').value;
+    const notes = document.getElementById('ta-notes').value.trim();
+    const errorEl = document.getElementById('ta-error');
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if(!business){ errorEl.textContent = 'Enter your business name.'; return; }
+    if(!contact){ errorEl.textContent = 'Enter your name.'; return; }
+    if(!email){ errorEl.textContent = 'Enter your email.'; return; }
+    if(!emailPattern.test(email)){ errorEl.textContent = 'Enter a valid email address.'; return; }
+    if(!phone){ errorEl.textContent = 'Enter your phone number.'; return; }
+
+    errorEl.textContent = '';
+
+    const { error } = await sb.from('trade_applications').insert({ business, contact, email, phone, type, volume, notes });
+    if(error){
+      console.error('submitTradeApplication failed', error);
+      errorEl.textContent = 'Could not submit — please try again or call us directly.';
+      return;
+    }
+
+    document.getElementById('ta-form-state').style.display = 'none';
+    document.getElementById('ta-success-state').style.display = 'block';
+
+    ['ta-business','ta-contact','ta-email','ta-phone','ta-notes'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('ta-type').selectedIndex = 0;
+    document.getElementById('ta-volume').selectedIndex = 0;
+  };
+})();
+</script>
+</body>
+</html>
