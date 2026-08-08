@@ -984,7 +984,7 @@ function showToast(msg, isError){
   t.textContent = msg;
   t.className = isError ? 'show error' : 'show';
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>{ t.className = ''; }, 2600);
+  toastTimer = setTimeout(()=>{ t.className = ''; }, isError ? 8000 : 2600);
 }
 
 /* ============================================================
@@ -1809,7 +1809,7 @@ async function convertRequestToQuote(id){
   const { data: request, error } = await sb.from('quote_requests').select('*').eq('id', id).single();
   if(error || !request){
     console.error('convertRequestToQuote failed', error);
-    showToast('Could not load that request.', true);
+    showToast('Could not load that request: ' + (error ? (error.message || error.code || JSON.stringify(error)) : 'no matching record found'), true);
     return;
   }
 
