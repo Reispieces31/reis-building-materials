@@ -1805,6 +1805,42 @@ function editQuote(id){
   document.getElementById('view-quote').classList.add('active');
 }
 
+async function convertRequestToQuote(id){
+  const { data: request, error } = await sb.from('quote_requests').select('*').eq('id', id).single();
+  if(error || !request){
+    console.error('convertRequestToQuote failed', error);
+    showToast('Could not load that request.', true);
+    return;
+  }
+
+  editingQuoteId = null;
+  document.getElementById('editing-banner').style.display = 'none';
+
+  document.getElementById('q-customer').value = request.name || '';
+  document.getElementById('q-contact').value = request.email || request.phone || '';
+  document.getElementById('q-address').value = request.address || '';
+  document.getElementById('q-job').value = '';
+
+  let missing = 0;
+  lineItems = (request.items || []).map(row => {
+    const item = inventory.find(i => i.sku.toLowerCase() === (row.sku||'').toLowerCase());
+    if(!item){ missing++; return null; }
+    return {key:'li-'+Date.now()+Math.random(), invId:item.id, qty:row.qty};
+  }).filter(Boolean);
+
+  if(lineItems.length === 0) addLineItem();
+
+  renderLineItems();
+  updateQuotePreview();
+
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelector('.tab-btn[data-view="quote"]').classList.add('active');
+  document.getElementById('view-quote').classList.add('active');
+
+  showToast('Loaded ' + request.name + '\'s request into a new quote.' + (missing ? ' ('+missing+' item(s) no longer in inventory were skipped.)' : ''));
+}
+
 function cancelEditQuote(){
   editingQuoteId = null;
   document.getElementById('editing-banner').style.display = 'none';
@@ -1953,7 +1989,10 @@ async function renderRequests(){
           <div class="request-name">${escapeHtml(r.name)}</div>
           <div class="request-date">${new Date(r.date).toLocaleString()}</div>
         </div>
-        <button class="icon-btn danger" onclick="deleteRequest('${r.id}')">Delete</button>
+        <div class="row-actions" style="display:flex;gap:8px;">
+          <button class="icon-btn" onclick="convertRequestToQuote('${r.id}')">Convert to quote</button>
+          <button class="icon-btn danger" onclick="deleteRequest('${r.id}')">Delete</button>
+        </div>
       </div>
       <div class="request-contact">
         ${r.email ? '<b>Email:</b> '+escapeHtml(r.email)+'<br>' : ''}
