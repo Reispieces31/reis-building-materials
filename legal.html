@@ -470,7 +470,7 @@
         <button type="button" class="qr-add-line" onclick="qrAddLine()">+ Add another item</button>
       </div>
 
-      <div class="cf-turnstile" id="qr-turnstile" data-sitekey="0x4AAAAAAELME4WlMOH5tHzB" style="margin-bottom:14px;"></div>
+      <div id="qr-turnstile" style="margin-bottom:14px;"></div>
       <div class="qr-error" id="qr-error"></div>
       <div class="qr-submit-row">
         <button class="btn-primary" style="border:1px solid var(--rust);" onclick="submitQuoteRequest()">Submit request</button>
@@ -650,12 +650,16 @@
   });
 
   let qrOpenedAt = 0;
+  let qrTurnstileWidgetId = null;
   window.openQuoteRequest = function(){
     document.getElementById('qr-form-state').style.display = 'block';
     document.getElementById('qr-success-state').style.display = 'none';
     document.getElementById('qr-overlay').classList.add('open');
     if(qrLines.length === 0) qrAddLine();
     qrOpenedAt = Date.now();
+    if(qrTurnstileWidgetId === null && typeof turnstile !== 'undefined'){
+      qrTurnstileWidgetId = turnstile.render('#qr-turnstile', { sitekey: '0x4AAAAAAELME4WlMOH5tHzB' });
+    }
   };
 
   window.closeQuoteRequest = function(){
@@ -740,7 +744,7 @@
       return;
     }
 
-    const qrToken = (typeof turnstile !== 'undefined') ? turnstile.getResponse('qr-turnstile') : null;
+    const qrToken = (typeof turnstile !== 'undefined') ? turnstile.getResponse(qrTurnstileWidgetId) : null;
     if(!qrToken){
       errorEl.textContent = 'Please complete the verification check above.';
       return;
@@ -761,7 +765,7 @@
       const result = await res.json();
       if(!res.ok || !result.success){
         errorEl.textContent = result.error || 'Could not submit — please try again or call us directly.';
-        if(typeof turnstile !== 'undefined') turnstile.reset('qr-turnstile');
+        if(typeof turnstile !== 'undefined') turnstile.reset(qrTurnstileWidgetId);
         return;
       }
     }catch(e){
@@ -772,7 +776,7 @@
 
     document.getElementById('qr-form-state').style.display = 'none';
     document.getElementById('qr-success-state').style.display = 'block';
-    if(typeof turnstile !== 'undefined') turnstile.reset('qr-turnstile');
+    if(typeof turnstile !== 'undefined') turnstile.reset(qrTurnstileWidgetId);
 
     ['qr-name','qr-phone','qr-email','qr-address'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('qr-pref').selectedIndex = 0;
