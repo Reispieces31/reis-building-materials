@@ -448,6 +448,7 @@
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
           <button class="btn-outline btn-sm" onclick="migrateOldBrowserData()">Import old browser data</button>
+          <button class="btn-outline btn-sm" onclick="migratePhotosToR2()">Move photos to cloud storage</button>
           <button class="btn-outline btn-sm" onclick="exportAllDataJSON()">Export all data (JSON)</button>
           <button class="btn-outline btn-sm" onclick="exportInventoryCSV()">Export inventory (CSV)</button>
         </div>
@@ -1978,6 +1979,84 @@ async function migrateOldBrowserData(){
   );
 
   await init();
+}
+
+function dataURItoBlob(dataURI){
+  const parts = dataURI.split(',');
+  const mimeMatch = parts[0].match(/data:(.*?);base64/);
+  const mime = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+  const binary = atob(parts[1]);
+  const array = new Uint8Array(binary.length);
+  for(let i = 0; i < binary.length; i++){
+    array[i] = binary.charCodeAt(i);
+  }
+  return new Blob([array], { type: mime });
+}
+
+async function migratePhotosToR2(){
+  const itemsWithBase64 = inventory.filter(item =>
+    item.images && item.images.some(img => img.startsWith('data:image/'))
+  );
+
+  if(itemsWithBase64.length === 0){
+    showToast('No embedded photos found — everything is already using cloud storage.');
+    return;
+  }
+
+  if(!confirm('Found ' + itemsWithBase64.length + ' item(s) with embedded photos. Move them all to cloud storage now? This may take a minute.')) return;
+
+  const { data: sessionData } = await sb.auth.getSession();
+  const accessToken = sessionData && sessionData.session ? sessionData.session.access_token : null;
+  if(!accessToken){
+    showToast('You need to be logged in to do this.', true);
+    return;
+  }
+
+  let migratedCount = 0;
+  let failedCount = 0;
+
+  for(const item of itemsWithBase64){
+    const newImages = [];
+    for(const img of item.images){
+      if(!img.startsWith('data:image/')){
+        newImages.push(img);
+        continue;
+      }
+      try{
+        const blob = dataURItoBlob(img);
+        const formData = new FormData();
+        formData.append('file', blob, 'photo.jpg');
+        const res = await fetch(SUPABASE_URL + '/functions/v1/upload-photo', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + accessToken },
+          body: formData
+        });
+        const result = await res.json();
+        if(res.ok && result.url){
+          newImages.push(result.url);
+          migratedCount++;
+        } else {
+          console.error('Photo migration failed for item', item.id, result.error);
+          newImages.push(img);
+          failedCount++;
+        }
+      }catch(e){
+        console.error('Photo migration failed for item', item.id, e);
+        newImages.push(img);
+        failedCount++;
+      }
+    }
+    const ok = await updateInventoryItem(item.id, { images: newImages });
+    if(ok) item.images = newImages;
+  }
+
+  renderInventory();
+  showToast(
+    failedCount > 0
+      ? `Moved ${migratedCount} photo(s) to cloud storage, ${failedCount} failed — you can run this again to retry.`
+      : `Moved ${migratedCount} photo(s) to cloud storage successfully.`,
+    failedCount > 0
+  );
 }
 
 async function exportAllDataJSON(){
