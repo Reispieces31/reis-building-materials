@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script data-goatcounter="https://reisbuildingmaterials.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const SUPABASE_URL = 'https://jqkwimylldvsfenxwaad.supabase.co';
@@ -607,6 +608,10 @@
         <label for="qr-address">Address *</label>
         <input type="text" id="qr-address" placeholder="Street, city, state, ZIP">
       </div>
+      <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+        <label for="qr-website">Website</label>
+        <input type="text" id="qr-website" name="website" tabindex="-1" autocomplete="off">
+      </div>
 
       <div class="qr-divider">
         <div class="qr-line-head"><span>Item</span><span>Qty</span><span></span></div>
@@ -732,11 +737,13 @@
     }
   });
 
+  let qrOpenedAt = 0;
   window.openQuoteRequest = function(){
     document.getElementById('qr-form-state').style.display = 'block';
     document.getElementById('qr-success-state').style.display = 'none';
     document.getElementById('qr-overlay').classList.add('open');
     if(qrLines.length === 0) qrAddLine();
+    qrOpenedAt = Date.now();
   };
 
   window.closeQuoteRequest = function(){
@@ -784,6 +791,15 @@
   }
 
   window.submitQuoteRequest = async function(){
+    // Spam checks — fail quietly with a fake success so bots don't learn to adapt
+    const qrHoneypot = document.getElementById('qr-website').value.trim();
+    const qrElapsed = Date.now() - qrOpenedAt;
+    if(qrHoneypot || qrElapsed < 2000){
+      document.getElementById('qr-form-state').style.display = 'none';
+      document.getElementById('qr-success-state').style.display = 'block';
+      return;
+    }
+
     const name = document.getElementById('qr-name').value.trim();
     const phone = document.getElementById('qr-phone').value.trim();
     const email = document.getElementById('qr-email').value.trim();

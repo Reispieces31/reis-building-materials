@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script data-goatcounter="https://reisbuildingmaterials.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const SUPABASE_URL = 'https://jqkwimylldvsfenxwaad.supabase.co';
@@ -457,6 +458,10 @@
         <label for="qr-address">Address *</label>
         <input type="text" id="qr-address" placeholder="Street, city, state, ZIP">
       </div>
+      <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+        <label for="qr-website">Website</label>
+        <input type="text" id="qr-website" name="website" tabindex="-1" autocomplete="off">
+      </div>
 
       <div class="qr-divider">
         <div class="qr-line-head"><span>Item</span><span>Qty</span><span></span></div>
@@ -519,69 +524,6 @@
     </div>
   </div>
 </footer>
-
-<div class="qr-overlay" id="qr-overlay">
-  <div class="qr-box">
-    <div id="qr-form-state">
-      <div class="qr-head">
-        <h3>Request a quote</h3>
-        <button class="qr-close" onclick="closeQuoteRequest()" aria-label="Close">&times;</button>
-      </div>
-      <p class="qr-sub">Tell us what you need and how to reach you — we'll get pricing back to you the same day.</p>
-
-      <div class="qr-grid-2">
-        <div class="qr-field">
-          <label for="qr-name">Full name *</label>
-          <input type="text" id="qr-name" placeholder="Jane Alvarez">
-        </div>
-        <div class="qr-field">
-          <label for="qr-phone">Phone number *</label>
-          <input type="tel" id="qr-phone" placeholder="(555) 123-4567">
-        </div>
-      </div>
-      <div class="qr-grid-2">
-        <div class="qr-field">
-          <label for="qr-email">Email *</label>
-          <input type="email" id="qr-email" placeholder="jane@email.com">
-        </div>
-        <div class="qr-field">
-          <label for="qr-pref">Send my quote by</label>
-          <select id="qr-pref">
-            <option>Email</option>
-            <option>Phone call</option>
-            <option>Text message</option>
-            <option>Mail</option>
-          </select>
-        </div>
-      </div>
-      <div class="qr-field">
-        <label for="qr-address">Address *</label>
-        <input type="text" id="qr-address" placeholder="Street, city, state, ZIP">
-      </div>
-
-      <div class="qr-divider">
-        <div class="qr-line-head"><span>Item</span><span>Qty</span><span></span></div>
-        <div id="qr-line-items"></div>
-        <button type="button" class="qr-add-line" onclick="qrAddLine()">+ Add another item</button>
-      </div>
-
-      <div class="qr-error" id="qr-error"></div>
-      <div class="qr-submit-row">
-        <button class="btn-primary" style="border:1px solid var(--rust);" onclick="submitQuoteRequest()">Submit request</button>
-        <button class="btn-ghost" style="color:var(--charcoal);border-color:var(--line);" onclick="closeQuoteRequest()">Cancel</button>
-      </div>
-    </div>
-
-    <div id="qr-success-state" class="qr-success" style="display:none;">
-      <h3>Request received</h3>
-      <p>Thanks — we'll follow up with pricing at the contact info you gave us, usually the same business day.</p>
-      <div class="qr-submit-row" style="justify-content:center;">
-        <button class="btn-primary" style="border:1px solid var(--rust);" onclick="closeQuoteRequest()">Done</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script>
   const burger = document.querySelector('.burger');
   const navlinks = document.querySelector('.navlinks');
@@ -705,11 +647,13 @@
     }
   });
 
+  let qrOpenedAt = 0;
   window.openQuoteRequest = function(){
     document.getElementById('qr-form-state').style.display = 'block';
     document.getElementById('qr-success-state').style.display = 'none';
     document.getElementById('qr-overlay').classList.add('open');
     if(qrLines.length === 0) qrAddLine();
+    qrOpenedAt = Date.now();
   };
 
   window.closeQuoteRequest = function(){
@@ -757,6 +701,15 @@
   }
 
   window.submitQuoteRequest = async function(){
+    // Spam checks — fail quietly with a fake success so bots don't learn to adapt
+    const qrHoneypot = document.getElementById('qr-website').value.trim();
+    const qrElapsed = Date.now() - qrOpenedAt;
+    if(qrHoneypot || qrElapsed < 2000){
+      document.getElementById('qr-form-state').style.display = 'none';
+      document.getElementById('qr-success-state').style.display = 'block';
+      return;
+    }
+
     const name = document.getElementById('qr-name').value.trim();
     const phone = document.getElementById('qr-phone').value.trim();
     const email = document.getElementById('qr-email').value.trim();

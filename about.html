@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script data-goatcounter="https://reisbuildingmaterials.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const SUPABASE_URL = 'https://jqkwimylldvsfenxwaad.supabase.co';
@@ -467,6 +468,10 @@
         <label for="qr-address">Address *</label>
         <input type="text" id="qr-address" placeholder="Street, city, state, ZIP">
       </div>
+      <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+        <label for="qr-website">Website</label>
+        <input type="text" id="qr-website" name="website" tabindex="-1" autocomplete="off">
+      </div>
 
       <div class="qr-divider">
         <div class="qr-line-head"><span>Item</span><span>Qty</span><span></span></div>
@@ -544,6 +549,10 @@
       <div class="qr-field">
         <label for="ta-notes">Anything else we should know? (optional)</label>
         <input type="text" id="ta-notes" placeholder="e.g. materials you order most, current jobs">
+      </div>
+      <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+        <label for="ta-website">Website</label>
+        <input type="text" id="ta-website" name="website" tabindex="-1" autocomplete="off">
       </div>
 
       <div class="qr-error" id="ta-error"></div>
@@ -724,11 +733,13 @@
     }
   });
 
+  let qrOpenedAt = 0;
   window.openQuoteRequest = function(){
     document.getElementById('qr-form-state').style.display = 'block';
     document.getElementById('qr-success-state').style.display = 'none';
     document.getElementById('qr-overlay').classList.add('open');
     if(qrLines.length === 0) qrAddLine();
+    qrOpenedAt = Date.now();
   };
 
   window.closeQuoteRequest = function(){
@@ -776,6 +787,15 @@
   }
 
   window.submitQuoteRequest = async function(){
+    // Spam checks — fail quietly with a fake success so bots don't learn to adapt
+    const qrHoneypot = document.getElementById('qr-website').value.trim();
+    const qrElapsed = Date.now() - qrOpenedAt;
+    if(qrHoneypot || qrElapsed < 2000){
+      document.getElementById('qr-form-state').style.display = 'none';
+      document.getElementById('qr-success-state').style.display = 'block';
+      return;
+    }
+
     const name = document.getElementById('qr-name').value.trim();
     const phone = document.getElementById('qr-phone').value.trim();
     const email = document.getElementById('qr-email').value.trim();
@@ -826,10 +846,12 @@
 
 <script>
 (function(){
+  let taOpenedAt = 0;
   window.openTradeApplication = function(){
     document.getElementById('ta-form-state').style.display = 'block';
     document.getElementById('ta-success-state').style.display = 'none';
     document.getElementById('ta-overlay').classList.add('open');
+    taOpenedAt = Date.now();
   };
 
   window.closeTradeApplication = function(){
@@ -837,6 +859,15 @@
   };
 
   window.submitTradeApplication = async function(){
+    // Spam checks — fail quietly with a fake success so bots don't learn to adapt
+    const taHoneypot = document.getElementById('ta-website').value.trim();
+    const taElapsed = Date.now() - taOpenedAt;
+    if(taHoneypot || taElapsed < 2000){
+      document.getElementById('ta-form-state').style.display = 'none';
+      document.getElementById('ta-success-state').style.display = 'block';
+      return;
+    }
+
     const business = document.getElementById('ta-business').value.trim();
     const contact = document.getElementById('ta-contact').value.trim();
     const email = document.getElementById('ta-email').value.trim();
