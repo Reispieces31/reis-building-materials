@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script data-goatcounter="https://reisbuildingmaterials.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -619,6 +620,7 @@
         <button type="button" class="qr-add-line" onclick="qrAddLine()">+ Add another item</button>
       </div>
 
+      <div class="cf-turnstile" id="qr-turnstile" data-sitekey="0x4AAAAAAELME4WlMOH5tHzB" style="margin-bottom:14px;"></div>
       <div class="qr-error" id="qr-error"></div>
       <div class="qr-submit-row">
         <button class="btn-primary" style="border:1px solid var(--rust);" onclick="submitQuoteRequest()">Submit request</button>
@@ -828,17 +830,39 @@
       return;
     }
 
+    const qrToken = (typeof turnstile !== 'undefined') ? turnstile.getResponse('qr-turnstile') : null;
+    if(!qrToken){
+      errorEl.textContent = 'Please complete the verification check above.';
+      return;
+    }
+
     errorEl.textContent = '';
 
-    const { error } = await sb.from('quote_requests').insert({ name, phone, email, pref, address, items });
-    if(error){
-      console.error('submitQuoteRequest failed', error);
+    try{
+      const res = await fetch(SUPABASE_URL + '/functions/v1/submit-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY },
+        body: JSON.stringify({
+          turnstileToken: qrToken,
+          formType: 'quote_request',
+          data: { name, phone, email, pref, address, items }
+        })
+      });
+      const result = await res.json();
+      if(!res.ok || !result.success){
+        errorEl.textContent = result.error || 'Could not submit — please try again or call us directly.';
+        if(typeof turnstile !== 'undefined') turnstile.reset('qr-turnstile');
+        return;
+      }
+    }catch(e){
+      console.error('submitQuoteRequest failed', e);
       errorEl.textContent = 'Could not submit — please try again or call us directly.';
       return;
     }
 
     document.getElementById('qr-form-state').style.display = 'none';
     document.getElementById('qr-success-state').style.display = 'block';
+    if(typeof turnstile !== 'undefined') turnstile.reset('qr-turnstile');
 
     ['qr-name','qr-phone','qr-email','qr-address'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('qr-pref').selectedIndex = 0;

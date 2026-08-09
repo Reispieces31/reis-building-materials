@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script data-goatcounter="https://reisbuildingmaterials.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -479,6 +480,7 @@
         <button type="button" class="qr-add-line" onclick="qrAddLine()">+ Add another item</button>
       </div>
 
+      <div class="cf-turnstile" id="qr-turnstile" data-sitekey="0x4AAAAAAELME4WlMOH5tHzB" style="margin-bottom:14px;"></div>
       <div class="qr-error" id="qr-error"></div>
       <div class="qr-submit-row">
         <button class="btn-primary" style="border:1px solid var(--rust);" onclick="submitQuoteRequest()">Submit request</button>
@@ -555,6 +557,7 @@
         <input type="text" id="ta-website" name="website" tabindex="-1" autocomplete="off">
       </div>
 
+      <div class="cf-turnstile" id="ta-turnstile" data-sitekey="0x4AAAAAAELME4WlMOH5tHzB" style="margin-bottom:14px;"></div>
       <div class="qr-error" id="ta-error"></div>
       <div class="qr-submit-row">
         <button class="btn-primary" style="border:1px solid var(--rust);" onclick="submitTradeApplication()">Submit application</button>
@@ -824,17 +827,39 @@
       return;
     }
 
+    const qrToken = (typeof turnstile !== 'undefined') ? turnstile.getResponse('qr-turnstile') : null;
+    if(!qrToken){
+      errorEl.textContent = 'Please complete the verification check above.';
+      return;
+    }
+
     errorEl.textContent = '';
 
-    const { error } = await sb.from('quote_requests').insert({ name, phone, email, pref, address, items });
-    if(error){
-      console.error('submitQuoteRequest failed', error);
+    try{
+      const res = await fetch(SUPABASE_URL + '/functions/v1/submit-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY },
+        body: JSON.stringify({
+          turnstileToken: qrToken,
+          formType: 'quote_request',
+          data: { name, phone, email, pref, address, items }
+        })
+      });
+      const result = await res.json();
+      if(!res.ok || !result.success){
+        errorEl.textContent = result.error || 'Could not submit — please try again or call us directly.';
+        if(typeof turnstile !== 'undefined') turnstile.reset('qr-turnstile');
+        return;
+      }
+    }catch(e){
+      console.error('submitQuoteRequest failed', e);
       errorEl.textContent = 'Could not submit — please try again or call us directly.';
       return;
     }
 
     document.getElementById('qr-form-state').style.display = 'none';
     document.getElementById('qr-success-state').style.display = 'block';
+    if(typeof turnstile !== 'undefined') turnstile.reset('qr-turnstile');
 
     ['qr-name','qr-phone','qr-email','qr-address'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('qr-pref').selectedIndex = 0;
@@ -884,17 +909,39 @@
     if(!emailPattern.test(email)){ errorEl.textContent = 'Enter a valid email address.'; return; }
     if(!phone){ errorEl.textContent = 'Enter your phone number.'; return; }
 
+    const taToken = (typeof turnstile !== 'undefined') ? turnstile.getResponse('ta-turnstile') : null;
+    if(!taToken){
+      errorEl.textContent = 'Please complete the verification check above.';
+      return;
+    }
+
     errorEl.textContent = '';
 
-    const { error } = await sb.from('trade_applications').insert({ business, contact, email, phone, type, volume, notes });
-    if(error){
-      console.error('submitTradeApplication failed', error);
+    try{
+      const res = await fetch(SUPABASE_URL + '/functions/v1/submit-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY },
+        body: JSON.stringify({
+          turnstileToken: taToken,
+          formType: 'trade_application',
+          data: { business, contact, email, phone, type, volume, notes }
+        })
+      });
+      const result = await res.json();
+      if(!res.ok || !result.success){
+        errorEl.textContent = result.error || 'Could not submit — please try again or call us directly.';
+        if(typeof turnstile !== 'undefined') turnstile.reset('ta-turnstile');
+        return;
+      }
+    }catch(e){
+      console.error('submitTradeApplication failed', e);
       errorEl.textContent = 'Could not submit — please try again or call us directly.';
       return;
     }
 
     document.getElementById('ta-form-state').style.display = 'none';
     document.getElementById('ta-success-state').style.display = 'block';
+    if(typeof turnstile !== 'undefined') turnstile.reset('ta-turnstile');
 
     ['ta-business','ta-contact','ta-email','ta-phone','ta-notes'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('ta-type').selectedIndex = 0;
