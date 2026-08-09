@@ -1,5 +1,6 @@
 name = "reis-building-materials"
 compatibility_date = "2026-01-01"
+pages_build_output_dir = "."
 
 [[r2_buckets]]
 binding = "PHOTOS_BUCKET"
