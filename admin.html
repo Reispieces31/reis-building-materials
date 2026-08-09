@@ -1140,20 +1140,47 @@ function addPendingImageUrl(){
   renderPendingImages();
 }
 
-function handlePendingImageFiles(event){
+async function handlePendingImageFiles(event){
   const files = Array.from(event.target.files || []);
-  files.forEach(file => {
-    if(file.size > 1.5 * 1024 * 1024){
-      showToast('One photo is large — under ~1.5MB each keeps this browser\'s storage from filling up.', true);
-    }
-    const reader = new FileReader();
-    reader.onload = e => {
-      pendingImages.push(e.target.result);
-      renderPendingImages();
-    };
-    reader.readAsDataURL(file);
-  });
   event.target.value = '';
+
+  for(const file of files){
+    if(file.size > 8 * 1024 * 1024){
+      showToast(file.name + ' is too large (max 8MB).', true);
+      continue;
+    }
+
+    showToast('Uploading ' + file.name + '…');
+
+    const { data: sessionData } = await sb.auth.getSession();
+    const accessToken = sessionData && sessionData.session ? sessionData.session.access_token : null;
+    if(!accessToken){
+      showToast('You need to be logged in to upload photos.', true);
+      continue;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try{
+      const res = await fetch(SUPABASE_URL + '/functions/v1/upload-photo', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + accessToken },
+        body: formData
+      });
+      const result = await res.json();
+      if(!res.ok || !result.url){
+        showToast('Could not upload ' + file.name + ' — ' + (result.error || 'unknown error'), true);
+        continue;
+      }
+      pendingImages.push(result.url);
+      renderPendingImages();
+      showToast('Uploaded ' + file.name + '.');
+    }catch(e){
+      console.error('Photo upload failed', e);
+      showToast('Could not upload ' + file.name + '.', true);
+    }
+  }
 }
 
 function removePendingImage(index){
@@ -1332,25 +1359,53 @@ async function addModalPhotoUrl(){
   renderModalPhotos();
 }
 
-function handleModalPhotoFiles(event){
+async function handleModalPhotoFiles(event){
   const item = inventory.find(i=>i.id===editingItemId);
   if(!item) return;
   const files = Array.from(event.target.files || []);
-  files.forEach(file => {
-    if(file.size > 1.5 * 1024 * 1024){
-      showToast('One photo is large — under ~1.5MB each keeps things fast.', true);
+  event.target.value = '';
+
+  for(const file of files){
+    if(file.size > 8 * 1024 * 1024){
+      showToast(file.name + ' is too large (max 8MB).', true);
+      continue;
     }
-    const reader = new FileReader();
-    reader.onload = async e => {
-      const newImages = [...item.images, e.target.result];
+
+    showToast('Uploading ' + file.name + '…');
+
+    const { data: sessionData } = await sb.auth.getSession();
+    const accessToken = sessionData && sessionData.session ? sessionData.session.access_token : null;
+    if(!accessToken){
+      showToast('You need to be logged in to upload photos.', true);
+      continue;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try{
+      const res = await fetch(SUPABASE_URL + '/functions/v1/upload-photo', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + accessToken },
+        body: formData
+      });
+      const result = await res.json();
+      if(!res.ok || !result.url){
+        showToast('Could not upload ' + file.name + ' — ' + (result.error || 'unknown error'), true);
+        continue;
+      }
+
+      const newImages = [...item.images, result.url];
       const ok = await updateInventoryItem(editingItemId, { images: newImages });
-      if(!ok) return;
+      if(!ok) continue;
       item.images = newImages;
       renderModalPhotos();
-    };
-    reader.readAsDataURL(file);
-  });
-  event.target.value = '';
+      showToast('Uploaded ' + file.name + '.');
+    }catch(e){
+      console.error('Photo upload failed', e);
+      showToast('Could not upload ' + file.name + '.', true);
+    }
+  }
 }
 
 async function removeModalPhoto(index){
