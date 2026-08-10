@@ -807,7 +807,7 @@
     </div>
     <p id="qtycases-modal-current" style="font-size:13.5px;color:var(--steel);margin-bottom:16px;"></p>
     <div class="field-lg">
-      <label for="qtycases-modal-input">Correct number of cases on hand</label>
+      <label for="qtycases-modal-input" id="qtycases-modal-label">Correct number of cases on hand</label>
       <input type="number" id="qtycases-modal-input" min="0" step="1" placeholder="e.g. 28" oninput="updateQtyByCasesPreview()">
     </div>
     <p id="qtycases-modal-preview" style="font-size:13px;color:var(--concrete);margin-top:-10px;margin-bottom:16px;"></p>
@@ -1074,7 +1074,7 @@ function renderInventory(){
         <button class="icon-btn" onclick="openCoverageModal('${item.id}')">Coverage</button>
         <button class="icon-btn" onclick="openBrandModal('${item.id}')">Brand</button>
         <button class="icon-btn" onclick="openUnitModal('${item.id}')">Unit</button>
-        ${(item.coverage && item.coverage > 0) ? `<button class="icon-btn" onclick="openQtyByCasesModal('${item.id}')">Qty by cases</button>` : ''}
+        ${(item.coverage && item.coverage > 0) ? `<button class="icon-btn" onclick="openQtyByCasesModal('${item.id}')">Qty by ${item.category === 'Shingles' ? 'bundles' : 'cases'}</button>` : ''}
         <button class="icon-btn danger" onclick="deleteItem('${item.id}')">Delete</button>
       </td>
     </tr>`;
@@ -1372,10 +1372,12 @@ function openQtyByCasesModal(id){
   const item = inventory.find(i=>i.id===id);
   if(!item || !item.coverage) return;
   editingQtyByCasesId = id;
+  const packLabel = item.category === 'Shingles' ? 'bundle' : 'case';
   const currentCases = Math.round(item.qty / item.coverage);
-  document.getElementById('qtycases-modal-title').textContent = 'Quantity by cases — ' + item.name;
+  document.getElementById('qtycases-modal-title').textContent = 'Quantity by ' + packLabel + 's — ' + item.name;
+  document.getElementById('qtycases-modal-label').textContent = 'Correct number of ' + packLabel + 's on hand';
   document.getElementById('qtycases-modal-current').textContent =
-    'Currently ' + item.qty + ' ' + item.unit + ' on hand (about ' + currentCases + ' case' + (currentCases === 1 ? '' : 's') + ' at ' + item.coverage + ' ' + item.unit + '/case).';
+    'Currently ' + item.qty + ' ' + item.unit + ' on hand (about ' + currentCases + ' ' + packLabel + (currentCases === 1 ? '' : 's') + ' at ' + item.coverage + ' ' + item.unit + '/' + packLabel + ').';
   document.getElementById('qtycases-modal-input').value = currentCases;
   document.getElementById('qtycases-modal-preview').textContent = '';
   document.getElementById('qtycases-modal').classList.add('open');
@@ -1404,8 +1406,9 @@ async function saveQtyByCasesModal(){
   const item = inventory.find(i=>i.id===editingQtyByCasesId);
   if(!item) return;
   const cases = parseFloat(document.getElementById('qtycases-modal-input').value);
+  const packLabel = item.category === 'Shingles' ? 'bundle' : 'case';
   if(isNaN(cases) || cases < 0){
-    showToast('Enter a valid case count.', true);
+    showToast('Enter a valid ' + packLabel + ' count.', true);
     return;
   }
   const newQty = Math.round(cases * item.coverage);

@@ -810,7 +810,7 @@
       ${(item.coverage && item.coverage > 0) ? `<div class="pd-box-price">$${(item.price*item.coverage).toFixed(2)} per ${item.category === 'Shingles' ? 'bundle' : 'box'} <span class="pd-unit">(${item.coverage} ${escapeHtml(item.unit)} per ${item.category === 'Shingles' ? 'bundle' : 'box'})</span></div>` : ''}
       <div class="pd-stock-row">
         <span class="stock-badge ${st.cls}"><span class="stock-dot"></span>${st.label}</span>
-        <span class="pd-qty">${(item.coverage && item.coverage > 0) ? Math.round(item.qty / item.coverage) + ' case' + (Math.round(item.qty / item.coverage) === 1 ? '' : 's') + ' on hand (' + item.qty + ' ' + escapeHtml(item.unit) + ')' : item.qty + ' ' + escapeHtml(item.unit) + ' on hand'}</span>
+        <span class="pd-qty">${(item.coverage && item.coverage > 0) ? Math.round(item.qty / item.coverage) + ' ' + (item.category === 'Shingles' ? 'bundle' : 'case') + (Math.round(item.qty / item.coverage) === 1 ? '' : 's') + ' on hand (' + item.qty + ' ' + escapeHtml(item.unit) + ')' : item.qty + ' ' + escapeHtml(item.unit) + ' on hand'}</span>
       </div>
       ${calculator}
       <a href="index.html#quote" class="btn-primary pd-quote-btn" onclick="closeProductDetail();openQuoteRequest();return false;">Request a quote</a>
