@@ -512,6 +512,7 @@
             <select id="ai-unit">
               <option>each</option>
               <option>sq ft</option>
+              <option>sq</option>
               <option>linear ft</option>
               <option>box</option>
               <option>bundle</option>
@@ -784,6 +785,7 @@
       <select id="unit-modal-select">
         <option>each</option>
         <option>sq ft</option>
+        <option>sq</option>
         <option>linear ft</option>
         <option>box</option>
         <option>bundle</option>
@@ -1059,7 +1061,7 @@ function renderInventory(){
       <td class="mono">
         $<input type="number" class="qty-input" style="width:76px;" value="${item.price.toFixed(2)}" step="0.01" min="0"
           onchange="updatePrice('${item.id}', this.value)"> / ${escapeHtml(item.unit)}
-        ${(item.coverage && item.coverage > 0) ? `<div style="font-size:11px;color:var(--concrete);margin-top:4px;">$${(item.price*item.coverage).toFixed(2)} / box (${item.coverage} ${escapeHtml(item.unit)})</div>` : ''}
+        ${(item.coverage && item.coverage > 0) ? `<div style="font-size:11px;color:var(--concrete);margin-top:4px;">$${(item.price*item.coverage).toFixed(2)} / ${item.category === 'Shingles' ? 'bundle' : 'box'} (${item.coverage} ${escapeHtml(item.unit)})</div>` : ''}
       </td>
       <td>
         <input type="number" class="qty-input" value="${item.qty}" min="0" step="1"

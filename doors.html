@@ -807,7 +807,7 @@
       <h3 class="pd-title">${escapeHtml(item.name)}</h3>
       ${item.spec ? '<p class="pd-desc">'+escapeHtml(item.spec)+'</p>' : ''}
       <div class="pd-price">$${item.price.toFixed(2)} <span class="pd-unit">/ ${escapeHtml(item.unit)}</span></div>
-      ${(item.coverage && item.coverage > 0) ? `<div class="pd-box-price">$${(item.price*item.coverage).toFixed(2)} per box <span class="pd-unit">(${item.coverage} ${escapeHtml(item.unit)} per box)</span></div>` : ''}
+      ${(item.coverage && item.coverage > 0) ? `<div class="pd-box-price">$${(item.price*item.coverage).toFixed(2)} per ${item.category === 'Shingles' ? 'bundle' : 'box'} <span class="pd-unit">(${item.coverage} ${escapeHtml(item.unit)} per ${item.category === 'Shingles' ? 'bundle' : 'box'})</span></div>` : ''}
       <div class="pd-stock-row">
         <span class="stock-badge ${st.cls}"><span class="stock-dot"></span>${st.label}</span>
         <span class="pd-qty">${(item.coverage && item.coverage > 0) ? Math.round(item.qty / item.coverage) + ' case' + (Math.round(item.qty / item.coverage) === 1 ? '' : 's') + ' on hand (' + item.qty + ' ' + escapeHtml(item.unit) + ')' : item.qty + ' ' + escapeHtml(item.unit) + ' on hand'}</span>
@@ -886,7 +886,7 @@
         ${thumbs}
         ${item.brand ? '<div class="prod-brand">'+escapeHtml(item.brand)+'</div>' : ''}
         <div class="prod-top"><h3>${escapeHtml(item.name)}</h3><div class="prod-price mono">$${item.price.toFixed(2)} / ${escapeHtml(item.unit)}</div></div>
-        ${(item.coverage && item.coverage > 0) ? `<div class="prod-box-price mono">$${(item.price*item.coverage).toFixed(2)} / box (${item.coverage} ${escapeHtml(item.unit)})</div>` : ''}
+        ${(item.coverage && item.coverage > 0) ? `<div class="prod-box-price mono">$${(item.price*item.coverage).toFixed(2)} / ${item.category === 'Shingles' ? 'bundle' : 'box'} (${item.coverage} ${escapeHtml(item.unit)})</div>` : ''}
         <div class="prod-sku">${escapeHtml(item.sku)}</div>
         ${item.spec ? '<p>'+escapeHtml(item.spec)+'</p>' : ''}
         <span class="stock-badge ${st.cls}"><span class="stock-dot"></span>${st.label}</span>
