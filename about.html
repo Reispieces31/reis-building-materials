@@ -307,6 +307,10 @@
   .qr-add-line:hover{border-color:var(--rust);color:var(--rust);}
   .qr-submit-row{display:flex;gap:12px;margin-top:26px;}
   .qr-error{color:var(--rust);font-family:'IBM Plex Mono',monospace;font-size:12px;margin-top:4px;min-height:16px;}
+  .qr-terms{display:flex;align-items:flex-start;gap:9px;margin-bottom:14px;}
+  .qr-terms input{margin-top:3px;flex:none;width:16px;height:16px;accent-color:var(--rust);cursor:pointer;}
+  .qr-terms label{font-size:13px;color:var(--steel);line-height:1.5;cursor:pointer;}
+  .qr-terms a{color:var(--rust);text-decoration:underline;}
   .qr-success{text-align:center;padding:30px 10px;}
   .qr-success h3{font-size:26px;margin-bottom:12px;}
   .qr-success p{color:var(--steel);font-size:14.5px;}
@@ -500,6 +504,10 @@
         <button type="button" class="qr-add-line" onclick="qrAddLine()">+ Add another item</button>
       </div>
 
+      <div class="qr-terms">
+        <input type="checkbox" id="qr-terms-check">
+        <label for="qr-terms-check">I agree to the <a href="legal.html" target="_blank" rel="noopener">Terms of Service &amp; Privacy Policy</a>.</label>
+      </div>
       <div id="qr-turnstile" style="margin-bottom:14px;"></div>
       <div class="qr-error" id="qr-error"></div>
       <div class="qr-submit-row">
@@ -577,6 +585,10 @@
         <input type="text" id="ta-website" name="website" tabindex="-1" autocomplete="off">
       </div>
 
+      <div class="qr-terms">
+        <input type="checkbox" id="ta-terms-check">
+        <label for="ta-terms-check">I agree to the <a href="legal.html" target="_blank" rel="noopener">Terms of Service &amp; Privacy Policy</a>.</label>
+      </div>
       <div id="ta-turnstile" style="margin-bottom:14px;"></div>
       <div class="qr-error" id="ta-error"></div>
       <div class="qr-submit-row">
@@ -614,6 +626,7 @@
       <div>
         <h4>Company</h4>
         <a href="about.html">About</a>
+        <a href="faq.html">FAQ</a>
         <a href="index.html#process">How it works</a>
         <a href="#" onclick="openQuoteRequest();return false;">Request a quote</a>
       </div>
@@ -836,6 +849,7 @@
     if(!email){ errorEl.textContent = 'Enter your email.'; return; }
     if(!emailPattern.test(email)){ errorEl.textContent = 'Enter a valid email address.'; return; }
     if(!phone){ errorEl.textContent = 'Enter your phone number.'; return; }
+    if(!document.getElementById('qr-terms-check').checked){ errorEl.textContent = 'Please agree to the Terms of Service & Privacy Policy.'; return; }
 
     const inventory = await loadInventory();
     const items = qrLines
@@ -887,6 +901,7 @@
 
     ['qr-name','qr-phone','qr-email','qr-address'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('qr-pref').selectedIndex = 0;
+    document.getElementById('qr-terms-check').checked = false;
     qrLines = [];
   };
 })();
@@ -936,6 +951,7 @@
     if(!email){ errorEl.textContent = 'Enter your email.'; return; }
     if(!emailPattern.test(email)){ errorEl.textContent = 'Enter a valid email address.'; return; }
     if(!phone){ errorEl.textContent = 'Enter your phone number.'; return; }
+    if(!document.getElementById('ta-terms-check').checked){ errorEl.textContent = 'Please agree to the Terms of Service & Privacy Policy.'; return; }
 
     const taToken = (typeof turnstile !== 'undefined') ? turnstile.getResponse(taTurnstileWidgetId) : null;
     if(!taToken){
@@ -974,6 +990,7 @@
     ['ta-business','ta-contact','ta-email','ta-phone','ta-notes'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('ta-type').selectedIndex = 0;
     document.getElementById('ta-volume').selectedIndex = 0;
+    document.getElementById('ta-terms-check').checked = false;
   };
 })();
 </script>
