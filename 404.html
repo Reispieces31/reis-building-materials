@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Not Found — Reis Building Materials</title>
+<meta name="robots" content="noindex, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal:#1F1D1B;
+    --concrete:#8B8680;
+    --offwhite:#EDEAE3;
+    --rust:#B5502A;
+    --steel:#3D4A52;
+    --line: rgba(31,29,27,0.15);
+    --line-dark: rgba(237,234,227,0.18);
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--charcoal);color:var(--offwhite);
+    font-family:'Inter',sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;
+    min-height:100vh;display:flex;flex-direction:column;
+  }
+  a{color:inherit;text-decoration:none;}
+  header{padding:24px 32px;}
+  .logo{
+    font-family:'Archivo Black',sans-serif;font-size:19px;letter-spacing:-0.01em;
+    display:flex;align-items:center;gap:10px;width:fit-content;
+  }
+  .logo .dot{width:9px;height:9px;background:var(--rust);flex:none;border-radius:1px;}
+
+  main{
+    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:40px 24px 80px;
+  }
+  .code{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;
+    font-size:clamp(90px,18vw,180px);line-height:0.9;color:var(--rust);
+    letter-spacing:0.02em;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:0.12em;
+    color:var(--concrete);text-transform:uppercase;margin-top:8px;
+  }
+  h1{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;
+    font-size:clamp(26px,4vw,38px);margin-top:22px;letter-spacing:0.01em;
+  }
+  p.sub{
+    margin-top:14px;font-size:16px;color:var(--concrete);max-width:44ch;
+  }
+  .actions{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;justify-content:center;}
+  .btn-primary{
+    background:var(--rust);color:var(--offwhite);padding:15px 26px;
+    font-size:13.5px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;
+    border:1px solid var(--rust);border-radius:3px;
+    transition:background 0.25s var(--ease), color 0.25s var(--ease), transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  }
+  .btn-primary:hover{background:transparent;color:var(--rust);transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,0.3);}
+  .btn-ghost{
+    padding:15px 26px;font-size:13.5px;font-weight:600;letter-spacing:0.05em;
+    text-transform:uppercase;border:1px solid var(--line-dark);color:var(--offwhite);border-radius:3px;
+    transition:border-color 0.25s var(--ease), transform 0.25s var(--ease);
+  }
+  .btn-ghost:hover{border-color:var(--offwhite);transform:translateY(-2px);}
+
+  .quicklinks{
+    margin-top:56px;padding-top:40px;border-top:1px solid var(--line-dark);
+    width:100%;max-width:640px;
+  }
+  .quicklinks-label{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;
+    text-transform:uppercase;color:var(--concrete);margin-bottom:18px;
+  }
+  .quicklinks-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-dark);
+    border:1px solid var(--line-dark);
+  }
+  .quicklinks-grid a{
+    background:var(--charcoal);padding:16px 12px;font-size:13.5px;font-weight:600;
+    transition:background 0.2s var(--ease), color 0.2s var(--ease);
+  }
+  .quicklinks-grid a:hover{background:rgba(181,80,42,0.15);color:var(--rust);}
+
+  footer{padding:24px 32px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--concrete);}
+  footer a{color:var(--concrete);transition:color 0.2s var(--ease);}
+  footer a:hover{color:var(--offwhite);}
+
+  @media (max-width:640px){
+    .quicklinks-grid{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo"><span class="dot"></span>REIS BUILDING MATERIALS</a>
+</header>
+
+<main>
+  <div class="code">404</div>
+  <div class="eyebrow">Page not found</div>
+  <h1>That page isn't in stock.</h1>
+  <p class="sub">The link you followed might be broken, or the page may have moved. Let's get you back on track.</p>
+
+  <div class="actions">
+    <a href="/" class="btn-primary">Back to homepage</a>
+    <a href="/#materials" class="btn-ghost">Browse materials</a>
+  </div>
+
+  <div class="quicklinks">
+    <div class="quicklinks-label">Or jump straight to a category</div>
+    <div class="quicklinks-grid">
+      <a href="/flooring.html">Flooring</a>
+      <a href="/doors.html">Doors</a>
+      <a href="/windows.html">Windows</a>
+      <a href="/vanities.html">Vanities</a>
+      <a href="/shingles.html">Shingles</a>
+      <a href="/toilets.html">Toilets</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <span>&copy; 2026 Reis Building Materials</span>
+  &nbsp;·&nbsp;
+  <a href="tel:+17322211925">732-221-1925</a>
+</footer>
+
+</body>
+</html>
