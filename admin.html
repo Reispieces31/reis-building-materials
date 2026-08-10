@@ -535,7 +535,14 @@
         </div>
         <div class="field-lg">
           <label for="ai-coverage">Coverage per box, in sq ft (optional — powers the flooring calculator)</label>
-          <input type="number" id="ai-coverage" min="0" step="0.1" placeholder="e.g. 20">
+          <input type="number" id="ai-coverage" min="0" step="0.1" placeholder="e.g. 20" oninput="applyCasesToQty()">
+        </div>
+        <div class="field-lg" style="background:#F5F1E9;border-left:3px solid var(--rust);padding:14px 16px;">
+          <label for="ai-cases-helper" style="margin-bottom:6px;display:block;">Know the case count instead of sq ft? Fill in coverage above, then enter cases here:</label>
+          <div style="display:flex;gap:10px;align-items:center;">
+            <input type="number" id="ai-cases-helper" min="0" step="1" placeholder="e.g. 28 cases" style="flex:1;" oninput="applyCasesToQty()">
+            <span style="font-size:12.5px;color:var(--steel);white-space:nowrap;">&rarr; fills Quantity in stock above</span>
+          </div>
         </div>
         <div class="field-lg">
           <label for="ai-spec">Spec notes (optional)</label>
@@ -1092,6 +1099,13 @@ async function deleteItem(id){
 /* ============================================================
    ADD ITEM VIEW
    ============================================================ */
+function applyCasesToQty(){
+  const cases = parseFloat(document.getElementById('ai-cases-helper').value);
+  const coverage = parseFloat(document.getElementById('ai-coverage').value);
+  if(!cases || !coverage) return;
+  document.getElementById('ai-qty').value = Math.round(cases * coverage);
+}
+
 function genSku(category, name){
   const prefix = (category||'GEN').slice(0,3).toUpperCase();
   const namePart = (name||'ITM').replace(/[^a-zA-Z0-9]/g,'').slice(0,4).toUpperCase();
@@ -1454,7 +1468,7 @@ async function addItem(){
 }
 
 function clearAddForm(){
-  ['ai-name','ai-sku','ai-price','ai-qty','ai-spec','ai-image-url','ai-coverage','ai-brand'].forEach(id=>document.getElementById(id).value='');
+  ['ai-name','ai-sku','ai-price','ai-qty','ai-spec','ai-image-url','ai-coverage','ai-brand','ai-cases-helper'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('ai-reorder').value = 10;
   document.getElementById('ai-category').selectedIndex = 0;
   document.getElementById('ai-unit').selectedIndex = 0;
