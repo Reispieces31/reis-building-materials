@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Catalog", "item": "https://reisbuildingmaterials.com/"},
+    {"@type": "ListItem", "position": 2, "name": "Materials", "item": "https://reisbuildingmaterials.com/#materials"},
+    {"@type": "ListItem", "position": 3, "name": "Doors", "item": "https://reisbuildingmaterials.com/doors.html"}
+  ]
+}
+</script>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script data-goatcounter="https://reisbuildingmaterials.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -810,7 +821,7 @@
       ${(item.coverage && item.coverage > 0) ? `<div class="pd-box-price">$${(item.price*item.coverage).toFixed(2)} per ${item.category === 'Shingles' ? 'bundle' : 'box'} <span class="pd-unit">(${item.coverage} ${escapeHtml(item.unit)} per ${item.category === 'Shingles' ? 'bundle' : 'box'})</span></div>` : ''}
       <div class="pd-stock-row">
         <span class="stock-badge ${st.cls}"><span class="stock-dot"></span>${st.label}</span>
-        <span class="pd-qty">${(item.coverage && item.coverage > 0) ? Math.round(item.qty / item.coverage) + ' ' + (item.category === 'Shingles' ? 'bundle' : 'case') + (Math.round(item.qty / item.coverage) === 1 ? '' : 's') + ' on hand (' + item.qty + ' ' + escapeHtml(item.unit) + ')' : item.qty + ' ' + escapeHtml(item.unit) + ' on hand'}</span>
+        <span class="pd-qty">${(item.coverage && item.coverage > 0) ? Math.round(item.qty / item.coverage) + ' ' + (item.category === 'Shingles' ? 'bundle' : 'case') + (Math.round(item.qty / item.coverage) === 1 ? '' : 's') + ' on hand' + (item.category === 'Shingles' ? '' : ' (' + item.qty + ' ' + escapeHtml(item.unit) + ')') : item.qty + ' ' + escapeHtml(item.unit) + ' on hand'}</span>
       </div>
       ${calculator}
       <a href="index.html#quote" class="btn-primary pd-quote-btn" onclick="closeProductDetail();openQuoteRequest();return false;">Request a quote</a>
@@ -896,6 +907,29 @@
     inventory.forEach((item, idx) => {
       window['__swapPhoto_'+idx] = (src) => swapPhoto('prod-photo-'+idx, src);
     });
+
+    const existingSchema = document.getElementById('product-schema');
+    if(existingSchema) existingSchema.remove();
+    const schemaScript = document.createElement('script');
+    schemaScript.type = 'application/ld+json';
+    schemaScript.id = 'product-schema';
+    schemaScript.textContent = JSON.stringify(inventory.map(item => ({
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: item.name,
+      sku: item.sku,
+      ...(item.brand ? { brand: { '@type': 'Brand', name: item.brand } } : {}),
+      ...(item.spec ? { description: item.spec } : {}),
+      ...(item.images && item.images.length ? { image: item.images[0] } : {}),
+      offers: {
+        '@type': 'Offer',
+        price: item.price.toFixed(2),
+        priceCurrency: 'USD',
+        availability: item.qty > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+        url: window.location.origin + window.location.pathname + '?item=' + item.id
+      }
+    })));
+    document.head.appendChild(schemaScript);
 
     observeReveals();
 
