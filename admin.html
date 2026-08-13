@@ -1660,15 +1660,20 @@ function renderLineItems(){
     const hasCoverage = item.coverage && item.coverage > 0;
     const packLabel = item.category === 'Shingles' ? 'bundle' : 'case';
     const displayQty = hasCoverage ? Math.round(li.qty / item.coverage) : li.qty;
-    const displayPrice = hasCoverage ? (item.price * item.coverage) : item.price;
+    const normalPrice = hasCoverage ? (item.price * item.coverage) : item.price;
     const displayUnit = hasCoverage ? packLabel : item.unit;
-    const lineTotal = (item.price * li.qty).toFixed(2);
+    const isOverridden = li.priceOverride != null;
+    const effectivePrice = isOverridden ? li.priceOverride : normalPrice;
+    const lineTotal = (effectivePrice * displayQty).toFixed(2);
     return `<div class="line-item-row" data-key="${li.key}">
       <select onchange="setLineInv('${li.key}', this.value)">
         ${grouped.map(g => `<optgroup label="${escapeHtml(g.category)}">${g.items.map(i=>`<option value="${i.id}" ${i.id===li.invId?'selected':''}>${escapeHtml(i.name)} (${escapeHtml(i.sku)})</option>`).join('')}</optgroup>`).join('')}
       </select>
       <input type="number" min="1" step="1" value="${displayQty}" onchange="setLineQty('${li.key}', this.value)">
-      <input type="text" class="mono" value="$${displayPrice.toFixed(2)} / ${escapeHtml(displayUnit)}" disabled style="background:var(--offwhite);color:var(--steel);">
+      <div style="display:flex;align-items:center;gap:4px;">
+        <input type="number" min="0" step="0.01" class="mono" value="${effectivePrice.toFixed(2)}" onchange="setLinePrice('${li.key}', this.value)" style="${isOverridden ? 'border-color:var(--rust);color:var(--rust);font-weight:600;' : ''}" title="${isOverridden ? 'Custom price for this quote — clear to use the normal price' : 'Override this price for this quote only'}">
+        <span style="font-size:11px;color:var(--concrete);white-space:nowrap;">/${escapeHtml(displayUnit)}</span>
+      </div>
       <div class="line-total">$${lineTotal}</div>
       <button class="remove-line" onclick="removeLineItem('${li.key}')" aria-label="Remove line">×</button>
     </div>`;
@@ -1676,7 +1681,7 @@ function renderLineItems(){
 }
 function setLineInv(key, invId){
   const li = lineItems.find(l=>l.key===key);
-  if(li){ li.invId = invId; renderLineItems(); updateQuotePreview(); }
+  if(li){ li.invId = invId; li.priceOverride = null; renderLineItems(); updateQuotePreview(); }
 }
 function setLineQty(key, val){
   const li = lineItems.find(l=>l.key===key);
@@ -1685,6 +1690,21 @@ function setLineQty(key, val){
   const hasCoverage = item.coverage && item.coverage > 0;
   const entered = Math.max(1, parseInt(val)||1);
   li.qty = hasCoverage ? Math.round(entered * item.coverage) : entered;
+  renderLineItems();
+  updateQuotePreview();
+}
+function setLinePrice(key, val){
+  const li = lineItems.find(l=>l.key===key);
+  if(!li) return;
+  const item = inventory.find(i=>i.id===li.invId) || inventory[0];
+  const hasCoverage = item.coverage && item.coverage > 0;
+  const normalPrice = hasCoverage ? (item.price * item.coverage) : item.price;
+  const entered = parseFloat(val);
+  if(isNaN(entered) || entered < 0){
+    li.priceOverride = null;
+  } else {
+    li.priceOverride = Math.abs(entered - normalPrice) < 0.001 ? null : entered;
+  }
   renderLineItems();
   updateQuotePreview();
 }
@@ -1710,12 +1730,13 @@ function updateQuotePreview(){
   const rows = lineItems.map(li=>{
     const item = inventory.find(i=>i.id===li.invId);
     if(!item) return null;
-    const total = item.price * li.qty;
     const hasCoverage = item.coverage && item.coverage > 0;
     const packLabel = item.category === 'Shingles' ? 'bundle' : 'case';
     const displayQty = hasCoverage ? Math.round(li.qty / item.coverage) : li.qty;
-    const displayPrice = hasCoverage ? (item.price * item.coverage) : item.price;
+    const normalPrice = hasCoverage ? (item.price * item.coverage) : item.price;
     const displayUnit = hasCoverage ? packLabel : item.unit;
+    const displayPrice = li.priceOverride != null ? li.priceOverride : normalPrice;
+    const total = displayPrice * displayQty;
     return {name:item.name, sku:item.sku, unit:displayUnit, qty:displayQty, price:displayPrice, total};
   }).filter(Boolean);
 
@@ -1768,9 +1789,10 @@ function buildQuoteSummaryText(){
     const hasCoverage = item.coverage && item.coverage > 0;
     const packLabel = item.category === 'Shingles' ? 'bundle' : 'case';
     const displayQty = hasCoverage ? Math.round(li.qty / item.coverage) : li.qty;
-    const displayPrice = hasCoverage ? (item.price * item.coverage) : item.price;
+    const normalPrice = hasCoverage ? (item.price * item.coverage) : item.price;
     const displayUnit = hasCoverage ? packLabel : item.unit;
-    return {name:item.name, sku:item.sku, unit:displayUnit, qty:displayQty, price:displayPrice, total:item.price*li.qty};
+    const displayPrice = li.priceOverride != null ? li.priceOverride : normalPrice;
+    return {name:item.name, sku:item.sku, unit:displayUnit, qty:displayQty, price:displayPrice, total:displayPrice*displayQty};
   }).filter(Boolean);
 
   const subtotal = rows.reduce((s,r)=>s+r.total,0);
@@ -1825,9 +1847,10 @@ async function saveCurrentQuote(){
     const hasCoverage = item.coverage && item.coverage > 0;
     const packLabel = item.category === 'Shingles' ? 'bundle' : 'case';
     const displayQty = hasCoverage ? Math.round(li.qty / item.coverage) : li.qty;
-    const displayPrice = hasCoverage ? (item.price * item.coverage) : item.price;
+    const normalPrice = hasCoverage ? (item.price * item.coverage) : item.price;
     const displayUnit = hasCoverage ? packLabel : item.unit;
-    return {name:item.name, sku:item.sku, unit:displayUnit, qty:displayQty, price:displayPrice, total:item.price*li.qty};
+    const displayPrice = li.priceOverride != null ? li.priceOverride : normalPrice;
+    return {name:item.name, sku:item.sku, unit:displayUnit, qty:displayQty, price:displayPrice, total:displayPrice*displayQty};
   }).filter(Boolean);
 
   if(!customer){ showToast('Add a customer name before saving.', true); return; }
@@ -1992,7 +2015,9 @@ async function togglePaidStatus(id){
   quote.rows.forEach(row => {
     const item = inventory.find(i => i.sku.toLowerCase() === row.sku.toLowerCase());
     if(!item){ missing.push(row.sku); return; }
-    const newQty = markingPaid ? Math.max(0, item.qty - row.qty) : item.qty + row.qty;
+    const isPackRow = (row.unit === 'bundle' || row.unit === 'case') && item.coverage && item.coverage > 0;
+    const rawQty = isPackRow ? row.qty * item.coverage : row.qty;
+    const newQty = markingPaid ? Math.max(0, item.qty - rawQty) : item.qty + rawQty;
     changes.push({ item, newQty });
   });
 
@@ -2118,7 +2143,9 @@ function editQuote(id){
   lineItems = quote.rows.map(row => {
     const item = inventory.find(i => i.sku.toLowerCase() === row.sku.toLowerCase());
     if(!item){ missing++; return null; }
-    return {key:'li-'+Date.now()+Math.random(), invId:item.id, qty:row.qty};
+    const isPackRow = (row.unit === 'bundle' || row.unit === 'case') && item.coverage && item.coverage > 0;
+    const rawQty = isPackRow ? Math.round(row.qty * item.coverage) : row.qty;
+    return {key:'li-'+Date.now()+Math.random(), invId:item.id, qty:rawQty};
   }).filter(Boolean);
 
   if(lineItems.length === 0) addLineItem();
