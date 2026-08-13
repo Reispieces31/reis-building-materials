@@ -2016,7 +2016,7 @@ async function togglePaidStatus(id){
     const item = inventory.find(i => i.sku.toLowerCase() === row.sku.toLowerCase());
     if(!item){ missing.push(row.sku); return; }
     const isPackRow = (row.unit === 'bundle' || row.unit === 'case') && item.coverage && item.coverage > 0;
-    const rawQty = isPackRow ? row.qty * item.coverage : row.qty;
+    const rawQty = isPackRow ? Math.round(row.qty * item.coverage) : row.qty;
     const newQty = markingPaid ? Math.max(0, item.qty - rawQty) : item.qty + rawQty;
     changes.push({ item, newQty });
   });
