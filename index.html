@@ -596,11 +596,11 @@
   </div>
 </footer>
 
-<div class="qr-overlay" id="qr-overlay">
+<div class="qr-overlay" id="qr-overlay" role="dialog" aria-modal="true" aria-labelledby="qr-modal-title">
   <div class="qr-box">
     <div id="qr-form-state">
       <div class="qr-head">
-        <h3>Request a quote</h3>
+        <h3 id="qr-modal-title">Request a quote</h3>
         <button class="qr-close" onclick="closeQuoteRequest()" aria-label="Close">&times;</button>
       </div>
       <p class="qr-sub">Tell us what you need and how to reach you — we'll get pricing back to you the same day.</p>
@@ -765,6 +765,12 @@
     if(e.key === 'Escape'){
       const resultsEl = document.getElementById('site-search-results');
       if(resultsEl) resultsEl.classList.remove('open');
+      const pdOverlay = document.getElementById('pd-overlay');
+      if(pdOverlay) pdOverlay.classList.remove('open');
+      const qrOverlay = document.getElementById('qr-overlay');
+      if(qrOverlay) qrOverlay.classList.remove('open');
+      const taOverlay = document.getElementById('ta-overlay');
+      if(taOverlay) taOverlay.classList.remove('open');
     }
   });
 

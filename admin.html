@@ -665,6 +665,7 @@
           <h2>Quote history</h2>
           <p>Every quote saved from this browser.</p>
         </div>
+        <button class="btn-outline btn-sm" onclick="migrateQuotesToCases()">Update old quotes to cases/bundles</button>
       </div>
       <div id="history-list"></div>
     </section>
@@ -1656,13 +1657,18 @@ function renderLineItems(){
   const grouped = groupByCategory(inventory);
   wrap.innerHTML = lineItems.map(li=>{
     const item = inventory.find(i=>i.id===li.invId) || inventory[0];
+    const hasCoverage = item.coverage && item.coverage > 0;
+    const packLabel = item.category === 'Shingles' ? 'bundle' : 'case';
+    const displayQty = hasCoverage ? Math.round(li.qty / item.coverage) : li.qty;
+    const displayPrice = hasCoverage ? (item.price * item.coverage) : item.price;
+    const displayUnit = hasCoverage ? packLabel : item.unit;
     const lineTotal = (item.price * li.qty).toFixed(2);
     return `<div class="line-item-row" data-key="${li.key}">
       <select onchange="setLineInv('${li.key}', this.value)">
         ${grouped.map(g => `<optgroup label="${escapeHtml(g.category)}">${g.items.map(i=>`<option value="${i.id}" ${i.id===li.invId?'selected':''}>${escapeHtml(i.name)} (${escapeHtml(i.sku)})</option>`).join('')}</optgroup>`).join('')}
       </select>
-      <input type="number" min="1" step="1" value="${li.qty}" onchange="setLineQty('${li.key}', this.value)">
-      <input type="text" class="mono" value="$${item.price.toFixed(2)} / ${escapeHtml(item.unit)}" disabled style="background:var(--offwhite);color:var(--steel);">
+      <input type="number" min="1" step="1" value="${displayQty}" onchange="setLineQty('${li.key}', this.value)">
+      <input type="text" class="mono" value="$${displayPrice.toFixed(2)} / ${escapeHtml(displayUnit)}" disabled style="background:var(--offwhite);color:var(--steel);">
       <div class="line-total">$${lineTotal}</div>
       <button class="remove-line" onclick="removeLineItem('${li.key}')" aria-label="Remove line">×</button>
     </div>`;
@@ -1674,7 +1680,13 @@ function setLineInv(key, invId){
 }
 function setLineQty(key, val){
   const li = lineItems.find(l=>l.key===key);
-  if(li){ li.qty = Math.max(1, parseInt(val)||1); renderLineItems(); updateQuotePreview(); }
+  if(!li) return;
+  const item = inventory.find(i=>i.id===li.invId) || inventory[0];
+  const hasCoverage = item.coverage && item.coverage > 0;
+  const entered = Math.max(1, parseInt(val)||1);
+  li.qty = hasCoverage ? Math.round(entered * item.coverage) : entered;
+  renderLineItems();
+  updateQuotePreview();
 }
 function refreshLineItemOptions(){
   renderLineItems();
@@ -1699,7 +1711,12 @@ function updateQuotePreview(){
     const item = inventory.find(i=>i.id===li.invId);
     if(!item) return null;
     const total = item.price * li.qty;
-    return {name:item.name, sku:item.sku, unit:item.unit, qty:li.qty, price:item.price, total};
+    const hasCoverage = item.coverage && item.coverage > 0;
+    const packLabel = item.category === 'Shingles' ? 'bundle' : 'case';
+    const displayQty = hasCoverage ? Math.round(li.qty / item.coverage) : li.qty;
+    const displayPrice = hasCoverage ? (item.price * item.coverage) : item.price;
+    const displayUnit = hasCoverage ? packLabel : item.unit;
+    return {name:item.name, sku:item.sku, unit:displayUnit, qty:displayQty, price:displayPrice, total};
   }).filter(Boolean);
 
   const subtotal = rows.reduce((s,r)=>s+r.total,0);
@@ -1748,7 +1765,12 @@ function buildQuoteSummaryText(){
   const rows = lineItems.map(li=>{
     const item = inventory.find(i=>i.id===li.invId);
     if(!item) return null;
-    return {name:item.name, sku:item.sku, unit:item.unit, qty:li.qty, price:item.price, total:item.price*li.qty};
+    const hasCoverage = item.coverage && item.coverage > 0;
+    const packLabel = item.category === 'Shingles' ? 'bundle' : 'case';
+    const displayQty = hasCoverage ? Math.round(li.qty / item.coverage) : li.qty;
+    const displayPrice = hasCoverage ? (item.price * item.coverage) : item.price;
+    const displayUnit = hasCoverage ? packLabel : item.unit;
+    return {name:item.name, sku:item.sku, unit:displayUnit, qty:displayQty, price:displayPrice, total:item.price*li.qty};
   }).filter(Boolean);
 
   const subtotal = rows.reduce((s,r)=>s+r.total,0);
@@ -1800,7 +1822,12 @@ async function saveCurrentQuote(){
   const rows = lineItems.map(li=>{
     const item = inventory.find(i=>i.id===li.invId);
     if(!item) return null;
-    return {name:item.name, sku:item.sku, unit:item.unit, qty:li.qty, price:item.price, total:item.price*li.qty};
+    const hasCoverage = item.coverage && item.coverage > 0;
+    const packLabel = item.category === 'Shingles' ? 'bundle' : 'case';
+    const displayQty = hasCoverage ? Math.round(li.qty / item.coverage) : li.qty;
+    const displayPrice = hasCoverage ? (item.price * item.coverage) : item.price;
+    const displayUnit = hasCoverage ? packLabel : item.unit;
+    return {name:item.name, sku:item.sku, unit:displayUnit, qty:displayQty, price:displayPrice, total:item.price*li.qty};
   }).filter(Boolean);
 
   if(!customer){ showToast('Add a customer name before saving.', true); return; }
@@ -2175,6 +2202,48 @@ function downloadFile(filename, content, mimeType){
 /* ============================================================
    ONE-TIME MIGRATION FROM OLD BROWSER-STORAGE VERSION
    ============================================================ */
+async function migrateQuotesToCases(){
+  const eligibleQuotes = quotes.filter(q =>
+    q.rows.some(r => {
+      const item = inventory.find(i => i.sku.toLowerCase() === r.sku.toLowerCase());
+      return item && item.coverage && item.coverage > 0 && r.unit !== 'bundle' && r.unit !== 'case';
+    })
+  );
+
+  if(eligibleQuotes.length === 0){
+    showToast('No saved quotes need updating — everything already reflects case/bundle pricing where it applies.');
+    return;
+  }
+
+  if(!confirm('Update ' + eligibleQuotes.length + ' saved quote(s) to show case/bundle pricing instead of raw units? Totals stay exactly the same — this only changes how quantity and unit price are displayed.')) return;
+
+  let updated = 0, unchanged = 0, failed = 0;
+
+  for(const quote of eligibleQuotes){
+    const newRows = quote.rows.map(r => {
+      const item = inventory.find(i => i.sku.toLowerCase() === r.sku.toLowerCase());
+      if(!item || !item.coverage || item.coverage <= 0) return r;
+      if(r.unit === 'bundle' || r.unit === 'case') return r;
+
+      const packLabel = item.category === 'Shingles' ? 'bundle' : 'case';
+      const displayQty = Math.round(r.qty / item.coverage);
+      const displayPrice = r.price * item.coverage;
+      return { ...r, unit: packLabel, qty: displayQty, price: displayPrice };
+    });
+
+    const ok = await updateQuote(quote.id, { rows: newRows });
+    if(ok){ quote.rows = newRows; updated++; } else { failed++; }
+  }
+
+  renderHistory();
+  showToast(
+    failed > 0
+      ? `Updated ${updated} quote(s), ${failed} failed — you can run this again to retry.`
+      : `Updated ${updated} quote(s) to show case/bundle pricing.`,
+    failed > 0
+  );
+}
+
 async function migrateOldBrowserData(){
   const oldInventory = JSON.parse(localStorage.getItem('reis_inventory_v1') || '[]');
   const oldQuotes = JSON.parse(localStorage.getItem('reis_quotes_v1') || '[]');

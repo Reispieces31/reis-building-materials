@@ -385,7 +385,7 @@
   </div>
 </section>
 
-<div class="pd-overlay" id="pd-overlay" onclick="if(event.target===this) closeProductDetail()">
+<div class="pd-overlay" id="pd-overlay" role="dialog" aria-modal="true" aria-label="Product details" onclick="if(event.target===this) closeProductDetail()">
   <div class="pd-box">
     <button class="pd-close" onclick="closeProductDetail()" aria-label="Close">&times;</button>
     <div id="pd-content"></div>
@@ -432,11 +432,11 @@
   </div>
 </footer>
 
-<div class="qr-overlay" id="qr-overlay">
+<div class="qr-overlay" id="qr-overlay" role="dialog" aria-modal="true" aria-labelledby="qr-modal-title">
   <div class="qr-box">
     <div id="qr-form-state">
       <div class="qr-head">
-        <h3>Request a quote</h3>
+        <h3 id="qr-modal-title">Request a quote</h3>
         <button class="qr-close" onclick="closeQuoteRequest()" aria-label="Close">&times;</button>
       </div>
       <p class="qr-sub">Tell us what you need and how to reach you — we'll get pricing back to you the same day.</p>
@@ -597,7 +597,7 @@
     resultsEl.innerHTML = matches.map(item => {
       const slug = CATEGORY_SLUGS[item.category] || 'catalog';
       const img = (item.images && item.images.length)
-        ? `<img src="${item.images[0]}" class="ssr-thumb">`
+        ? `<img src="${item.images[0]}" class="ssr-thumb" alt="${escapeHtml(item.name)}">`
         : `<div class="ssr-thumb-placeholder"></div>`;
       return `<div class="ssr-item" data-href="${slug}.html?item=${item.id}">
         ${img}
@@ -623,6 +623,12 @@
     if(e.key === 'Escape'){
       const resultsEl = document.getElementById('site-search-results');
       if(resultsEl) resultsEl.classList.remove('open');
+      const pdOverlay = document.getElementById('pd-overlay');
+      if(pdOverlay) pdOverlay.classList.remove('open');
+      const qrOverlay = document.getElementById('qr-overlay');
+      if(qrOverlay) qrOverlay.classList.remove('open');
+      const taOverlay = document.getElementById('ta-overlay');
+      if(taOverlay) taOverlay.classList.remove('open');
     }
   });
 
@@ -798,10 +804,10 @@
     const st = statusFor(item);
     const imgs = item.images || [];
     const photo = imgs.length
-      ? `<img id="pd-main-photo" src="${imgs[0]}" class="pd-photo" onerror="this.outerHTML='<div class=&quot;pd-photo-placeholder&quot;>No photo yet</div>'">`
+      ? `<img id="pd-main-photo" src="${imgs[0]}" class="pd-photo" alt="${escapeHtml(item.name)}" onerror="this.outerHTML='<div class=&quot;pd-photo-placeholder&quot;>No photo yet</div>'">`
       : `<div class="pd-photo-placeholder">No photo yet</div>`;
     const thumbs = imgs.length > 1
-      ? `<div class="pd-thumbs">${imgs.map((src, i) => `<img src="${src}" class="pd-thumb${i===0?' active':''}" onclick="swapPdPhoto('${src.replace(/'/g,"\'")}', this)">`).join('')}</div>`
+      ? `<div class="pd-thumbs">${imgs.map((src, i) => `<img src="${src}" class="pd-thumb${i===0?' active':''}" alt="${escapeHtml(item.name)} photo ${i+1}" onclick="swapPdPhoto('${src.replace(/'/g,"\'")}', this)">`).join('')}</div>`
       : '';
     const coverage = (item.coverage !== null && item.coverage !== undefined && item.coverage > 0) ? item.coverage : 0;
     const boxPrice = coverage ? (item.price * coverage) : 0;
@@ -898,10 +904,10 @@
       const imgs = item.images || [];
       const mainId = 'prod-photo-'+idx;
       const photo = imgs.length
-        ? `<img id="${mainId}" src="${imgs[0]}" class="prod-photo" onerror="this.outerHTML='<div class=&quot;prod-photo-placeholder&quot;>No photo yet</div>'">`
+        ? `<img id="${mainId}" src="${imgs[0]}" class="prod-photo" alt="${escapeHtml(item.name)}" onerror="this.outerHTML='<div class=&quot;prod-photo-placeholder&quot;>No photo yet</div>'">`
         : `<div class="prod-photo-placeholder">No photo yet</div>`;
       const thumbs = imgs.length > 1
-        ? `<div class="prod-thumbs">${imgs.map(src => `<img src="${src}" class="prod-thumb" onclick="event.stopPropagation();window.__swapPhoto_${idx}('${src.replace(/'/g,"\'")}')">`).join('')}</div>`
+        ? `<div class="prod-thumbs">${imgs.map(src => `<img src="${src}" class="prod-thumb" alt="${escapeHtml(item.name)} thumbnail" onclick="event.stopPropagation();window.__swapPhoto_${idx}('${src.replace(/'/g,"\'")}')">`).join('')}</div>`
         : '';
       return `<div class="prod-card reveal" style="transition-delay:${Math.min(idx,6)*70}ms;" onclick="openProductDetail('${item.id}')">
         ${photo}
