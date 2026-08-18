@@ -237,6 +237,30 @@
   .foot-logo{font-family:'Archivo Black',sans-serif;font-size:19px;color:var(--offwhite);margin-bottom:14px;}
   .foot-bottom{display:flex;justify-content:space-between;padding-top:24px;font-size:12.5px;font-family:'IBM Plex Mono',monospace;color:var(--steel);flex-wrap:wrap;gap:8px;}
 
+  .print-header{display:none;}
+  @media print{
+    header, .breadcrumb, .cat-hero, footer, .qr-overlay, .pd-overlay, .site-search-results, .live-tag{display:none !important;}
+    body{background:#fff;color:#000;}
+    .print-header{
+      display:block !important;border-bottom:2px solid #000;padding-bottom:12px;margin-bottom:20px;
+    }
+    .print-header .biz-name{font-family:'Archivo Black',sans-serif;font-size:20px;color:#000;}
+    .print-header .cat-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;color:#333;margin-top:4px;text-transform:uppercase;}
+    .print-header .contact{font-size:12px;margin-top:6px;color:#333;}
+    main, .section, .wrap{padding:0 !important;margin:0 auto !important;max-width:100% !important;}
+    .prod-grid{display:block !important;grid-template-columns:none !important;background:#fff !important;border:none !important;margin-top:16px !important;}
+    .prod-card{
+      break-inside:avoid;border:none !important;border-bottom:1px solid #ccc !important;
+      border-radius:0 !important;padding:10px 4px !important;margin:0 !important;
+      box-shadow:none !important;transform:none !important;background:#fff !important;cursor:default;
+    }
+    .prod-photo, .prod-photo-placeholder, .prod-thumbs{display:none !important;}
+    .stock-badge{border:1px solid #000 !important;background:none !important;color:#000 !important;}
+    .stock-dot{background:#000 !important;}
+    a{color:#000 !important;text-decoration:none !important;}
+    .section-intro{display:none;}
+  }
+
   @media (max-width: 900px){
     .prod-grid{grid-template-columns:1fr;}
     .specstrip .wrap{grid-template-columns:repeat(2,1fr);}
@@ -353,6 +377,11 @@
 <section class="section">
   <div class="wrap">
     <h2>Stocked shingles, ready to pull.</h2>
+    <div class="print-header">
+      <div class="biz-name">REIS BUILDING MATERIALS</div>
+      <div class="cat-name">Shingles — Materials List</div>
+      <div class="contact">1420 Rahway Ave, Avenel, NJ 07001 &middot; 732-221-1925 &middot; reisbuildingmaterials.com</div>
+    </div>
     <p class="section-intro">Pulled live from warehouse inventory — pricing and stock reflect what's on hand right now.</p>
     <div class="live-tag">&#9679; Live from warehouse inventory</div>
     <div class="prod-grid" id="prod-grid" data-category="Shingles">
@@ -571,6 +600,12 @@
     'Vanities':'vanities', 'Shingles':'shingles', 'Toilets':'toilets'
   };
 
+  window.closeSearchAndOpenQuote = function(){
+    const resultsEl = document.getElementById('site-search-results');
+    if(resultsEl) resultsEl.classList.remove('open');
+    openQuoteRequest();
+  };
+
   window.performSiteSearch = async function(query){
     const resultsEl = document.getElementById('site-search-results');
     if(!resultsEl) return;
@@ -589,7 +624,7 @@
     ).slice(0, 8);
 
     if(matches.length === 0){
-      resultsEl.innerHTML = '<div class="ssr-empty">No products match "'+escapeHtml(query)+'".</div>';
+      resultsEl.innerHTML = '<div class="ssr-empty">No in-stock products match "'+escapeHtml(query)+'". <a href="#" onclick="closeSearchAndOpenQuote();return false;" style="color:var(--rust);text-decoration:underline;">Request a quote</a> and we\'ll check for you.</div>';
       resultsEl.classList.add('open');
       return;
     }
