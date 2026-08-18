@@ -723,7 +723,7 @@
       resultsEl.innerHTML = '';
       return;
     }
-    const inventory = await loadInventory();
+    const inventory = (await loadInventory()).filter(item => item.qty > 0);
     const matches = inventory.filter(item =>
       (item.name && item.name.toLowerCase().includes(q)) ||
       (item.sku && item.sku.toLowerCase().includes(q)) ||
@@ -814,7 +814,7 @@
 
   async function renderQrLines(){
     const wrap = document.getElementById('qr-line-items');
-    const inventory = await loadInventory();
+    const inventory = (await loadInventory()).filter(item => item.qty > 0);
     if(inventory.length === 0){
       wrap.innerHTML = '<p style="color:var(--concrete);font-size:13px;padding:10px 0;">No items available to select yet — describe what you need in the address field below and we\'ll follow up.</p>';
       return;
