@@ -1091,6 +1091,11 @@ async function init(){
       document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('view-'+btn.dataset.view).classList.add('active');
+      if(btn.dataset.view === 'quote'){
+        document.getElementById('low-stock-banner').style.display = 'none';
+      } else {
+        renderLowStockBanner();
+      }
     });
   });
 }
@@ -1987,6 +1992,7 @@ function textQuote(){
 }
 
 async function saveCurrentQuote(){
+  document.getElementById('low-stock-banner').style.display = 'none';
   const customer = document.getElementById('q-customer').value.trim();
   const contact = document.getElementById('q-contact').value.trim();
   const job = document.getElementById('q-job').value.trim();
@@ -2420,6 +2426,7 @@ function editQuote(id){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelector('.tab-btn[data-view="quote"]').classList.add('active');
   document.getElementById('view-quote').classList.add('active');
+  document.getElementById('low-stock-banner').style.display = 'none';
 }
 
 async function convertRequestToQuote(id){
@@ -2454,6 +2461,7 @@ async function convertRequestToQuote(id){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelector('.tab-btn[data-view="quote"]').classList.add('active');
   document.getElementById('view-quote').classList.add('active');
+  document.getElementById('low-stock-banner').style.display = 'none';
 
   showToast('Loaded ' + request.name + '\'s request into a new quote.' + (missing ? ' ('+missing+' item(s) no longer in inventory were skipped.)' : ''));
 }
