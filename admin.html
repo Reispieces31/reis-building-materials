@@ -648,7 +648,36 @@
               <span>Item</span><span>Qty</span><span>Unit price</span><span>Line total</span><span></span>
             </div>
             <div id="line-items"></div>
-            <button class="add-line-btn" onclick="addLineItem()">+ Add line item</button>
+            <div style="display:flex;gap:10px;">
+              <button class="add-line-btn" onclick="addLineItem()">+ Add line item</button>
+              <button class="add-line-btn" onclick="addCustomLineItem()">+ Add custom item (fee, delivery, etc.)</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:18px;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap;">
+              <input type="checkbox" id="discount-toggle" onchange="toggleDiscount(this.checked)" style="width:16px;height:16px;accent-color:var(--rust);cursor:pointer;">
+              <label for="discount-toggle" style="font-size:13.5px;color:var(--steel);cursor:pointer;">Apply discount</label>
+              <input type="number" id="discount-value-input" min="0" step="0.01" value="0" onchange="setDiscountValue(this.value)" style="width:80px;padding:6px 8px;border:1px solid var(--line);font-size:13px;" disabled>
+              <select id="discount-type-input" onchange="setDiscountType(this.value)" style="padding:6px 8px;border:1px solid var(--line);font-size:13px;" disabled>
+                <option value="percent">% off</option>
+                <option value="flat">$ off</option>
+              </select>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:12px;">
+              <input type="checkbox" id="tax-toggle" onchange="toggleTax(this.checked)" style="width:16px;height:16px;accent-color:var(--rust);cursor:pointer;">
+              <label for="tax-toggle" style="font-size:13.5px;color:var(--steel);cursor:pointer;">Apply NJ sales tax</label>
+              <input type="number" id="tax-rate-input" min="0" step="0.001" value="6.625" onchange="setTaxRate(this.value)" style="width:80px;padding:6px 8px;border:1px solid var(--line);font-size:13px;" disabled>
+              <span style="font-size:13px;color:var(--concrete);">%</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap;">
+              <label for="payment-terms-input" style="font-size:13.5px;color:var(--steel);">Payment terms</label>
+              <select id="payment-terms-input" onchange="setPaymentTerms(this.value)" style="padding:6px 8px;border:1px solid var(--line);font-size:13px;">
+                <option value="due_on_receipt">Due upon receipt</option>
+                <option value="net15">Net 15</option>
+                <option value="net30">Net 30</option>
+                <option value="net60">Net 60</option>
+                <option value="custom">Custom due date…</option>
+              </select>
+              <input type="date" id="custom-due-date-input" onchange="setCustomDueDate(this.value)" style="padding:6px 8px;border:1px solid var(--line);font-size:13px;display:none;">
+            </div>
           </div>
         </div>
 
@@ -742,11 +771,14 @@
   </table>
 
   <div class="inv-totals">
+    <div class="inv-total-row"><span>Subtotal</span><span id="inv-subtotal"></span></div>
+    <div class="inv-total-row" id="inv-discount-row" style="display:none;"><span id="inv-discount-label">Discount</span><span id="inv-discount-amount"></span></div>
+    <div class="inv-total-row" id="inv-tax-row" style="display:none;"><span id="inv-tax-label">NJ Sales Tax</span><span id="inv-tax-amount"></span></div>
     <div class="inv-total-row inv-grand"><span>Total Due</span><span id="inv-total"></span></div>
   </div>
 
   <div class="inv-footer">
-    <p>Thank you for your business — payment due upon receipt.</p>
+    <p id="inv-terms-line">Thank you for your business — payment due upon receipt.</p>
     <p>Questions about this invoice? Call 732-221-1925.</p>
   </div>
 </div>
@@ -978,6 +1010,13 @@ async function deleteQuoteRow(id){
 let inventory = [];
 let quotes = [];
 let lineItems = []; // {invId, qty, priceOverride}
+let taxEnabled = false;
+let taxRatePercent = 6.625;
+let discountEnabled = false;
+let discountType = 'percent'; // 'percent' or 'flat'
+let discountValue = 0;
+let paymentTerms = 'due_on_receipt';
+let customDueDate = '';
 
 /* ============================================================
    AUTH
@@ -1643,6 +1682,62 @@ function addLineItem(){
   renderLineItems();
   updateQuotePreview();
 }
+function addCustomLineItem(){
+  lineItems.push({key:'li-'+Date.now()+Math.random(), custom: true, description: '', qty: 1, price: 0});
+  renderLineItems();
+  updateQuotePreview();
+}
+function toggleTax(checked){
+  taxEnabled = checked;
+  document.getElementById('tax-rate-input').disabled = !checked;
+  updateQuotePreview();
+}
+function setTaxRate(val){
+  const parsed = parseFloat(val);
+  taxRatePercent = (isNaN(parsed) || parsed < 0) ? 0 : parsed;
+  updateQuotePreview();
+}
+function computeDiscountAmount(subtotal){
+  if(!discountEnabled || discountValue <= 0) return 0;
+  const raw = discountType === 'percent' ? subtotal * (discountValue / 100) : discountValue;
+  return Math.min(raw, subtotal);
+}
+function toggleDiscount(checked){
+  discountEnabled = checked;
+  document.getElementById('discount-value-input').disabled = !checked;
+  document.getElementById('discount-type-input').disabled = !checked;
+  updateQuotePreview();
+}
+function setDiscountType(val){
+  discountType = (val === 'flat') ? 'flat' : 'percent';
+  updateQuotePreview();
+}
+function setDiscountValue(val){
+  const parsed = parseFloat(val);
+  discountValue = (isNaN(parsed) || parsed < 0) ? 0 : parsed;
+  updateQuotePreview();
+}
+function setPaymentTerms(val){
+  paymentTerms = val;
+  document.getElementById('custom-due-date-input').style.display = (val === 'custom') ? 'inline-block' : 'none';
+  updateQuotePreview();
+}
+function setCustomDueDate(val){
+  customDueDate = val;
+  updateQuotePreview();
+}
+function computeDueDate(quoteDateISO){
+  const quoteDate = new Date(quoteDateISO);
+  const d = new Date(quoteDate);
+  if(paymentTerms === 'net15'){ d.setDate(d.getDate()+15); return { label: 'Net 15 — due ' + d.toLocaleDateString(), date: d.toISOString() }; }
+  if(paymentTerms === 'net30'){ d.setDate(d.getDate()+30); return { label: 'Net 30 — due ' + d.toLocaleDateString(), date: d.toISOString() }; }
+  if(paymentTerms === 'net60'){ d.setDate(d.getDate()+60); return { label: 'Net 60 — due ' + d.toLocaleDateString(), date: d.toISOString() }; }
+  if(paymentTerms === 'custom' && customDueDate){
+    const customD = new Date(customDueDate + 'T00:00:00');
+    return { label: 'Due ' + customD.toLocaleDateString(), date: customD.toISOString() };
+  }
+  return { label: 'Due upon receipt', date: quoteDate.toISOString() };
+}
 function removeLineItem(key){
   lineItems = lineItems.filter(l=>l.key!==key);
   renderLineItems();
@@ -1650,12 +1745,25 @@ function removeLineItem(key){
 }
 function renderLineItems(){
   const wrap = document.getElementById('line-items');
-  if(inventory.length === 0){
+  if(inventory.length === 0 && !lineItems.some(l=>l.custom)){
     wrap.innerHTML = '<div class="empty-state">Add inventory before building a quote.</div>';
     return;
   }
   const grouped = groupByCategory(inventory);
   wrap.innerHTML = lineItems.map(li=>{
+    if(li.custom){
+      const lineTotal = (li.price * li.qty).toFixed(2);
+      return `<div class="line-item-row" data-key="${li.key}">
+        <input type="text" placeholder="e.g. Delivery fee" value="${escapeHtml(li.description || '')}" onchange="setCustomDescription('${li.key}', this.value)">
+        <input type="number" min="1" step="1" value="${li.qty}" onchange="setLineQty('${li.key}', this.value)">
+        <div style="display:flex;align-items:center;gap:4px;">
+          <input type="number" min="0" step="0.01" class="mono" value="${li.price.toFixed(2)}" onchange="setLinePrice('${li.key}', this.value)">
+          <span style="font-size:11px;color:var(--concrete);white-space:nowrap;">/item</span>
+        </div>
+        <div class="line-total">$${lineTotal}</div>
+        <button class="remove-line" onclick="removeLineItem('${li.key}')" aria-label="Remove line">×</button>
+      </div>`;
+    }
     const item = inventory.find(i=>i.id===li.invId) || inventory[0];
     const hasCoverage = item.coverage && item.coverage > 0;
     const packLabel = item.category === 'Shingles' ? 'bundle' : 'case';
@@ -1679,6 +1787,10 @@ function renderLineItems(){
     </div>`;
   }).join('');
 }
+function setCustomDescription(key, val){
+  const li = lineItems.find(l=>l.key===key);
+  if(li){ li.description = val; updateQuotePreview(); }
+}
 function setLineInv(key, invId){
   const li = lineItems.find(l=>l.key===key);
   if(li){ li.invId = invId; li.priceOverride = null; renderLineItems(); updateQuotePreview(); }
@@ -1686,6 +1798,12 @@ function setLineInv(key, invId){
 function setLineQty(key, val){
   const li = lineItems.find(l=>l.key===key);
   if(!li) return;
+  if(li.custom){
+    li.qty = Math.max(1, parseInt(val)||1);
+    renderLineItems();
+    updateQuotePreview();
+    return;
+  }
   const item = inventory.find(i=>i.id===li.invId) || inventory[0];
   const hasCoverage = item.coverage && item.coverage > 0;
   const entered = Math.max(1, parseInt(val)||1);
@@ -1696,6 +1814,12 @@ function setLineQty(key, val){
 function setLinePrice(key, val){
   const li = lineItems.find(l=>l.key===key);
   if(!li) return;
+  if(li.custom){
+    li.price = Math.max(0, parseFloat(val)||0);
+    renderLineItems();
+    updateQuotePreview();
+    return;
+  }
   const item = inventory.find(i=>i.id===li.invId) || inventory[0];
   const hasCoverage = item.coverage && item.coverage > 0;
   const normalPrice = hasCoverage ? (item.price * item.coverage) : item.price;
@@ -1728,6 +1852,9 @@ function updateQuotePreview(){
   }
 
   const rows = lineItems.map(li=>{
+    if(li.custom){
+      return {name: li.description || 'Miscellaneous item', sku: '—', unit: 'item', qty: li.qty, price: li.price, total: li.price*li.qty, custom: true};
+    }
     const item = inventory.find(i=>i.id===li.invId);
     if(!item) return null;
     const hasCoverage = item.coverage && item.coverage > 0;
@@ -1741,6 +1868,11 @@ function updateQuotePreview(){
   }).filter(Boolean);
 
   const subtotal = rows.reduce((s,r)=>s+r.total,0);
+  const discountAmount = computeDiscountAmount(subtotal);
+  const afterDiscount = subtotal - discountAmount;
+  const taxAmount = taxEnabled ? afterDiscount * (taxRatePercent / 100) : 0;
+  const grandTotal = afterDiscount + taxAmount;
+  const dueInfo = computeDueDate(new Date().toISOString());
 
   let html = `<div class="qp-head">
       <img class="qp-brand" src="${LOGO_DATA_URI}" alt="Reis Building Materials">
@@ -1752,7 +1884,8 @@ function updateQuotePreview(){
     <div class="qp-bill">
       <b>Prepared for:</b> ${customer ? escapeHtml(customer) : '—'}<br>
       ${contact ? escapeHtml(contact)+'<br>' : ''}
-      ${job ? '<b>Job:</b> '+escapeHtml(job) : ''}
+      ${job ? '<b>Job:</b> '+escapeHtml(job)+'<br>' : ''}
+      <b>Terms:</b> ${escapeHtml(dueInfo.label)}
     </div>`;
 
   if(rows.length === 0){
@@ -1765,7 +1898,9 @@ function updateQuotePreview(){
     html += `</tbody></table>
     <div class="qp-totals">
       <div><span>Subtotal</span><span>$${subtotal.toFixed(2)}</span></div>
-      <div class="grand"><span>Total</span><span>$${subtotal.toFixed(2)}</span></div>
+      ${discountEnabled && discountAmount > 0 ? `<div><span>Discount${discountType==='percent' ? ' ('+discountValue+'%)' : ''}</span><span>-$${discountAmount.toFixed(2)}</span></div>` : ''}
+      ${taxEnabled ? `<div><span>NJ Sales Tax (${taxRatePercent}%)</span><span>$${taxAmount.toFixed(2)}</span></div>` : ''}
+      <div class="grand"><span>Total</span><span>$${grandTotal.toFixed(2)}</span></div>
     </div>`;
   }
 
@@ -1784,6 +1919,9 @@ function buildQuoteSummaryText(){
   const job = document.getElementById('q-job').value.trim();
 
   const rows = lineItems.map(li=>{
+    if(li.custom){
+      return {name: li.description || 'Miscellaneous item', sku: '—', unit: 'item', qty: li.qty, price: li.price, total: li.price*li.qty, custom: true};
+    }
     const item = inventory.find(i=>i.id===li.invId);
     if(!item) return null;
     const hasCoverage = item.coverage && item.coverage > 0;
@@ -1796,10 +1934,16 @@ function buildQuoteSummaryText(){
   }).filter(Boolean);
 
   const subtotal = rows.reduce((s,r)=>s+r.total,0);
+  const discountAmount = computeDiscountAmount(subtotal);
+  const afterDiscount = subtotal - discountAmount;
+  const taxAmount = taxEnabled ? afterDiscount * (taxRatePercent / 100) : 0;
+  const grandTotal = afterDiscount + taxAmount;
+  const dueInfo = computeDueDate(new Date().toISOString());
 
   let text = 'Reis Building Materials — Quote ' + currentQuoteNumber() + '\n';
   if(customer) text += 'Prepared for: ' + customer + '\n';
   if(job) text += 'Job: ' + job + '\n';
+  text += 'Terms: ' + dueInfo.label + '\n';
   text += '\nItems:\n';
   if(rows.length === 0){
     text += '(no items added yet)\n';
@@ -1807,7 +1951,14 @@ function buildQuoteSummaryText(){
     rows.forEach(r => {
       text += '- ' + r.name + ' (' + r.sku + ') x' + r.qty + ' @ $' + r.price.toFixed(2) + '/' + r.unit + ' = $' + r.total.toFixed(2) + '\n';
     });
-    text += '\nTotal: $' + subtotal.toFixed(2) + '\n';
+    text += '\nSubtotal: $' + subtotal.toFixed(2) + '\n';
+    if(discountEnabled && discountAmount > 0){
+      text += 'Discount' + (discountType==='percent' ? ' ('+discountValue+'%)' : '') + ': -$' + discountAmount.toFixed(2) + '\n';
+    }
+    if(taxEnabled){
+      text += 'NJ Sales Tax (' + taxRatePercent + '%): $' + taxAmount.toFixed(2) + '\n';
+    }
+    text += 'Total: $' + grandTotal.toFixed(2) + '\n';
   }
   return text;
 }
@@ -1842,6 +1993,9 @@ async function saveCurrentQuote(){
   const address = document.getElementById('q-address').value.trim();
 
   const rows = lineItems.map(li=>{
+    if(li.custom){
+      return {name: li.description || 'Miscellaneous item', sku: '—', unit: 'item', qty: li.qty, price: li.price, total: li.price*li.qty, custom: true};
+    }
     const item = inventory.find(i=>i.id===li.invId);
     if(!item) return null;
     const hasCoverage = item.coverage && item.coverage > 0;
@@ -1856,12 +2010,20 @@ async function saveCurrentQuote(){
   if(!customer){ showToast('Add a customer name before saving.', true); return; }
   if(rows.length === 0){ showToast('Add at least one line item before saving.', true); return; }
 
-  const total = rows.reduce((s,r)=>s+r.total,0);
+  const subtotal = rows.reduce((s,r)=>s+r.total,0);
+  const discountAmount = computeDiscountAmount(subtotal);
+  const afterDiscount = subtotal - discountAmount;
+  const taxAmount = taxEnabled ? afterDiscount * (taxRatePercent / 100) : 0;
+  const total = afterDiscount + taxAmount;
+  const taxRateToSave = taxEnabled ? taxRatePercent : null;
+  const discountTypeToSave = discountEnabled && discountAmount > 0 ? discountType : null;
+  const discountValueToSave = discountEnabled && discountAmount > 0 ? discountValue : null;
 
   if(editingQuoteId){
     const existing = quotes.find(q=>q.id===editingQuoteId);
     if(existing){
-      const ok = await updateQuote(editingQuoteId, { customer, contact, job, address, rows, total });
+      const dueInfo = computeDueDate(existing.date);
+      const ok = await updateQuote(editingQuoteId, { customer, contact, job, address, rows, total, tax_rate: taxRateToSave, tax_amount: taxAmount, discount_type: discountTypeToSave, discount_value: discountValueToSave, discount_amount: discountAmount, payment_terms: paymentTerms, due_date: dueInfo.date });
       if(!ok) return;
       existing.customer = customer;
       existing.contact = contact;
@@ -1869,17 +2031,28 @@ async function saveCurrentQuote(){
       existing.address = address;
       existing.rows = rows;
       existing.total = total;
+      existing.tax_rate = taxRateToSave;
+      existing.tax_amount = taxAmount;
+      existing.discount_type = discountTypeToSave;
+      existing.discount_value = discountValueToSave;
+      existing.discount_amount = discountAmount;
+      existing.payment_terms = paymentTerms;
+      existing.due_date = dueInfo.date;
       renderHistory();
       showToast('Updated quote '+existing.number+'.');
     }
     editingQuoteId = null;
     document.getElementById('editing-banner').style.display = 'none';
   } else {
+    const quoteDate = new Date().toISOString();
+    const dueInfo = computeDueDate(quoteDate);
     const newRow = await insertQuote({
       number: currentQuoteNumber(),
-      date: new Date().toISOString(),
+      date: quoteDate,
       customer, contact, job, address,
-      rows, total, paid: false
+      rows, total, paid: false, tax_rate: taxRateToSave, tax_amount: taxAmount,
+      discount_type: discountTypeToSave, discount_value: discountValueToSave, discount_amount: discountAmount,
+      payment_terms: paymentTerms, due_date: dueInfo.date
     });
     if(!newRow) return;
     quotes.push(newRow);
@@ -1894,6 +2067,24 @@ async function saveCurrentQuote(){
   document.getElementById('q-address').value = '';
   lineItems = [];
   addLineItem();
+  taxEnabled = false;
+  taxRatePercent = 6.625;
+  document.getElementById('tax-toggle').checked = false;
+  document.getElementById('tax-rate-input').value = 6.625;
+  document.getElementById('tax-rate-input').disabled = true;
+  discountEnabled = false;
+  discountType = 'percent';
+  discountValue = 0;
+  document.getElementById('discount-toggle').checked = false;
+  document.getElementById('discount-value-input').value = 0;
+  document.getElementById('discount-value-input').disabled = true;
+  document.getElementById('discount-type-input').value = 'percent';
+  document.getElementById('discount-type-input').disabled = true;
+  paymentTerms = 'due_on_receipt';
+  customDueDate = '';
+  document.getElementById('payment-terms-input').value = 'due_on_receipt';
+  document.getElementById('custom-due-date-input').value = '';
+  document.getElementById('custom-due-date-input').style.display = 'none';
 }
 
 /* ============================================================
@@ -2013,6 +2204,7 @@ async function togglePaidStatus(id){
   const changes = []; // {item, newQty}
 
   quote.rows.forEach(row => {
+    if(row.custom) return;
     const item = inventory.find(i => i.sku.toLowerCase() === row.sku.toLowerCase());
     if(!item){ missing.push(row.sku); return; }
     const isPackRow = (row.unit === 'bundle' || row.unit === 'case') && item.coverage && item.coverage > 0;
@@ -2060,6 +2252,16 @@ async function deleteQuote(id){
   showToast('Quote deleted.');
 }
 
+function formatSavedPaymentTerms(quote){
+  const dueDateStr = quote.due_date ? new Date(quote.due_date).toLocaleDateString() : '';
+  if(!quote.payment_terms || quote.payment_terms === 'due_on_receipt') return 'Due upon receipt';
+  if(quote.payment_terms === 'net15') return 'Net 15' + (dueDateStr ? ' — due ' + dueDateStr : '');
+  if(quote.payment_terms === 'net30') return 'Net 30' + (dueDateStr ? ' — due ' + dueDateStr : '');
+  if(quote.payment_terms === 'net60') return 'Net 60' + (dueDateStr ? ' — due ' + dueDateStr : '');
+  if(quote.payment_terms === 'custom') return dueDateStr ? 'Due ' + dueDateStr : 'Due upon receipt';
+  return 'Due upon receipt';
+}
+
 function viewQuote(id){
   const quote = quotes.find(q=>q.id===id);
   if(!quote) return;
@@ -2071,6 +2273,7 @@ function viewQuote(id){
       <b>Customer:</b> ${escapeHtml(quote.customer)}<br>
       ${quote.contact ? '<b>Contact:</b> '+escapeHtml(quote.contact)+'<br>' : ''}
       ${quote.job ? '<b>Job:</b> '+escapeHtml(quote.job)+'<br>' : ''}
+      <b>Terms:</b> ${escapeHtml(formatSavedPaymentTerms(quote))}<br>
       <b>Status:</b> ${quote.paid ? 'Paid' : 'Unpaid'}
     </div>`;
 
@@ -2079,7 +2282,15 @@ function viewQuote(id){
     html += `<tr><td>${escapeHtml(r.name)}<div style="color:var(--concrete);font-size:11px;">${escapeHtml(r.sku)} · $${r.price.toFixed(2)}/${escapeHtml(r.unit)}</div></td><td>${r.qty}</td><td>$${r.total.toFixed(2)}</td></tr>`;
   });
   html += `</tbody></table>`;
-  html += `<div class="vq-total"><span>Total</span><span>$${quote.total.toFixed(2)}</span></div>`;
+  const subtotalForView = quote.rows.reduce((s,r)=>s+r.total,0);
+  html += `<div class="vq-total"><span>Subtotal</span><span>$${subtotalForView.toFixed(2)}</span></div>`;
+  if(quote.discount_type != null){
+    html += `<div class="vq-total"><span>Discount${quote.discount_type==='percent' ? ' ('+quote.discount_value+'%)' : ''}</span><span>-$${(quote.discount_amount||0).toFixed(2)}</span></div>`;
+  }
+  if(quote.tax_rate != null){
+    html += `<div class="vq-total"><span>NJ Sales Tax (${quote.tax_rate}%)</span><span>$${(quote.tax_amount||0).toFixed(2)}</span></div>`;
+  }
+  html += `<div class="vq-total" style="font-weight:700;border-top:2px solid var(--charcoal);padding-top:8px;"><span>Total</span><span>$${quote.total.toFixed(2)}</span></div>`;
 
   document.getElementById('view-quote-content').innerHTML = html;
   document.getElementById('view-quote-modal').classList.add('open');
@@ -2106,6 +2317,9 @@ function printInvoice(id){
   document.getElementById('inv-address').textContent = quote.address || '';
   document.getElementById('inv-job').textContent = quote.job ? ('Job: ' + quote.job) : '';
 
+  const termsLabel = formatSavedPaymentTerms(quote);
+  document.getElementById('inv-terms-line').textContent = 'Thank you for your business — payment terms: ' + termsLabel + '.';
+
   document.getElementById('inv-rows').innerHTML = quote.rows.map(r => `
     <tr>
       <td>${escapeHtml(r.name)}</td>
@@ -2115,6 +2329,27 @@ function printInvoice(id){
       <td>$${r.total.toFixed(2)}</td>
     </tr>
   `).join('');
+
+  const subtotalForInvoice = quote.rows.reduce((s,r)=>s+r.total,0);
+  document.getElementById('inv-subtotal').textContent = '$' + subtotalForInvoice.toFixed(2);
+
+  const discountRow = document.getElementById('inv-discount-row');
+  if(quote.discount_type != null){
+    document.getElementById('inv-discount-label').textContent = 'Discount' + (quote.discount_type==='percent' ? ' (' + quote.discount_value + '%)' : '');
+    document.getElementById('inv-discount-amount').textContent = '-$' + (quote.discount_amount||0).toFixed(2);
+    discountRow.style.display = 'flex';
+  } else {
+    discountRow.style.display = 'none';
+  }
+
+  const taxRow = document.getElementById('inv-tax-row');
+  if(quote.tax_rate != null){
+    document.getElementById('inv-tax-label').textContent = 'NJ Sales Tax (' + quote.tax_rate + '%)';
+    document.getElementById('inv-tax-amount').textContent = '$' + (quote.tax_amount||0).toFixed(2);
+    taxRow.style.display = 'flex';
+  } else {
+    taxRow.style.display = 'none';
+  }
 
   document.getElementById('inv-total').textContent = '$' + quote.total.toFixed(2);
 
@@ -2141,6 +2376,9 @@ function editQuote(id){
 
   let missing = 0;
   lineItems = quote.rows.map(row => {
+    if(row.custom){
+      return {key:'li-'+Date.now()+Math.random(), custom:true, description: row.name, qty: row.qty, price: row.price};
+    }
     const item = inventory.find(i => i.sku.toLowerCase() === row.sku.toLowerCase());
     if(!item){ missing++; return null; }
     const isPackRow = (row.unit === 'bundle' || row.unit === 'case') && item.coverage && item.coverage > 0;
@@ -2149,6 +2387,27 @@ function editQuote(id){
   }).filter(Boolean);
 
   if(lineItems.length === 0) addLineItem();
+
+  taxEnabled = quote.tax_rate != null;
+  taxRatePercent = quote.tax_rate != null ? quote.tax_rate : 6.625;
+  document.getElementById('tax-toggle').checked = taxEnabled;
+  document.getElementById('tax-rate-input').value = taxRatePercent;
+  document.getElementById('tax-rate-input').disabled = !taxEnabled;
+
+  discountEnabled = quote.discount_type != null;
+  discountType = quote.discount_type != null ? quote.discount_type : 'percent';
+  discountValue = quote.discount_value != null ? quote.discount_value : 0;
+  document.getElementById('discount-toggle').checked = discountEnabled;
+  document.getElementById('discount-type-input').value = discountType;
+  document.getElementById('discount-value-input').value = discountValue;
+  document.getElementById('discount-value-input').disabled = !discountEnabled;
+  document.getElementById('discount-type-input').disabled = !discountEnabled;
+
+  paymentTerms = quote.payment_terms || 'due_on_receipt';
+  customDueDate = (paymentTerms === 'custom' && quote.due_date) ? quote.due_date.slice(0,10) : '';
+  document.getElementById('payment-terms-input').value = paymentTerms;
+  document.getElementById('custom-due-date-input').value = customDueDate;
+  document.getElementById('custom-due-date-input').style.display = (paymentTerms === 'custom') ? 'inline-block' : 'none';
 
   renderLineItems();
   updateQuotePreview();
@@ -2208,6 +2467,24 @@ function cancelEditQuote(){
   document.getElementById('q-address').value = '';
   lineItems = [];
   addLineItem();
+  taxEnabled = false;
+  taxRatePercent = 6.625;
+  document.getElementById('tax-toggle').checked = false;
+  document.getElementById('tax-rate-input').value = 6.625;
+  document.getElementById('tax-rate-input').disabled = true;
+  discountEnabled = false;
+  discountType = 'percent';
+  discountValue = 0;
+  document.getElementById('discount-toggle').checked = false;
+  document.getElementById('discount-value-input').value = 0;
+  document.getElementById('discount-value-input').disabled = true;
+  document.getElementById('discount-type-input').value = 'percent';
+  document.getElementById('discount-type-input').disabled = true;
+  paymentTerms = 'due_on_receipt';
+  customDueDate = '';
+  document.getElementById('payment-terms-input').value = 'due_on_receipt';
+  document.getElementById('custom-due-date-input').value = '';
+  document.getElementById('custom-due-date-input').style.display = 'none';
   updateQuotePreview();
 }
 
