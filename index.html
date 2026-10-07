@@ -233,17 +233,6 @@
   .section h2{font-size:clamp(32px,4vw,48px);max-width:16ch;margin-bottom:18px;}
   .section-intro{color:var(--steel);max-width:52ch;font-size:16px;}
 
-  .materials-banner{
-    background-image: linear-gradient(rgba(31,29,27,0.82), rgba(31,29,27,0.82)),
-      url('https://images.unsplash.com/photo-1422246654994-34520d5a0340?auto=format&fit=crop&w=1800&q=70');
-    background-size: cover;
-    background-position: center;
-    padding: 88px 0 52px;
-    border-bottom: 3px solid var(--rust);
-  }
-  .materials-banner h2{color:var(--offwhite);}
-  .materials-banner .section-intro{color:var(--concrete);}
-
   /* ---------- CATEGORIES ---------- */
   .cat-grid{
     display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:260px;gap:18px;margin-top:52px;
@@ -564,6 +553,26 @@
     .trx-badge{right:10px;}
     .trx-btn{width:100%;min-height:56px;font-size:19px;}
   }
+
+  /* ---------- MATERIALS SECTION HEADER ---------- */
+  .mh{padding-block:clamp(72px,9vw,120px);scroll-margin-top:72px;}
+  .mh-container{width:100%;max-width:calc(1270px + 2 * clamp(20px,6vw,86px));margin-inline:auto;padding-inline:clamp(20px,6vw,86px);}
+  .mh-head{margin-bottom:clamp(40px,5vw,56px);}
+  .mh-eyebrow{
+    display:inline-flex;align-items:center;gap:12px;margin:0 0 14px;
+    font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:600;font-size:clamp(15px,1.4vw,20px);
+    letter-spacing:0.02em;text-transform:uppercase;color:#111312;
+  }
+  .mh-eyebrow::before{content:"";width:28px;height:2px;background:currentColor;}
+  .mh-title{
+    font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:600;text-transform:uppercase;
+    font-size:clamp(44px,6.6vw,96px);line-height:0.95;letter-spacing:-0.005em;margin:0;color:#111312;max-width:none;
+  }
+  .mh-lead{
+    font-family:'Barlow',system-ui,sans-serif;font-weight:500;font-size:clamp(17px,1.6vw,22px);line-height:1.4;
+    max-width:46ch;margin:22px 0 0;color:#111312;
+  }
+  .mh-container .cat-grid{margin-top:0;}
 </style>
 </head>
 <body>
@@ -606,17 +615,13 @@
     </div>
   </div>
 </section>
-<div class="section-divider divider-rebar" aria-hidden="true"></div>
-
-<section id="materials">
-  <div class="materials-banner">
-    <div class="wrap">
-      <div class="section-tag">01 — Materials</div>
-      <h2>Six categories. One warehouse.</h2>
-      <p class="section-intro">Stocked, graded, and pulled to order — not sourced after you call. Every category below ships from inventory on hand.</p>
-    </div>
-  </div>
-  <div class="wrap" style="padding:56px 32px 88px;">
+<section id="materials" class="mh">
+  <div class="mh-container">
+    <header class="mh-head reveal">
+      <p class="mh-eyebrow">Material Categories</p>
+      <h2 class="mh-title">Materials for<br>the job ahead.</h2>
+      <p class="mh-lead">From rough planning to final installation, Reis keeps the essentials within reach.</p>
+    </header>
 
     <div class="cat-grid">
       <a href="flooring.html" class="cat-card reveal" style="transition-delay:0ms;">
