@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>document.documentElement.classList.add('js');</script>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script data-goatcounter="https://reisbuildingmaterials.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -13,15 +14,15 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Privacy Policy & Terms — Reis Building Materials</title>
-<meta name="description" content="Privacy policy and terms of service for Reis Building Materials.">
-<meta property="og:title" content="Privacy Policy & Terms — Reis Building Materials">
-<meta property="og:description" content="Privacy policy and terms of service for Reis Building Materials.">
+<title>Materials — Reis Building Materials</title>
+<meta name="description" content="Flooring, doors, windows, vanities, shingles and toilets from Reis Building Materials in Avenel, NJ. Browse every category and check live inventory.">
+<meta property="og:title" content="Materials — Reis Building Materials">
+<meta property="og:description" content="Flooring, doors, windows, vanities, shingles and toilets from Reis Building Materials in Avenel, NJ. Browse every category and check live inventory.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="og-image.jpg">
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   #page-curtain{
     position:fixed;inset:0;background:var(--charcoal);z-index:100000;
@@ -309,21 +310,6 @@
     .qr-line-head, .qr-line-row{grid-template-columns:1fr 0.7fr auto;}
   }
 
-  .legal-wrap{max-width:760px;margin:0 auto;padding:64px 32px 96px;}
-  .legal-updated{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--concrete);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;}
-  .legal-wrap h1{font-size:clamp(34px,4.5vw,52px);margin-bottom:24px;}
-  .legal-toc{border:1px solid var(--line);padding:20px 24px;margin-bottom:48px;}
-  .legal-toc-title{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--concrete);margin-bottom:12px;}
-  .legal-toc a{display:block;font-size:14.5px;color:var(--steel);padding:4px 0;transition:color 0.2s var(--ease);}
-  .legal-toc a:hover{color:var(--rust);}
-  .legal-section{margin-bottom:44px;scroll-margin-top:90px;}
-  .legal-section h2{font-size:26px;margin-bottom:14px;color:var(--charcoal);}
-  .legal-section h3{font-size:17px;margin:20px 0 8px;color:var(--charcoal);font-family:'Inter',sans-serif;text-transform:none;font-weight:600;}
-  .legal-section p{font-size:15px;color:var(--steel);line-height:1.75;margin-bottom:14px;}
-  .legal-section ul{margin:0 0 14px 20px;}
-  .legal-section li{font-size:15px;color:var(--steel);line-height:1.75;margin-bottom:6px;}
-  .legal-disclaimer{border-left:3px solid var(--rust);background:#F5F1E9;padding:16px 20px;font-size:14px;color:var(--steel);margin-bottom:40px;}
-  .legal-disclaimer b{color:var(--charcoal);}
 
   /* ---------- DARK HEADER + IMAGE LOGO ---------- */
   header{background:rgba(31,29,27,0.92);border-bottom:1px solid rgba(237,234,227,0.12);}
@@ -338,6 +324,144 @@
   .site-search input:focus{background:rgba(237,234,227,0.14);}
   @media (max-width:640px){ .logo img{height:32px;} }
   @media (max-width:1000px){ .navlinks{gap:20px;} .navlinks a{font-size:12px;} .site-search{max-width:170px;} }
+
+  /* ---------- MATERIALS PAGE ---------- */
+  .mx-page{
+    --c-ink:#111312; --c-ink-2:#3a3b37; --c-cream:#f1ede2; --c-bg:#f4f4ec; --c-stone:#e2ddd4; --c-stone-2:#e9e5dc;
+    --c-line:#c9c6bc; --c-muted:#5b5c56;
+    --f-display:'Barlow Condensed','Arial Narrow',sans-serif; --f-body:'Barlow',system-ui,sans-serif;
+    --mx-ease:cubic-bezier(.2,.7,.2,1);
+    font-family:var(--f-body); color:var(--c-ink); line-height:1.5;
+  }
+  .mx-container{width:100%;max-width:calc(1270px + 2 * clamp(20px,6vw,86px));margin-inline:auto;padding-inline:clamp(20px,6vw,86px);}
+  .mx-eyebrow{
+    display:inline-flex;align-items:center;gap:12px;margin:0 0 14px;
+    font-family:var(--f-display);font-weight:600;font-size:clamp(15px,1.4vw,20px);letter-spacing:0.02em;text-transform:uppercase;
+  }
+  .mx-eyebrow::before{content:"";width:28px;height:2px;background:currentColor;}
+  .mx-btn{
+    position:relative;overflow:hidden;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;
+    min-height:60px;padding:0 30px;font-family:var(--f-display);font-weight:600;font-size:21px;text-transform:uppercase;letter-spacing:0.01em;
+    border:2px solid transparent;border-radius:2px;transition:background .25s,color .25s,border-color .25s,transform .25s;
+  }
+  .mx-btn:hover{transform:translateY(-2px);}
+  .mx-btn::after{
+    content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;z-index:-1;pointer-events:none;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);
+    transition:left .8s cubic-bezier(.19,1,.22,1);
+  }
+  .mx-btn:hover::after{left:130%;}
+  .mx-btn-light{background:var(--c-cream);color:var(--c-ink);border-color:var(--c-cream);}
+  .mx-btn-light:hover{background:#fff;}
+  .mx-btn-outline-light{color:var(--c-cream);border-color:rgba(241,237,226,.7);background:rgba(17,19,18,.35);}
+  .mx-btn-outline-light:hover{background:var(--c-cream);color:var(--c-ink);}
+  .mx-btn-dark{background:var(--c-ink);color:var(--c-cream);border-color:var(--c-ink);}
+  .mx-btn-dark:hover{background:var(--c-ink-2);}
+  .mx-btn-row{display:flex;flex-wrap:wrap;gap:20px;}
+
+  /* hero */
+  .mx-hero{background:var(--c-ink);color:var(--c-cream);padding:96px 0 90px;position:relative;overflow:hidden;}
+  .mx-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 80% at 85% 30%,rgba(241,237,226,.07),transparent 70%);pointer-events:none;}
+  .mx-hero-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(40px,6vw,90px);align-items:center;position:relative;}
+  .mx-hero-grid > *{min-width:0;}
+  .mx-hero-title{font-family:var(--f-display);font-weight:600;text-transform:uppercase;line-height:.9;letter-spacing:0;font-size:clamp(52px,6vw,100px);margin:18px 0 0;color:var(--c-cream);max-width:none;}
+  .mx-hero-title .line{display:block;overflow:hidden;padding-bottom:.04em;}
+  .mx-hero-title .line > span{display:block;}
+  .mx-hero-title .line:last-child{color:transparent;-webkit-text-stroke:1.5px var(--c-cream);}
+  @supports not (-webkit-text-stroke:1px #000){ .mx-hero-title .line:last-child{color:var(--c-cream);} }
+  .mx-hero-lead{font-size:clamp(17px,1.6vw,21px);font-weight:500;line-height:1.45;max-width:42ch;margin:28px 0 40px;opacity:.85;}
+
+  /* mosaic */
+  .mx-mosaic{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:clamp(120px,13vw,190px);gap:10px;grid-template-areas:"a a b" "a a c" "d e f";}
+  .mx-tile{position:relative;overflow:hidden;display:block;background:#222;}
+  .mx-tile:nth-child(1){grid-area:a;} .mx-tile:nth-child(2){grid-area:b;} .mx-tile:nth-child(3){grid-area:c;}
+  .mx-tile:nth-child(4){grid-area:d;} .mx-tile:nth-child(5){grid-area:e;} .mx-tile:nth-child(6){grid-area:f;}
+  .mx-tile img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--mx-ease),filter .5s;filter:grayscale(.25) brightness(.8);}
+  .mx-tile::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,10,10,.75),transparent 55%);}
+  .mx-tile-label{position:absolute;left:14px;bottom:12px;z-index:1;font-family:var(--f-display);font-weight:600;font-size:clamp(18px,1.6vw,24px);text-transform:uppercase;display:flex;align-items:baseline;gap:8px;color:var(--c-cream);}
+  .mx-tile-label em{font-style:normal;font-size:.7em;opacity:.7;}
+  .mx-tile:hover img,.mx-tile:focus-visible img{transform:scale(1.08);filter:none;}
+
+  /* sticky tab bar */
+  .mx-index{position:sticky;top:75px;z-index:30;background:rgba(244,244,236,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--c-line);}
+  .mx-index-inner{display:flex;gap:clamp(14px,3vw,40px);overflow-x:auto;scrollbar-width:none;}
+  .mx-index-inner::-webkit-scrollbar{display:none;}
+  .mx-index a{
+    font-family:var(--f-display);font-weight:600;font-size:19px;text-transform:uppercase;padding:16px 0 13px;border-bottom:3px solid transparent;
+    white-space:nowrap;display:flex;gap:6px;align-items:baseline;color:var(--c-muted);transition:color .25s,border-color .25s;
+  }
+  .mx-index a em{font-style:normal;font-size:13px;}
+  .mx-index a:hover,.mx-index a.is-active{color:var(--c-ink);border-color:var(--c-ink);}
+
+  /* category rows */
+  .mx-row{padding:clamp(80px,10vw,140px) 0;scroll-margin-top:135px;}
+  .mx-row--light{background:var(--c-bg);}
+  .mx-row--stone{background:var(--c-stone-2);}
+  .mx-row--dark{background:var(--c-ink);color:var(--c-cream);}
+  .mx-row-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(40px,6vw,96px);align-items:center;}
+  .mx-row--flip .mx-media{order:2;}
+  .mx-media{position:relative;display:block;aspect-ratio:5 / 4;overflow:hidden;background:#ccc;}
+  .mx-media img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--mx-ease);}
+  .mx-media:hover img{transform:scale(1.05);}
+  .mx-num{
+    position:absolute;top:-0.12em;right:18px;font-family:var(--f-display);font-weight:700;font-size:clamp(110px,14vw,220px);line-height:1;
+    color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.85);pointer-events:none;mix-blend-mode:overlay;
+  }
+  .mx-row--flip .mx-num{right:auto;left:18px;}
+  .mx-media-cta{
+    position:absolute;left:0;bottom:0;background:var(--c-ink);color:var(--c-cream);font-family:var(--f-display);font-weight:600;font-size:18px;
+    text-transform:uppercase;padding:14px 22px;transform:translateY(100%);transition:transform .45s var(--mx-ease);
+  }
+  .mx-media:hover .mx-media-cta,.mx-media:focus-visible .mx-media-cta{transform:none;}
+  .mx-title{font-family:var(--f-display);font-weight:600;text-transform:uppercase;line-height:.9;letter-spacing:0;font-size:clamp(56px,7vw,112px);margin:10px 0 22px;max-width:none;}
+  .mx-lead{font-size:clamp(18px,1.7vw,22px);font-weight:500;line-height:1.45;max-width:36ch;}
+  .mx-spec{display:flex;align-items:center;gap:16px;margin:30px 0 28px;padding:16px 0;border-block:1px solid rgba(128,128,128,.35);border-color:color-mix(in srgb,currentColor 25%,transparent);}
+  .mx-spec span{font-family:var(--f-display);font-weight:500;font-size:15px;text-transform:uppercase;letter-spacing:.08em;opacity:.6;}
+  .mx-spec strong{font-family:var(--f-display);font-weight:600;font-size:clamp(22px,2vw,28px);text-transform:uppercase;}
+  .mx-feats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 36px;padding:0;list-style:none;}
+  .mx-feats li{display:flex;align-items:baseline;gap:10px;padding:14px 16px;font-weight:600;background:rgba(255,255,255,.55);border:1px solid rgba(0,0,0,.07);transition:transform .3s,background .3s;}
+  .mx-row--dark .mx-feats li{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);}
+  .mx-feats li:hover{transform:translateY(-2px);background:#fff;}
+  .mx-row--dark .mx-feats li:hover{background:rgba(255,255,255,.1);}
+  .mx-feats li span{font-family:var(--f-display);font-size:14px;opacity:.5;}
+  .mx-actions{display:flex;flex-wrap:wrap;align-items:center;gap:18px 28px;}
+  .mx-link{font-family:var(--f-display);font-weight:600;font-size:20px;text-transform:uppercase;display:inline-flex;gap:8px;border-bottom:2px solid currentColor;padding-bottom:2px;}
+  .mx-link span{transition:transform .3s;}
+  .mx-link:hover span{transform:translateX(5px);}
+
+  /* closing call-to-action */
+  .mx-cta{position:relative;color:var(--c-cream);padding:clamp(100px,12vw,170px) 0;overflow:hidden;background:#1c1c1a;}
+  .mx-cta-media{position:absolute;inset:0;}
+  .mx-cta-media img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.35);}
+  .mx-cta-inner{position:relative;}
+  .mx-cta .mx-btn-row{margin-top:36px;}
+
+  /* motion (only hidden when JS is present, so content never gets stuck invisible) */
+  @keyframes mxFade{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
+  @keyframes mxLine{from{transform:translateY(105%);}to{transform:none;}}
+  .mx-anim{opacity:0;animation:mxFade .8s var(--mx-ease) forwards;animation-delay:var(--d,0s);}
+  .mx-hero-title .line > span{transform:translateY(105%);animation:mxLine .9s cubic-bezier(.19,1,.22,1) forwards;animation-delay:var(--d,0s);}
+  .js .mx-reveal{opacity:0;transform:translateY(22px);transition:opacity .8s var(--mx-ease),transform .8s var(--mx-ease);}
+  .js .mx-reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){
+    .mx-anim,.mx-hero-title .line > span{animation:none;opacity:1;transform:none;}
+    .js .mx-reveal{opacity:1;transform:none;transition:none;}
+  }
+
+  /* responsive */
+  @media (max-width:1024px){
+    .mx-hero-grid{grid-template-columns:1fr;}
+    .mx-row-grid{grid-template-columns:1fr;}
+    .mx-row--flip .mx-media{order:0;}
+  }
+  @media (max-width:640px){
+    .mx-index{top:69px;}
+    .mx-hero{padding:56px 0 56px;}
+    .mx-hero-title{font-size:clamp(40px,12vw,56px);}
+    .mx-mosaic{grid-template-columns:1fr 1fr;grid-auto-rows:120px;grid-template-areas:"a a" "b c" "d e" "f f";}
+    .mx-feats{grid-template-columns:1fr;}
+    .mx-actions .mx-btn,.mx-btn-row .mx-btn{width:100%;}
+  }
 </style>
 </head>
 <body>
@@ -359,102 +483,216 @@
     <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
   </nav>
 </header>
-<div class="breadcrumb">
-  <div class="wrap"><a href="index.html">Catalog</a><span class="sep">/</span><span class="current">Privacy Policy &amp; Terms</span></div>
-</div>
+<main class="mx-page">
 
-<div class="legal-wrap">
-  <div class="legal-updated">Last updated: July 22, 2026</div>
-  <h1>Privacy Policy &amp; Terms of Service</h1>
-
-  <div class="legal-disclaimer">
-    <b>Plain-language summary:</b> We collect the contact and project info you give us through our quote and trade account forms, we use it only to get back to you with pricing and to run your account, and we don't sell it. Details below.
+<section class="mx-hero">
+  <div class="mx-container mx-hero-grid">
+    <div class="mx-hero-copy">
+      <p class="mx-eyebrow mx-anim" style="--d:0.05s">Material Categories</p>
+      <h1 class="mx-hero-title">
+        <span class="line"><span style="--d:0.15s">Six categories.</span></span>
+        <span class="line"><span style="--d:0.3s">One warehouse.</span></span>
+      </h1>
+      <p class="mx-hero-lead mx-anim" style="--d:0.55s">Flooring, doors, windows, vanities, shingles, and toilets: stocked in contractor quantities in Avenel, NJ and ready when the job is.</p>
+      <div class="mx-btn-row mx-anim" style="--d:0.7s">
+        <a href="#flooring" class="mx-btn mx-btn-light">Browse Categories</a>
+        <a href="index.html#quote" class="mx-btn mx-btn-outline-light" onclick="openQuoteRequest();return false;">Send a Material List</a>
+      </div>
+    </div>
+    <nav class="mx-mosaic" aria-label="Jump to category">
+        <a class="mx-tile" href="#flooring" style="--i:0">
+          <img src="cat-flooring.jpg" alt="" width="1376" height="768" loading="eager">
+          <span class="mx-tile-label"><em>01</em>Flooring</span>
+        </a>
+        <a class="mx-tile" href="#doors" style="--i:1">
+          <img src="cat-doors.jpg" alt="" width="1376" height="768" loading="eager">
+          <span class="mx-tile-label"><em>02</em>Doors</span>
+        </a>
+        <a class="mx-tile" href="#windows" style="--i:2">
+          <img src="cat-windows.jpg" alt="" width="1376" height="768" loading="eager">
+          <span class="mx-tile-label"><em>03</em>Windows</span>
+        </a>
+        <a class="mx-tile" href="#vanities" style="--i:3">
+          <img src="cat-vanities.jpg" alt="" width="1376" height="768" loading="eager">
+          <span class="mx-tile-label"><em>04</em>Vanities</span>
+        </a>
+        <a class="mx-tile" href="#shingles" style="--i:4">
+          <img src="cat-shingles.jpg" alt="" width="1376" height="768" loading="eager">
+          <span class="mx-tile-label"><em>05</em>Shingles</span>
+        </a>
+        <a class="mx-tile" href="#toilets" style="--i:5">
+          <img src="cat-toilets.jpg" alt="" width="1376" height="768" loading="eager">
+          <span class="mx-tile-label"><em>06</em>Toilets</span>
+        </a>
+    </nav>
   </div>
+</section>
 
-  <div class="legal-toc">
-    <div class="legal-toc-title">On this page</div>
-    <a href="#privacy">Privacy Policy</a>
-    <a href="#terms">Terms of Service</a>
-  </div>
+<nav class="mx-index" aria-label="Material categories">
+  <div class="mx-container mx-index-inner"><a href="#flooring" data-spy="flooring"><em>01</em>Flooring</a><a href="#doors" data-spy="doors"><em>02</em>Doors</a><a href="#windows" data-spy="windows"><em>03</em>Windows</a><a href="#vanities" data-spy="vanities"><em>04</em>Vanities</a><a href="#shingles" data-spy="shingles"><em>05</em>Shingles</a><a href="#toilets" data-spy="toilets"><em>06</em>Toilets</a></div>
+</nav>
 
-  <section class="legal-section" id="privacy">
-    <h2>Privacy Policy</h2>
-
-    <h3>Information we collect</h3>
-    <p>When you submit a quote request, apply for a trade account, or otherwise contact us through this website, we collect the information you provide, which may include:</p>
-    <ul>
-      <li>Your name, business name, email address, phone number, and mailing address</li>
-      <li>Details about the materials, quantities, or project you're asking about</li>
-      <li>For trade account applications: type of work and estimated order volume</li>
-      <li>Any additional notes you choose to include</li>
-    </ul>
-    <p>We do not collect payment information through this website.</p>
-
-    <h3>How we use your information</h3>
-    <p>We use the information you provide to:</p>
-    <ul>
-      <li>Prepare and respond to quote requests</li>
-      <li>Set up and manage trade accounts</li>
-      <li>Contact you about your order, account, or inquiry</li>
-      <li>Maintain records for our business, accounting, and legal obligations</li>
-    </ul>
-
-    <h3>How we share your information</h3>
-    <p>We do not sell or rent your personal information to third parties. We may share information with service providers who help us operate our business (for example, tools we use to manage orders or communications), or when required to do so by law.</p>
-
-    <h3>Data retention</h3>
-    <p>We keep your information for as long as reasonably necessary to fulfill the purposes described above, or as required for our business, tax, and legal record-keeping.</p>
-
-    <h3>Your choices</h3>
-    <p>You can ask us to access, correct, or delete the information we hold about you at any time by calling <a href="tel:+17322211925" style="color:var(--rust);">732-221-1925</a> or reaching out through our <a href="index.html#quote" style="color:var(--rust);" onclick="openQuoteRequest();return false;">contact form</a>.</p>
-
-    <h3>Cookies &amp; tracking</h3>
-    <p>This website does not use third-party advertising or tracking cookies. If that changes in the future, we'll update this policy.</p>
-
-    <h3>Children's privacy</h3>
-    <p>Our website and services are intended for businesses and adults, not children. We do not knowingly collect information from anyone under 13 years of age.</p>
-
-    <h3>Changes to this policy</h3>
-    <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with a revised "last updated" date.</p>
+  <section class="mx-row mx-row--light" id="flooring" data-spy-target="flooring">
+    <div class="mx-container mx-row-grid">
+      <a class="mx-media" href="flooring.html" aria-label="Explore Flooring inventory">
+        <img src="cat-flooring.jpg" alt="Wood flooring plank samples laid out in a row" width="1376" height="768" loading="lazy">
+        <span class="mx-num" aria-hidden="true">01</span>
+        <span class="mx-media-cta" aria-hidden="true">View Inventory →</span>
+      </a>
+      <div class="mx-copy">
+        <p class="mx-eyebrow mx-reveal">Category 01 / 06</p>
+        <h2 class="mx-title mx-reveal">Flooring</h2>
+        <p class="mx-lead mx-reveal">Hardwood, laminate, tile, and vinyl plank in stocked runs and cut lots.</p>
+        <div class="mx-spec mx-reveal"><span>Spec</span><strong>Prefinished &amp; Raw</strong></div>
+        <ul class="mx-feats mx-reveal"><li><span>01</span>Hardwood</li><li><span>02</span>Laminate</li><li><span>03</span>Tile</li><li><span>04</span>Vinyl plank</li></ul>
+        <div class="mx-actions mx-reveal">
+          <a href="flooring.html" class="mx-btn mx-btn-dark">Explore Flooring</a>
+          <a href="index.html#quote" class="mx-link" onclick="openQuoteRequest();return false;">Get a quote <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="mx-row mx-row--stone mx-row--flip" id="doors" data-spy-target="doors">
+    <div class="mx-container mx-row-grid">
+      <a class="mx-media" href="doors.html" aria-label="Explore Doors inventory">
+        <img src="cat-doors.jpg" alt="Row of interior doors in different styles and finishes" width="1376" height="768" loading="lazy">
+        <span class="mx-num" aria-hidden="true">02</span>
+        <span class="mx-media-cta" aria-hidden="true">View Inventory →</span>
+      </a>
+      <div class="mx-copy">
+        <p class="mx-eyebrow mx-reveal">Category 02 / 06</p>
+        <h2 class="mx-title mx-reveal">Doors</h2>
+        <p class="mx-lead mx-reveal">Interior, exterior, and pre-hung units in standard and custom sizes.</p>
+        <div class="mx-spec mx-reveal"><span>Spec</span><strong>Solid Core &amp; Hollow</strong></div>
+        <ul class="mx-feats mx-reveal"><li><span>01</span>Interior</li><li><span>02</span>Exterior</li><li><span>03</span>Pre-hung units</li><li><span>04</span>Standard &amp; custom sizes</li></ul>
+        <div class="mx-actions mx-reveal">
+          <a href="doors.html" class="mx-btn mx-btn-dark">Explore Doors</a>
+          <a href="index.html#quote" class="mx-link" onclick="openQuoteRequest();return false;">Get a quote <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="mx-row mx-row--dark" id="windows" data-spy-target="windows">
+    <div class="mx-container mx-row-grid">
+      <a class="mx-media" href="windows.html" aria-label="Explore Windows inventory">
+        <img src="cat-windows.jpg" alt="Row of window samples including single-hung and casement styles" width="1376" height="768" loading="lazy">
+        <span class="mx-num" aria-hidden="true">03</span>
+        <span class="mx-media-cta" aria-hidden="true">View Inventory →</span>
+      </a>
+      <div class="mx-copy">
+        <p class="mx-eyebrow mx-reveal">Category 03 / 06</p>
+        <h2 class="mx-title mx-reveal">Windows</h2>
+        <p class="mx-lead mx-reveal">Vinyl and wood-frame windows, single- and double-hung, cut to opening.</p>
+        <div class="mx-spec mx-reveal"><span>Spec</span><strong>Dual-Pane Standard</strong></div>
+        <ul class="mx-feats mx-reveal"><li><span>01</span>Vinyl frame</li><li><span>02</span>Wood frame</li><li><span>03</span>Single-hung</li><li><span>04</span>Double-hung</li></ul>
+        <div class="mx-actions mx-reveal">
+          <a href="windows.html" class="mx-btn mx-btn-light">Explore Windows</a>
+          <a href="index.html#quote" class="mx-link" onclick="openQuoteRequest();return false;">Get a quote <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="mx-row mx-row--light mx-row--flip" id="vanities" data-spy-target="vanities">
+    <div class="mx-container mx-row-grid">
+      <a class="mx-media" href="vanities.html" aria-label="Explore Vanities inventory">
+        <img src="cat-vanities.jpg" alt="Bathroom vanities in wood, black, and blue finishes" width="1376" height="768" loading="lazy">
+        <span class="mx-num" aria-hidden="true">04</span>
+        <span class="mx-media-cta" aria-hidden="true">View Inventory →</span>
+      </a>
+      <div class="mx-copy">
+        <p class="mx-eyebrow mx-reveal">Category 04 / 06</p>
+        <h2 class="mx-title mx-reveal">Vanities</h2>
+        <p class="mx-lead mx-reveal">Bathroom and kitchen vanities with countertops, ready to set and plumb.</p>
+        <div class="mx-spec mx-reveal"><span>Spec</span><strong>24"–72" Widths</strong></div>
+        <ul class="mx-feats mx-reveal"><li><span>01</span>Bathroom vanities</li><li><span>02</span>Kitchen vanities</li><li><span>03</span>Countertops included</li><li><span>04</span>Ready to set &amp; plumb</li></ul>
+        <div class="mx-actions mx-reveal">
+          <a href="vanities.html" class="mx-btn mx-btn-dark">Explore Vanities</a>
+          <a href="index.html#quote" class="mx-link" onclick="openQuoteRequest();return false;">Get a quote <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="mx-row mx-row--stone" id="shingles" data-spy-target="shingles">
+    <div class="mx-container mx-row-grid">
+      <a class="mx-media" href="shingles.html" aria-label="Explore Shingles inventory">
+        <img src="cat-shingles.jpg" alt="Close-up of architectural roofing shingles" width="1376" height="768" loading="lazy">
+        <span class="mx-num" aria-hidden="true">05</span>
+        <span class="mx-media-cta" aria-hidden="true">View Inventory →</span>
+      </a>
+      <div class="mx-copy">
+        <p class="mx-eyebrow mx-reveal">Category 05 / 06</p>
+        <h2 class="mx-title mx-reveal">Shingles</h2>
+        <p class="mx-lead mx-reveal">Asphalt and architectural shingles by the bundle or the pallet.</p>
+        <div class="mx-spec mx-reveal"><span>Spec</span><strong>3-Tab &amp; Architectural</strong></div>
+        <ul class="mx-feats mx-reveal"><li><span>01</span>Asphalt</li><li><span>02</span>Architectural</li><li><span>03</span>By the bundle</li><li><span>04</span>By the pallet</li></ul>
+        <div class="mx-actions mx-reveal">
+          <a href="shingles.html" class="mx-btn mx-btn-dark">Explore Shingles</a>
+          <a href="index.html#quote" class="mx-link" onclick="openQuoteRequest();return false;">Get a quote <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="mx-row mx-row--dark mx-row--flip" id="toilets" data-spy-target="toilets">
+    <div class="mx-container mx-row-grid">
+      <a class="mx-media" href="toilets.html" aria-label="Explore Toilets inventory">
+        <img src="cat-toilets.jpg" alt="Group of white toilets on display" width="1376" height="768" loading="lazy">
+        <span class="mx-num" aria-hidden="true">06</span>
+        <span class="mx-media-cta" aria-hidden="true">View Inventory →</span>
+      </a>
+      <div class="mx-copy">
+        <p class="mx-eyebrow mx-reveal">Category 06 / 06</p>
+        <h2 class="mx-title mx-reveal">Toilets</h2>
+        <p class="mx-lead mx-reveal">Two-piece and one-piece toilets, staged and ready to set.</p>
+        <div class="mx-spec mx-reveal"><span>Spec</span><strong>1.28 GPF Standard</strong></div>
+        <ul class="mx-feats mx-reveal"><li><span>01</span>One-piece</li><li><span>02</span>Two-piece</li><li><span>03</span>1.28 GPF</li><li><span>04</span>Staged &amp; ready to set</li></ul>
+        <div class="mx-actions mx-reveal">
+          <a href="toilets.html" class="mx-btn mx-btn-light">Explore Toilets</a>
+          <a href="index.html#quote" class="mx-link" onclick="openQuoteRequest();return false;">Get a quote <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section class="legal-section" id="terms">
-    <h2>Terms of Service</h2>
+<section class="mx-cta">
+  <div class="mx-cta-media" aria-hidden="true"><img src="cat-shingles.jpg" alt="" width="1376" height="768" loading="lazy"></div>
+  <div class="mx-container mx-cta-inner mx-reveal">
+    <p class="mx-eyebrow">Not sure what you need?</p>
+    <h2 class="mx-title">Send the list.<br>We'll do the sourcing.</h2>
+    <div class="mx-btn-row">
+      <a href="index.html#quote" class="mx-btn mx-btn-light" onclick="openQuoteRequest();return false;">Request a Quote</a>
+      <a href="tel:+17322211925" class="mx-btn mx-btn-outline-light">Call 732-221-1925</a>
+    </div>
+  </div>
+</section>
 
-    <h3>Acceptance of terms</h3>
-    <p>By using this website, you agree to these Terms of Service. If you don't agree, please don't use the site.</p>
+</main>
 
-    <h3>Use of this website</h3>
-    <p>This website is provided for informational purposes and to allow customers and contractors to request quotes, browse materials, and apply for trade accounts. Product listings, stock status, and pricing shown on this site are estimates and subject to change without notice.</p>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Catalog",
+      "item": "https://reisbuildingmaterials.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Materials",
+      "item": "https://reisbuildingmaterials.com/materials.html"
+    }
+  ]
+}
+</script>
 
-    <h3>Quotes &amp; pricing</h3>
-    <p>Prices and availability shown on this site are not final until confirmed by us directly. A submitted quote request is not an order and does not guarantee pricing, availability, or delivery timing.</p>
-
-    <h3>Trade accounts</h3>
-    <p>Trade account applications are subject to review and approval. Account terms, including pricing and payment terms, are set individually and are not guaranteed by anything shown on this website.</p>
-
-    <h3>No warranty</h3>
-    <p>This website and its content are provided "as is," without warranties of any kind, express or implied, including as to accuracy, completeness, or fitness for a particular purpose.</p>
-
-    <h3>Limitation of liability</h3>
-    <p>To the fullest extent permitted by law, Reis Building Materials is not liable for any indirect, incidental, or consequential damages arising from your use of this website.</p>
-
-    <h3>Governing law</h3>
-    <p>These terms are governed by the laws of the State of New Jersey, without regard to its conflict of law principles.</p>
-
-    <h3>Changes to these terms</h3>
-    <p>We may update these Terms of Service from time to time. Continued use of this website after changes are posted means you accept the updated terms.</p>
-
-    <h3>Contact us</h3>
-    <p>Questions about this Privacy Policy or these Terms? Call us at <a href="tel:+17322211925" style="color:var(--rust);">732-221-1925</a> or visit us at 1420 Rahway Ave, Avenel, NJ 07001.</p>
-  </section>
-</div>
-
-<div class="qr-overlay" id="qr-overlay" role="dialog" aria-modal="true" aria-labelledby="qr-modal-title">
+<div class="qr-overlay" id="qr-overlay">
   <div class="qr-box">
     <div id="qr-form-state">
       <div class="qr-head">
-        <h3 id="qr-modal-title">Request a quote</h3>
+        <h3>Request a quote</h3>
         <button class="qr-close" onclick="closeQuoteRequest()" aria-label="Close">&times;</button>
       </div>
       <p class="qr-sub">Tell us what you need and how to reach you — we'll get pricing back to you the same day.</p>
@@ -686,12 +924,6 @@
     if(e.key === 'Escape'){
       const resultsEl = document.getElementById('site-search-results');
       if(resultsEl) resultsEl.classList.remove('open');
-      const pdOverlay = document.getElementById('pd-overlay');
-      if(pdOverlay) pdOverlay.classList.remove('open');
-      const qrOverlay = document.getElementById('qr-overlay');
-      if(qrOverlay) qrOverlay.classList.remove('open');
-      const taOverlay = document.getElementById('ta-overlay');
-      if(taOverlay) taOverlay.classList.remove('open');
     }
   });
 
@@ -833,6 +1065,41 @@
 })();
 </script>
 
+
+<script>
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('.mx-index a'));
+  var strip = document.querySelector('.mx-index-inner');
+  if(!('IntersectionObserver' in window)){
+    document.documentElement.classList.remove('js');
+    return;
+  }
+  var spy = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      links.forEach(function(a){
+        var on = a.dataset.spy === e.target.dataset.spyTarget;
+        a.classList.toggle('is-active', on);
+        if(on && strip && strip.scrollWidth > strip.clientWidth){ strip.scrollTo({left: a.offsetLeft - 20, behavior:'smooth'}); }
+      });
+    });
+  }, {rootMargin:'-45% 0px -50% 0px'});
+  document.querySelectorAll('[data-spy-target]').forEach(function(s){ spy.observe(s); });
+
+  var reveal = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); reveal.unobserve(e.target); }
+    });
+  }, {threshold:0.15, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.mx-copy').forEach(function(copy){
+    copy.querySelectorAll('.mx-reveal').forEach(function(el, i){
+      el.style.transitionDelay = (i * 70) + 'ms';
+      reveal.observe(el);
+    });
+  });
+  document.querySelectorAll('.mx-cta-inner.mx-reveal').forEach(function(el){ reveal.observe(el); });
+})();
+</script>
 </body>
 </html>
 
