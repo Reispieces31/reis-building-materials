@@ -43,6 +43,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+  #page-curtain{
+    position:fixed;inset:0;background:var(--charcoal);z-index:100000;
+    display:flex;align-items:center;justify-content:center;
+    opacity:1;transition:opacity 0.4s ease;
+  }
+  #page-curtain .curtain-logo{
+    font-family:'Archivo Black',sans-serif;color:var(--offwhite);font-size:20px;letter-spacing:0.02em;
+    display:flex;align-items:center;gap:10px;
+  }
+  #page-curtain .curtain-dot{width:8px;height:8px;background:var(--rust);border-radius:1px;}
   :root{
     --charcoal:#1F1D1B; --concrete:#6B665F; --offwhite:#EDEAE3;
     --rust:#B5502A; --steel:#3D4A52;
@@ -342,6 +352,26 @@
   }
   .directions-btn:hover{background:var(--charcoal);color:var(--offwhite);transform:translateY(-1px);}
 
+  .trade-layout{display:grid;grid-template-columns:1.3fr 1fr;gap:56px;align-items:start;margin-top:8px;}
+  .trade-collage{position:relative;min-height:340px;}
+  .trade-collage-a{
+    position:absolute;top:0;left:0;width:78%;height:260px;background:var(--charcoal);
+    border-radius:4px;overflow:hidden;box-shadow:0 24px 48px rgba(31,29,27,0.2);
+  }
+  .trade-collage-b{
+    position:absolute;bottom:0;right:0;width:62%;height:200px;background:var(--rust);
+    border-radius:4px;overflow:hidden;border:5px solid var(--offwhite);
+    box-shadow:0 20px 40px rgba(31,29,27,0.25);
+  }
+  .trade-collage-badge{
+    position:absolute;top:22px;left:22px;background:var(--offwhite);color:var(--charcoal);
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.04em;
+    padding:10px 14px;border-radius:3px;box-shadow:0 12px 24px rgba(31,29,27,0.2);z-index:2;
+  }
+  @media (max-width:860px){
+    .trade-layout{grid-template-columns:1fr;}
+    .trade-collage{display:none;}
+  }
   .trade-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px;}
   .trade-card{background:var(--offwhite);padding:26px 24px;}
   .trade-card h3{font-size:20px;margin-bottom:10px;}
@@ -354,6 +384,7 @@
 </style>
 </head>
 <body>
+<div id="page-curtain"><div class="curtain-logo"><span class="curtain-dot"></span>REIS BUILDING MATERIALS</div></div>
 
 <header>
   <nav class="nav">
@@ -424,25 +455,59 @@
 
 <section class="section" id="trade-accounts" style="padding-top:0;">
   <div class="wrap">
-    <div class="section-tag">For contractors &amp; builders</div>
-    <h2>Trade accounts.</h2>
-    <p class="section-intro">Running jobs regularly? A trade account gets you set up for ongoing work — no need to re-enter your info on every quote.</p>
-    <div class="trade-grid">
-      <div class="trade-card">
-        <h3>Volume pricing</h3>
-        <p>Standing pricing on materials you order often, instead of re-negotiating every job.</p>
+    <div class="trade-layout">
+      <div>
+        <div class="section-tag">For contractors &amp; builders</div>
+        <h2>Trade accounts.</h2>
+        <p class="section-intro">Running jobs regularly? A trade account gets you set up for ongoing work — no need to re-enter your info on every quote.</p>
+        <div class="trade-grid">
+          <div class="trade-card">
+            <h3>Volume pricing</h3>
+            <p>Standing pricing on materials you order often, instead of re-negotiating every job.</p>
+          </div>
+          <div class="trade-card">
+            <h3>Net terms</h3>
+            <p>Qualifying accounts can be billed on terms instead of paying at pickup for every order.</p>
+          </div>
+          <div class="trade-card">
+            <h3>Priority will-call</h3>
+            <p>Your orders staged and ready when you arrive, ahead of walk-in pickups.</p>
+          </div>
+        </div>
+        <div class="hero-actions" style="margin-top:32px;">
+          <a href="#" class="btn-primary" style="background:var(--charcoal);border-color:var(--charcoal);color:var(--offwhite);" onclick="openTradeApplication();return false;">Apply for a trade account</a>
+        </div>
       </div>
-      <div class="trade-card">
-        <h3>Net terms</h3>
-        <p>Qualifying accounts can be billed on terms instead of paying at pickup for every order.</p>
+      <div class="trade-collage" aria-hidden="true">
+        <div class="trade-collage-badge">TRADE — VOLUME PRICING · NET TERMS</div>
+        <div class="trade-collage-a">
+          <svg width="100%" height="100%" viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="260" fill="#1F1D1B"/>
+            <g stroke="#3D4A52" stroke-width="2" opacity="0.6">
+              <line x1="0" y1="40" x2="400" y2="40"/>
+              <line x1="0" y1="90" x2="400" y2="90"/>
+              <line x1="0" y1="140" x2="400" y2="140"/>
+              <line x1="0" y1="190" x2="400" y2="190"/>
+              <line x1="0" y1="240" x2="400" y2="240"/>
+            </g>
+            <g stroke="#B5502A" stroke-width="3" opacity="0.8">
+              <line x1="40" y1="0" x2="40" y2="260"/>
+              <line x1="200" y1="0" x2="200" y2="260"/>
+              <line x1="360" y1="0" x2="360" y2="260"/>
+            </g>
+          </svg>
+        </div>
+        <div class="trade-collage-b">
+          <svg width="100%" height="100%" viewBox="0 0 260 200" preserveAspectRatio="xMidYMid slice">
+            <rect width="260" height="200" fill="#B5502A"/>
+            <g stroke="#EDEAE3" stroke-width="2" opacity="0.7">
+              <circle cx="130" cy="100" r="30" fill="none"/>
+              <circle cx="130" cy="100" r="55" fill="none"/>
+              <circle cx="130" cy="100" r="80" fill="none"/>
+            </g>
+          </svg>
+        </div>
       </div>
-      <div class="trade-card">
-        <h3>Priority will-call</h3>
-        <p>Your orders staged and ready when you arrive, ahead of walk-in pickups.</p>
-      </div>
-    </div>
-    <div class="hero-actions" style="margin-top:32px;">
-      <a href="#" class="btn-primary" style="background:var(--charcoal);border-color:var(--charcoal);color:var(--offwhite);" onclick="openTradeApplication();return false;">Apply for a trade account</a>
     </div>
   </div>
 </section>
@@ -714,6 +779,12 @@
     'Vanities':'vanities', 'Shingles':'shingles', 'Toilets':'toilets'
   };
 
+  window.closeSearchAndOpenQuote = function(){
+    const resultsEl = document.getElementById('site-search-results');
+    if(resultsEl) resultsEl.classList.remove('open');
+    openQuoteRequest();
+  };
+
   window.performSiteSearch = async function(query){
     const resultsEl = document.getElementById('site-search-results');
     if(!resultsEl) return;
@@ -732,7 +803,7 @@
     ).slice(0, 8);
 
     if(matches.length === 0){
-      resultsEl.innerHTML = '<div class="ssr-empty">No products match "'+escapeHtml(query)+'".</div>';
+      resultsEl.innerHTML = '<div class="ssr-empty">No in-stock products match "'+escapeHtml(query)+'". <a href="#" onclick="closeSearchAndOpenQuote();return false;" style="color:var(--rust);text-decoration:underline;">Request a quote</a> and we\'ll check for you.</div>';
       resultsEl.classList.add('open');
       return;
     }
@@ -1002,3 +1073,39 @@
 </script>
 </body>
 </html>
+
+<script>
+(function(){
+  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const curtain = document.getElementById('page-curtain');
+  if(!curtain) return;
+
+  if(prefersReduced){
+    curtain.style.transition = 'none';
+    curtain.style.opacity = '0';
+    curtain.style.display = 'none';
+    return;
+  }
+
+  const isFirstVisit = !sessionStorage.getItem('reisVisited');
+  sessionStorage.setItem('reisVisited', '1');
+  const minDwell = isFirstVisit ? 500 : 150;
+
+  function revealPage(){
+    curtain.style.opacity = '0';
+    setTimeout(() => { curtain.style.display = 'none'; }, 400);
+  }
+  window.addEventListener('load', () => { setTimeout(revealPage, minDwell); });
+
+  document.querySelectorAll('a[href]').forEach(link => {
+    const href = link.getAttribute('href');
+    if(!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:') || link.target === '_blank') return;
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      curtain.style.display = 'flex';
+      curtain.style.opacity = '1';
+      setTimeout(() => { window.location.href = href; }, 300);
+    });
+  });
+})();
+</script>

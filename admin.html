@@ -2193,6 +2193,7 @@ function renderHistory(){
       <div class="row-actions">
         <button class="icon-btn" onclick="viewQuote('${q.id}')">View</button>
         <button class="icon-btn" onclick="editQuote('${q.id}')">Edit</button>
+        <button class="icon-btn" onclick="duplicateQuote('${q.id}')">Duplicate</button>
         <button class="icon-btn" onclick="printInvoice('${q.id}')">Print invoice</button>
         <button class="icon-btn" onclick="togglePaidStatus('${q.id}')">${q.paid ? 'Mark unpaid' : 'Mark paid'}</button>
         <button class="icon-btn danger" onclick="deleteQuote('${q.id}')">Delete</button>
@@ -2427,6 +2428,65 @@ function editQuote(id){
   document.querySelector('.tab-btn[data-view="quote"]').classList.add('active');
   document.getElementById('view-quote').classList.add('active');
   document.getElementById('low-stock-banner').style.display = 'none';
+}
+
+function duplicateQuote(id){
+  const quote = quotes.find(q=>q.id===id);
+  if(!quote) return;
+
+  editingQuoteId = null;
+  document.getElementById('editing-banner').style.display = 'none';
+
+  document.getElementById('q-customer').value = quote.customer || '';
+  document.getElementById('q-contact').value = quote.contact || '';
+  document.getElementById('q-job').value = quote.job || '';
+  document.getElementById('q-address').value = quote.address || '';
+
+  let missing = 0;
+  lineItems = quote.rows.map(row => {
+    if(row.custom){
+      return {key:'li-'+Date.now()+Math.random(), custom:true, description: row.name, qty: row.qty, price: row.price};
+    }
+    const item = inventory.find(i => i.sku.toLowerCase() === row.sku.toLowerCase());
+    if(!item){ missing++; return null; }
+    const isPackRow = (row.unit === 'bundle' || row.unit === 'case') && item.coverage && item.coverage > 0;
+    const rawQty = isPackRow ? Math.round(row.qty * item.coverage) : row.qty;
+    return {key:'li-'+Date.now()+Math.random(), invId:item.id, qty:rawQty};
+  }).filter(Boolean);
+
+  if(lineItems.length === 0) addLineItem();
+
+  taxEnabled = quote.tax_rate != null;
+  taxRatePercent = quote.tax_rate != null ? quote.tax_rate : 6.625;
+  document.getElementById('tax-toggle').checked = taxEnabled;
+  document.getElementById('tax-rate-input').value = taxRatePercent;
+  document.getElementById('tax-rate-input').disabled = !taxEnabled;
+
+  discountEnabled = quote.discount_type != null;
+  discountType = quote.discount_type != null ? quote.discount_type : 'percent';
+  discountValue = quote.discount_value != null ? quote.discount_value : 0;
+  document.getElementById('discount-toggle').checked = discountEnabled;
+  document.getElementById('discount-type-input').value = discountType;
+  document.getElementById('discount-value-input').value = discountValue;
+  document.getElementById('discount-value-input').disabled = !discountEnabled;
+  document.getElementById('discount-type-input').disabled = !discountEnabled;
+
+  paymentTerms = quote.payment_terms || 'due_on_receipt';
+  customDueDate = (paymentTerms === 'custom' && quote.due_date) ? quote.due_date.slice(0,10) : '';
+  document.getElementById('payment-terms-input').value = paymentTerms;
+  document.getElementById('custom-due-date-input').value = customDueDate;
+  document.getElementById('custom-due-date-input').style.display = (paymentTerms === 'custom') ? 'inline-block' : 'none';
+
+  renderLineItems();
+  updateQuotePreview();
+
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelector('.tab-btn[data-view="quote"]').classList.add('active');
+  document.getElementById('view-quote').classList.add('active');
+  document.getElementById('low-stock-banner').style.display = 'none';
+
+  showToast('Duplicated quote ' + quote.number + ' — review and save to create a new quote.' + (missing ? ' ('+missing+' item(s) no longer in inventory were dropped.)' : ''));
 }
 
 async function convertRequestToQuote(id){
