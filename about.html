@@ -1123,3 +1123,14 @@
   });
 })();
 </script>
+
+<script>
+(function(){
+  if(new URLSearchParams(window.location.search).get('apply') !== 'trade') return;
+  window.addEventListener('load', function(){
+    setTimeout(function(){
+      if(typeof window.openTradeApplication === 'function') window.openTradeApplication();
+    }, 900);
+  });
+})();
+</script>
