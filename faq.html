@@ -353,7 +353,7 @@
     <div class="navlinks">
       <a href="materials.html">Materials</a>
       <a href="trade-accounts.html">Trade Accounts</a>
-      <a href="index.html#quote" onclick="openQuoteRequest();return false;">Request a Quote</a>
+      <a href="quote.html">Request a Quote</a>
       <a href="about.html#contact">Contact</a>
     </div>
     <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -368,7 +368,7 @@
   <h1>Got questions?</h1>
 
   <div class="legal-disclaimer">
-    Can't find what you're looking for? Call us at <a href="tel:+17322211925" style="color:var(--rust);">732-221-1925</a> or <a href="#" onclick="openQuoteRequest();return false;" style="color:var(--rust);">request a quote</a> and we'll get back to you directly.
+    Can't find what you're looking for? Call us at <a href="tel:+17322211925" style="color:var(--rust);">732-221-1925</a> or <a href="quote.html" style="color:var(--rust);">request a quote</a> and we'll get back to you directly.
   </div>
 
   <div class="legal-toc">
@@ -526,13 +526,13 @@
         <a href="about.html">About</a>
         <a href="faq.html">FAQ</a>
         <a href="index.html#process">How it works</a>
-        <a href="#" onclick="openQuoteRequest();return false;">Request a quote</a>
+        <a href="quote.html">Request a quote</a>
       </div>
       <div>
         <h4>Contact</h4>
         <a href="tel:+17322211925" style="display:block;margin-bottom:10px;font-weight:600;color:var(--offwhite);">732-221-1925</a>
         <p>Daily, by appointment</p>
-        <a href="#" onclick="openQuoteRequest();return false;">Request a quote</a>
+        <a href="quote.html">Request a quote</a>
       </div>
     </div>
     <div class="foot-bottom">
@@ -847,4 +847,9 @@
     });
   });
 })();
+</script>
+
+<script>
+/* Request a Quote now lives on its own page, so every quote button goes there */
+window.openQuoteRequest = function(){ window.location.href = 'quote.html'; };
 </script>

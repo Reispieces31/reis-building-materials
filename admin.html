@@ -2509,7 +2509,7 @@ async function convertRequestToQuote(id){
   lineItems = (request.items || []).map(row => {
     const item = inventory.find(i => i.sku.toLowerCase() === (row.sku||'').toLowerCase());
     if(!item){ missing++; return null; }
-    return {key:'li-'+Date.now()+Math.random(), invId:item.id, qty:row.qty};
+    return {key:'li-'+Date.now()+Math.random(), invId:item.id, qty:(row.packs && item.coverage > 0) ? row.packs * item.coverage : row.qty};
   }).filter(Boolean);
 
   if(lineItems.length === 0) addLineItem();
@@ -2823,8 +2823,9 @@ async function renderRequests(){
         ${r.address ? '<b>Address:</b> '+escapeHtml(r.address) : ''}
       </div>
       <div class="request-pref">Prefers: ${escapeHtml(r.pref || 'Email')}</div>
+      ${r.notes ? `<div class="request-notes" style="white-space:pre-line;font-size:13.5px;color:var(--steel);background:var(--offwhite);border-left:3px solid var(--rust);padding:10px 14px;margin:10px 0;">${escapeHtml(r.notes)}</div>` : ''}
       <div class="request-items">
-        ${r.items && r.items.length ? `<ul>${r.items.map(it=>`<li><span>${escapeHtml(it.name)} (${escapeHtml(it.sku)})</span><span class="mono">Qty ${it.qty}</span></li>`).join('')}</ul>` : '<em style="color:var(--concrete);">No specific items selected.</em>'}
+        ${r.items && r.items.length ? `<ul>${r.items.map(it=>`<li><span>${escapeHtml(it.name)} (${escapeHtml(it.sku)})</span><span class="mono">${it.packs ? it.packs + ' ' + escapeHtml(it.packLabel === 'box' && it.packs !== 1 ? 'boxes' : (it.packLabel || 'unit') + (it.packs !== 1 ? 's' : '')) : 'Qty ' + it.qty}</span></li>`).join('')}</ul>` : '<em style="color:var(--concrete);">No specific items selected.</em>'}
       </div>
     </div>
   `).join('');

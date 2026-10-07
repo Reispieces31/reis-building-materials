@@ -379,7 +379,7 @@
     <div class="navlinks">
       <a href="materials.html">Materials</a>
       <a href="trade-accounts.html">Trade Accounts</a>
-      <a href="index.html#quote" onclick="openQuoteRequest();return false;">Request a Quote</a>
+      <a href="quote.html">Request a Quote</a>
       <a href="about.html#contact">Contact</a>
     </div>
     <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -396,7 +396,7 @@
     <h1>Flooring, cut and stocked for the job.</h1>
     <p class="sub">Hardwood, laminate, tile, and vinyl plank, held in stocked runs so a full-room order doesn't mean a special order.</p>
     <div class="hero-actions">
-      <a href="#" class="btn-primary" onclick="openQuoteRequest();return false;">Request a quote</a>
+      <a href="quote.html" class="btn-primary">Request a quote</a>
       <a href="index.html#materials" class="btn-ghost">All materials</a>
     </div>
   </div>
@@ -438,7 +438,7 @@
   <div class="wrap">
     <h2>Get a quote back the same day.</h2>
     <p>Send your material list — we'll confirm pricing and availability against live warehouse stock.</p>
-    <a href="#" class="btn-primary" onclick="openQuoteRequest();return false;">Request a quote</a>
+    <a href="quote.html" class="btn-primary">Request a quote</a>
   </div>
 </section>
 
@@ -471,13 +471,13 @@
         <a href="about.html">About</a>
         <a href="faq.html">FAQ</a>
         <a href="index.html#process">How it works</a>
-        <a href="#" onclick="openQuoteRequest();return false;">Request a quote</a>
+        <a href="quote.html">Request a quote</a>
       </div>
       <div>
         <h4>Contact</h4>
         <a href="tel:+17322211925" style="display:block;margin-bottom:10px;font-weight:600;color:var(--offwhite);">732-221-1925</a>
         <p>Daily, by appointment</p>
-        <a href="#" onclick="openQuoteRequest();return false;">Request a quote</a>
+        <a href="quote.html">Request a quote</a>
       </div>
     </div>
     <div class="foot-bottom">
@@ -1058,4 +1058,9 @@
     });
   });
 })();
+</script>
+
+<script>
+/* Request a Quote now lives on its own page, so every quote button goes there */
+window.openQuoteRequest = function(){ window.location.href = 'quote.html'; };
 </script>

@@ -353,7 +353,7 @@
     <div class="navlinks">
       <a href="materials.html">Materials</a>
       <a href="trade-accounts.html">Trade Accounts</a>
-      <a href="index.html#quote" onclick="openQuoteRequest();return false;">Request a Quote</a>
+      <a href="quote.html">Request a Quote</a>
       <a href="about.html#contact">Contact</a>
     </div>
     <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -406,7 +406,7 @@
     <p>We keep your information for as long as reasonably necessary to fulfill the purposes described above, or as required for our business, tax, and legal record-keeping.</p>
 
     <h3>Your choices</h3>
-    <p>You can ask us to access, correct, or delete the information we hold about you at any time by calling <a href="tel:+17322211925" style="color:var(--rust);">732-221-1925</a> or reaching out through our <a href="index.html#quote" style="color:var(--rust);" onclick="openQuoteRequest();return false;">contact form</a>.</p>
+    <p>You can ask us to access, correct, or delete the information we hold about you at any time by calling <a href="tel:+17322211925" style="color:var(--rust);">732-221-1925</a> or reaching out through our <a href="quote.html" style="color:var(--rust);">contact form</a>.</p>
 
     <h3>Cookies &amp; tracking</h3>
     <p>This website does not use third-party advertising or tracking cookies. If that changes in the future, we'll update this policy.</p>
@@ -543,13 +543,13 @@
         <a href="about.html">About</a>
         <a href="faq.html">FAQ</a>
         <a href="index.html#process">How it works</a>
-        <a href="#" onclick="openQuoteRequest();return false;">Request a quote</a>
+        <a href="quote.html">Request a quote</a>
       </div>
       <div>
         <h4>Contact</h4>
         <a href="tel:+17322211925" style="display:block;margin-bottom:10px;font-weight:600;color:var(--offwhite);">732-221-1925</a>
         <p>Daily, by appointment</p>
-        <a href="#" onclick="openQuoteRequest();return false;">Request a quote</a>
+        <a href="quote.html">Request a quote</a>
       </div>
     </div>
     <div class="foot-bottom">
@@ -870,4 +870,9 @@
     });
   });
 })();
+</script>
+
+<script>
+/* Request a Quote now lives on its own page, so every quote button goes there */
+window.openQuoteRequest = function(){ window.location.href = 'quote.html'; };
 </script>
