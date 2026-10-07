@@ -495,6 +495,34 @@
     .foot-grid{grid-template-columns:1fr;}
     .foot-bottom{flex-direction:column;gap:8px;}
   }
+
+  /* ---------- DARK HEADER + IMAGE LOGO ---------- */
+  header{background:rgba(31,29,27,0.92);border-bottom:1px solid rgba(237,234,227,0.12);}
+  .logo{display:block;flex:none;line-height:0;}
+  .logo img{height:38px;width:auto;display:block;}
+  .navlinks{gap:34px;}
+  .navlinks a{color:var(--offwhite);}
+  .navlinks a:hover{color:#E3825A;}
+  .burger span{background:var(--offwhite);}
+  .site-search input{background:rgba(237,234,227,0.08);border-color:rgba(237,234,227,0.25);color:var(--offwhite);}
+  .site-search input::placeholder{color:rgba(237,234,227,0.6);}
+  .site-search input:focus{background:rgba(237,234,227,0.14);}
+  @media (max-width:640px){ .logo img{height:32px;} }
+  @media (max-width:1000px){ .navlinks{gap:20px;} .navlinks a{font-size:12px;} .site-search{max-width:170px;} }
+
+  /* ---------- HOMEPAGE: PHOTO HERO + HEADER OVER PHOTO ---------- */
+  header{position:fixed;top:0;left:0;right:0;background:transparent;border-bottom:1px solid transparent;
+    backdrop-filter:none;-webkit-backdrop-filter:none;
+    transition:background 0.3s var(--ease), border-color 0.3s var(--ease);}
+  header.is-solid{background:rgba(31,29,27,0.92);border-bottom-color:rgba(237,234,227,0.12);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
+  .hero{
+    background:linear-gradient(rgba(17,19,18,0.74), rgba(17,19,18,0.82)),
+      url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat,
+      #1F1D1B;
+  }
+  .hero-grid{padding-top:160px;}
+  @media (max-width:640px){ .hero-grid{padding-top:120px;} }
 </style>
 </head>
 <body>
@@ -503,16 +531,16 @@
 
 <header>
   <nav class="nav">
-    <div class="logo"><span class="dot"></span>REIS BUILDING MATERIALS</div>
+    <a href="index.html" class="logo" aria-label="Reis Building Materials home"><img src="reis-logo-light.png" alt="Reis Building Materials" width="1016" height="186"></a>
     <div class="site-search">
       <input type="text" id="site-search-input" placeholder="Search products…" autocomplete="off" oninput="performSiteSearch(this.value)" onfocus="performSiteSearch(this.value)">
       <div class="site-search-results" id="site-search-results"></div>
     </div>
     <div class="navlinks">
       <a href="#materials">Materials</a>
-      <a href="#process">How it works</a>
-      <a href="about.html">About</a>
-      <a href="#" class="navcta" onclick="openQuoteRequest();return false;">Request a quote</a>
+      <a href="about.html#trade-accounts">Trade Accounts</a>
+      <a href="#" onclick="openQuoteRequest();return false;">Request a Quote</a>
+      <a href="about.html#contact">Contact</a>
     </div>
     <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
   </nav>
@@ -785,7 +813,7 @@
     const isOpen = navlinks.style.display === 'flex';
     navlinks.style.display = isOpen ? 'none' : 'flex';
     if(!isOpen){
-      navlinks.style.cssText = 'display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#EDEAE3;padding:24px 32px;gap:20px;border-bottom:1px solid rgba(31,29,27,0.15);';
+      navlinks.style.cssText = 'display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#1F1D1B;padding:24px 32px;gap:20px;border-bottom:1px solid rgba(237,234,227,0.15);';
     }
   });
 </script>
@@ -1309,6 +1337,17 @@
       });
     });
   }
+})();
+</script>
+
+
+<script>
+(function(){
+  const h = document.querySelector('header');
+  if(!h) return;
+  function update(){ h.classList.toggle('is-solid', window.scrollY > 30); }
+  window.addEventListener('scroll', update, {passive:true});
+  update();
 })();
 </script>
 

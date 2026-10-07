@@ -346,6 +346,20 @@
     .qr-grid-2{grid-template-columns:1fr;}
     .qr-line-head, .qr-line-row{grid-template-columns:1fr 0.7fr auto;}
   }
+
+  /* ---------- DARK HEADER + IMAGE LOGO ---------- */
+  header{background:rgba(31,29,27,0.92);border-bottom:1px solid rgba(237,234,227,0.12);}
+  .logo{display:block;flex:none;line-height:0;}
+  .logo img{height:38px;width:auto;display:block;}
+  .navlinks{gap:34px;}
+  .navlinks a{color:var(--offwhite);}
+  .navlinks a:hover{color:#E3825A;}
+  .burger span{background:var(--offwhite);}
+  .site-search input{background:rgba(237,234,227,0.08);border-color:rgba(237,234,227,0.25);color:var(--offwhite);}
+  .site-search input::placeholder{color:rgba(237,234,227,0.6);}
+  .site-search input:focus{background:rgba(237,234,227,0.14);}
+  @media (max-width:640px){ .logo img{height:32px;} }
+  @media (max-width:1000px){ .navlinks{gap:20px;} .navlinks a{font-size:12px;} .site-search{max-width:170px;} }
 </style>
 </head>
 <body>
@@ -354,16 +368,16 @@
 
 <header>
   <nav class="nav">
-    <a href="index.html" class="logo"><span class="dot"></span>REIS BUILDING MATERIALS</a>
+    <a href="index.html" class="logo" aria-label="Reis Building Materials home"><img src="reis-logo-light.png" alt="Reis Building Materials" width="1016" height="186"></a>
     <div class="site-search">
       <input type="text" id="site-search-input" placeholder="Search products…" autocomplete="off" oninput="performSiteSearch(this.value)" onfocus="performSiteSearch(this.value)">
       <div class="site-search-results" id="site-search-results"></div>
     </div>
     <div class="navlinks">
       <a href="index.html#materials">Materials</a>
-      <a href="index.html#process">How it works</a>
-      <a href="about.html">About</a>
-      <a href="index.html#quote" class="navcta" onclick="openQuoteRequest();return false;">Request a quote</a>
+      <a href="about.html#trade-accounts">Trade Accounts</a>
+      <a href="index.html#quote" onclick="openQuoteRequest();return false;">Request a Quote</a>
+      <a href="about.html#contact">Contact</a>
     </div>
     <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
   </nav>
@@ -550,7 +564,7 @@
     const isOpen = navlinks.style.display === 'flex';
     navlinks.style.display = isOpen ? 'none' : 'flex';
     if(!isOpen){
-      navlinks.style.cssText = 'display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#EDEAE3;padding:24px 32px;gap:20px;border-bottom:1px solid rgba(31,29,27,0.15);';
+      navlinks.style.cssText = 'display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#1F1D1B;padding:24px 32px;gap:20px;border-bottom:1px solid rgba(237,234,227,0.15);';
     }
   });
 </script>
