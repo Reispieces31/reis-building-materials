@@ -388,33 +388,48 @@
     @page{margin:0.6in;}
   }
   #invoice-print{
-    max-width:800px;margin:0 auto;padding:0;
-    font-family:'Inter',sans-serif;color:var(--charcoal);background:#fff;
+    max-width:760px;margin:0 auto;padding:0;background:#fff;color:#1d1d1d;
+    font-family:'Inter',Arial,sans-serif;font-size:12.5px;line-height:1.45;
   }
-  .inv-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid var(--charcoal);padding-bottom:24px;margin-bottom:24px;}
-  .inv-header img{max-height:70px;max-width:200px;margin-bottom:10px;display:block;}
-  .inv-company{font-size:13px;color:var(--steel);line-height:1.6;}
-  .inv-company-name{font-family:'Archivo Black',sans-serif;font-size:16px;color:var(--charcoal);margin-bottom:4px;}
-  .inv-meta{text-align:right;}
-  .inv-meta h1{font-family:'Barlow Condensed',sans-serif;font-size:38px;letter-spacing:0.05em;color:var(--charcoal);margin-bottom:10px;font-weight:700;}
-  .inv-meta div{font-size:13px;color:var(--steel);margin-bottom:4px;}
-  .inv-status-badge{display:inline-block;padding:2px 10px;font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;border:1.5px solid;border-radius:3px;}
-  .inv-status-badge.paid{color:#5C7A56;border-color:#5C7A56;}
-  .inv-status-badge.unpaid{color:var(--rust);border-color:var(--rust);}
-  .inv-billto{margin-bottom:30px;}
-  .inv-label{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--concrete);margin-bottom:8px;}
-  .inv-customer-name{font-size:17px;font-weight:600;margin-bottom:4px;}
-  .inv-billto div{font-size:14px;color:var(--steel);line-height:1.6;}
-  .inv-table{width:100%;border-collapse:collapse;margin-bottom:24px;}
-  .inv-table th{text-align:left;font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--concrete);border-bottom:2px solid var(--charcoal);padding:8px 6px;}
-  .inv-table td{padding:12px 6px;border-bottom:1px solid var(--line);font-size:14px;}
-  .inv-table th:last-child, .inv-table td:last-child{text-align:right;}
-  .inv-table th:nth-child(3), .inv-table td:nth-child(3){text-align:center;}
-  .inv-totals{margin-left:auto;width:260px;margin-bottom:40px;}
-  .inv-total-row{display:flex;justify-content:space-between;padding:8px 0;font-size:14px;color:var(--steel);}
-  .inv-total-row.inv-grand{border-top:2px solid var(--charcoal);margin-top:6px;padding-top:14px;font-size:20px;font-weight:700;color:var(--charcoal);}
-  .inv-footer{border-top:1px solid var(--line);padding-top:20px;font-size:13px;color:var(--concrete);text-align:center;}
-  .inv-footer p{margin-bottom:4px;}
+  #invoice-print, #invoice-print *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  #invoice-print table{border-collapse:collapse;}
+  .inv2-top{width:100%;margin-bottom:30px;}
+  .inv2-top td{vertical-align:top;padding:0;}
+  .inv2-logo{height:92px;width:auto;display:block;}
+  .inv2-title{text-align:right;}
+  .inv2-title h1{font-family:'Inter',Arial,sans-serif;font-weight:800;font-size:36px;letter-spacing:-0.02em;line-height:1;margin:0 0 8px;color:#111;text-transform:none;}
+  .inv2-number{font-size:13px;color:#333;margin-bottom:2px;}
+  .inv-status-badge{display:inline-block;margin-top:6px;padding:2px 10px;font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.08em;border:1.5px solid;}
+  .inv-status-badge.paid{color:#3f7a35;border-color:#3f7a35;}
+  .inv-status-badge.unpaid{color:#b5502a;border-color:#b5502a;}
+  .inv2-bill{width:100%;margin-bottom:26px;}
+  .inv2-bill td{vertical-align:bottom;padding:0;}
+  .inv2-bill td.inv2-bill-label{width:70px;font-weight:700;vertical-align:top;padding-top:0;}
+  .inv2-bill td.inv2-billto{vertical-align:top;}
+  .inv2-billto{color:#333;line-height:1.85;}
+  .inv2-customer{font-weight:700;color:#111;}
+  .inv2-due{text-align:right;white-space:nowrap;padding-left:20px;}
+  .inv2-due b{margin-right:14px;}
+  .inv2-table{width:100%;table-layout:fixed;border:1px solid #2b2b2b;}
+  .inv2-table th{background:#63b3f5;color:#111;font-weight:700;font-size:15px;padding:6px 8px;text-align:center;border-bottom:1px solid #2b2b2b;}
+  .inv2-table th:first-child{text-align:center;}
+  .inv2-table td{padding:0 6px;height:22px;font-size:12.5px;vertical-align:middle;}
+  .inv2-table .inv2-c-taxed{width:130px;border-left:1px solid #2b2b2b;text-align:center;}
+  .inv2-table .inv2-c-amount{width:120px;border-left:1px solid #2b2b2b;text-align:center;}
+  .inv2-table tbody tr:nth-child(odd) td{background:#f6fbff;}
+  .inv2-table tbody tr:nth-child(even) td{background:#e3f0fc;}
+  .inv2-bottom{width:100%;margin-top:0;page-break-inside:avoid;}
+  .inv2-bottom > tbody > tr > td{vertical-align:top;padding:0;}
+  .inv2-business{padding-top:14px;line-height:1.95;font-size:12.5px;}
+  .inv2-business b{font-weight:700;}
+  .inv2-bizname{font-weight:700;font-size:14px;margin-bottom:2px;}
+  .inv2-totals{width:250px;margin-left:auto;table-layout:fixed;border:1px solid #2b2b2b;border-top:0;}
+  .inv2-totals td{height:22px;padding:0 8px;}
+  .inv2-totals td:first-child{width:130px;color:#333;}
+  .inv2-totals td:last-child{width:120px;text-align:center;border-left:1px solid #2b2b2b;}
+  .inv2-totals tr:nth-child(odd) td{background:#f6fbff;}
+  .inv2-totals tr:nth-child(even) td{background:#e3f0fc;}
+  .inv2-totals tr.inv2-grand td{font-weight:700;color:#111;}
 
   @media (max-width: 900px){
     .grid-2, .grid-3{grid-template-columns:1fr;}
@@ -738,49 +753,47 @@
 <div id="toast"></div>
 
 <div id="invoice-print">
-  <div class="inv-header">
-    <div>
-      <img src="" alt="Reis Building Materials" id="inv-logo">
-      <div class="inv-company">
-        <div class="inv-company-name">Reis Building Materials</div>
-        <div>2229 Morris Ave, Building 3, Union, NJ 07083</div>
-        <div>732-221-1925</div>
-      </div>
-    </div>
-    <div class="inv-meta">
+  <table class="inv2-top"><tr>
+    <td><img src="" alt="Reis Building Materials" id="inv-logo" class="inv2-logo"></td>
+    <td class="inv2-title">
       <h1>Invoice</h1>
-      <div><b>Invoice #:</b> <span id="inv-number"></span></div>
-      <div><b>Date:</b> <span id="inv-date"></span></div>
+      <div class="inv2-number">Number: <span id="inv-number"></span></div>
+      <div class="inv2-number">Date: <span id="inv-date"></span></div>
       <div><span class="inv-status-badge" id="inv-status"></span></div>
-    </div>
-  </div>
+    </td>
+  </tr></table>
 
-  <div class="inv-billto">
-    <div class="inv-label">Bill To</div>
-    <div class="inv-customer-name" id="inv-customer"></div>
-    <div id="inv-contact"></div>
-    <div id="inv-address"></div>
-    <div id="inv-job"></div>
-  </div>
+  <table class="inv2-bill"><tr>
+    <td class="inv2-bill-label">Bill To:</td>
+    <td class="inv2-billto">
+      <div class="inv2-customer" id="inv-customer"></div>
+      <div id="inv-contact"></div>
+      <div id="inv-address"></div>
+      <div id="inv-job"></div>
+    </td>
+    <td class="inv2-due"><b>Payment Due Date:</b><span id="inv-due"></span></td>
+  </tr></table>
 
-  <table class="inv-table">
+  <table class="inv2-table">
     <thead>
-      <tr><th>Description</th><th>SKU</th><th>Qty</th><th>Unit Price</th><th>Amount</th></tr>
+      <tr><th>Description</th><th class="inv2-c-taxed">Taxed</th><th class="inv2-c-amount">Amount</th></tr>
     </thead>
     <tbody id="inv-rows"></tbody>
   </table>
 
-  <div class="inv-totals">
-    <div class="inv-total-row"><span>Subtotal</span><span id="inv-subtotal"></span></div>
-    <div class="inv-total-row" id="inv-discount-row" style="display:none;"><span id="inv-discount-label">Discount</span><span id="inv-discount-amount"></span></div>
-    <div class="inv-total-row" id="inv-tax-row" style="display:none;"><span id="inv-tax-label">NJ Sales Tax</span><span id="inv-tax-amount"></span></div>
-    <div class="inv-total-row inv-grand"><span>Total Due</span><span id="inv-total"></span></div>
-  </div>
-
-  <div class="inv-footer">
-    <p id="inv-terms-line">Thank you for your business — payment due upon receipt.</p>
-    <p>Questions about this invoice? Call 732-221-1925.</p>
-  </div>
+  <table class="inv2-bottom"><tr>
+    <td class="inv2-business">
+      <div class="inv2-bizname">Reis Building Materials</div>
+      <div><b>Street Address:</b> 2229 Morris Ave, Building 3</div>
+      <div><b>City, State, ZIP:</b> Union, NJ 07083</div>
+      <div><b>Phone:</b> 732-221-1925</div>
+      <div><b>Website:</b> reisbuildingmaterials.com</div>
+      <div><b>Hours:</b> Daily, by appointment</div>
+    </td>
+    <td style="width:250px;">
+      <table class="inv2-totals"><tbody id="inv-totals"></tbody></table>
+    </td>
+  </tr></table>
 </div>
 
 <div class="modal-overlay" id="photo-modal">
@@ -2307,6 +2320,66 @@ function closeViewQuote(){
   document.getElementById('view-quote-modal').classList.remove('open');
 }
 
+const INVOICE_MIN_ROWS = 17;   // blank striped rows are added so the table always fills the page, like a paper form
+
+function invMoney(n){ return '$' + Number(n || 0).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+
+function invUnitLabel(unit, qty){
+  const plurals = {case:'cases', bundle:'bundles', box:'boxes', pallet:'pallets', roll:'rolls', sheet:'sheets'};
+  return (Number(qty) !== 1 && plurals[unit]) ? plurals[unit] : unit;
+}
+
+// "Oak plank LVP (FLR-1) — 5 cases at $49.99/case", the same style as "6 hours at $85/hour"
+function invDescription(r){
+  const qty = Number(r.qty);
+  if(r.custom || r.unit === 'item'){
+    return escapeHtml(r.name) + (qty !== 1 ? ' — ' + qty + ' at ' + invMoney(r.price) + ' each' : '');
+  }
+  const detail = (r.unit === 'each')
+    ? qty + ' at ' + invMoney(r.price) + ' each'
+    : qty + ' ' + escapeHtml(invUnitLabel(r.unit, qty)) + ' at ' + invMoney(r.price) + '/' + escapeHtml(r.unit);
+  return escapeHtml(r.name) + (r.sku && r.sku !== '—' ? ' (' + escapeHtml(r.sku) + ')' : '') + ' — ' + detail;
+}
+
+function invParseDate(d){
+  if(typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d)){ const p = d.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
+  return new Date(d);
+}
+
+function invDueText(quote){
+  const t = quote.payment_terms;
+  if(!t || t === 'due_on_receipt') return 'Due on receipt';
+  const label = {net15:'Net 15', net30:'Net 30', net60:'Net 60'}[t];
+  if(quote.due_date){
+    const when = invParseDate(quote.due_date).toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+    return when + (label ? ' (' + label + ')' : '');
+  }
+  return label || 'Due on receipt';
+}
+
+function invRowsHtml(quote){
+  const taxed = quote.tax_rate != null ? 'Yes' : 'No';
+  let html = quote.rows.map(r => '<tr><td>' + invDescription(r) + '</td><td class="inv2-c-taxed">' + taxed + '</td><td class="inv2-c-amount">' + invMoney(r.total) + '</td></tr>').join('');
+  const blanks = Math.max(0, INVOICE_MIN_ROWS - quote.rows.length);
+  for(let i = 0; i < blanks; i++) html += '<tr><td>&nbsp;</td><td class="inv2-c-taxed"></td><td class="inv2-c-amount"></td></tr>';
+  return html;
+}
+
+function invTotalsHtml(quote){
+  const subtotal = quote.rows.reduce((s,r) => s + r.total, 0);
+  const hasDiscount = quote.discount_type != null;
+  const discount = hasDiscount ? (quote.discount_amount || 0) : 0;
+  const lines = [['Subtotal:', invMoney(subtotal)]];
+  if(hasDiscount) lines.push(['Discount' + (quote.discount_type === 'percent' ? ' (' + quote.discount_value + '%)' : '') + ':', '-' + invMoney(discount)]);
+  if(quote.tax_rate != null){
+    lines.push(['Taxable Amount:', invMoney(Math.max(0, subtotal - discount))]);
+    lines.push(['Tax Rate:', quote.tax_rate + '%']);
+    lines.push(['Sales Tax:', invMoney(quote.tax_amount || 0)]);
+  }
+  lines.push(['Total:', invMoney(quote.total), true]);
+  return lines.map(l => '<tr' + (l[2] ? ' class="inv2-grand"' : '') + '><td>' + escapeHtml(l[0]) + '</td><td>' + escapeHtml(l[1]) + '</td></tr>').join('');
+}
+
 function printInvoice(id){
   const quote = quotes.find(q=>q.id===id);
   if(!quote) return;
@@ -2323,42 +2396,10 @@ function printInvoice(id){
   document.getElementById('inv-contact').textContent = quote.contact || '';
   document.getElementById('inv-address').textContent = quote.address || '';
   document.getElementById('inv-job').textContent = quote.job ? ('Job: ' + quote.job) : '';
+  document.getElementById('inv-due').textContent = invDueText(quote);
 
-  const termsLabel = formatSavedPaymentTerms(quote);
-  document.getElementById('inv-terms-line').textContent = 'Thank you for your business — payment terms: ' + termsLabel + '.';
-
-  document.getElementById('inv-rows').innerHTML = quote.rows.map(r => `
-    <tr>
-      <td>${escapeHtml(r.name)}</td>
-      <td class="mono">${escapeHtml(r.sku)}</td>
-      <td>${r.qty} ${escapeHtml(r.unit)}</td>
-      <td>$${r.price.toFixed(2)}</td>
-      <td>$${r.total.toFixed(2)}</td>
-    </tr>
-  `).join('');
-
-  const subtotalForInvoice = quote.rows.reduce((s,r)=>s+r.total,0);
-  document.getElementById('inv-subtotal').textContent = '$' + subtotalForInvoice.toFixed(2);
-
-  const discountRow = document.getElementById('inv-discount-row');
-  if(quote.discount_type != null){
-    document.getElementById('inv-discount-label').textContent = 'Discount' + (quote.discount_type==='percent' ? ' (' + quote.discount_value + '%)' : '');
-    document.getElementById('inv-discount-amount').textContent = '-$' + (quote.discount_amount||0).toFixed(2);
-    discountRow.style.display = 'flex';
-  } else {
-    discountRow.style.display = 'none';
-  }
-
-  const taxRow = document.getElementById('inv-tax-row');
-  if(quote.tax_rate != null){
-    document.getElementById('inv-tax-label').textContent = 'NJ Sales Tax (' + quote.tax_rate + '%)';
-    document.getElementById('inv-tax-amount').textContent = '$' + (quote.tax_amount||0).toFixed(2);
-    taxRow.style.display = 'flex';
-  } else {
-    taxRow.style.display = 'none';
-  }
-
-  document.getElementById('inv-total').textContent = '$' + quote.total.toFixed(2);
+  document.getElementById('inv-rows').innerHTML = invRowsHtml(quote);
+  document.getElementById('inv-totals').innerHTML = invTotalsHtml(quote);
 
   document.body.classList.add('printing-invoice');
   window.print();
