@@ -927,6 +927,10 @@ async function insertInventoryItem(item){
 }
 
 async function updateInventoryItem(id, patch){
+  if(!id || id === 'null'){
+    showToast('Could not save — no item selected. Close the window, reopen the item and try again.', true);
+    return false;
+  }
   const { error } = await sb.from('inventory').update(patch).eq('id', id);
   if(error){
     console.error('updateInventoryItem failed', error);
@@ -1556,7 +1560,8 @@ async function addModalPhotoUrl(){
 }
 
 async function handleModalPhotoFiles(event){
-  const item = inventory.find(i=>i.id===editingItemId);
+  const itemId = editingItemId;
+  const item = inventory.find(i=>i.id===itemId);
   if(!item) return;
   const files = Array.from(event.target.files || []);
   event.target.value = '';
@@ -1592,10 +1597,10 @@ async function handleModalPhotoFiles(event){
       }
 
       const newImages = [...item.images, result.url];
-      const ok = await updateInventoryItem(editingItemId, { images: newImages });
+      const ok = await updateInventoryItem(itemId, { images: newImages });
       if(!ok) continue;
       item.images = newImages;
-      renderModalPhotos();
+      if(editingItemId === itemId) renderModalPhotos();
       showToast('Uploaded ' + file.name + '.');
     }catch(e){
       console.error('Photo upload failed', e);
